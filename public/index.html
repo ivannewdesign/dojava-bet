@@ -417,25 +417,35 @@
       container.innerHTML = html;
     }
     
-    // CREATE MATCH CARD
+    // CREATE MATCH CARD - ISPRAVLJENA VERZIJA
     function createMatchCard(match) {
-      const homeTeam = match.HOME_NAME || match.HOME_PARTICIPANT_NAME || 'Home';
-      const awayTeam = match.AWAY_NAME || match.AWAY_PARTICIPANT_NAME || 'Away';
-      const homeScore = match.HOME_SCORE_CURRENT || '-';
-      const awayScore = match.AWAY_SCORE_CURRENT || '-';
-      const league = match.LEAGUE_NAME || match.TOURNAMENT_NAME || 'Unknown League';
+      // Extract team names
+      const homeTeam = match.home_team?.name || match.HOME_PARTICIPANT_NAME || 'Home';
+      const awayTeam = match.away_team?.name || match.AWAY_PARTICIPANT_NAME || 'Away';
       
+      // Extract scores
+      const homeScore = match.home_score || match.score || '-';
+      const awayScore = match.away_score || match.score_after || '-';
+      
+      // Extract league/tournament name
+      const league = match.tournament?.name || match.LEAGUE_NAME || 'Unknown League';
+      
+      // Extract stage/status
       let status = '';
       let statusClass = '';
       
-      if (match.STAGE_TYPE === 'LIVE') {
-        status = `LIVE ${match.GAME_TIME || ''}'`;
+      if (match.stage && match.stage !== '0') {
+        status = `${match.stage}'`;
         statusClass = 'live';
-      } else if (match.START_TIME) {
-        status = match.START_TIME;
+      } else if (match.timestamp) {
+        const matchDate = new Date(match.timestamp * 1000);
+        status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
       } else {
         status = 'Scheduled';
       }
+      
+      // Extract country (if available)
+      const country = match.country?.name || match.COUNTRY_NAME || '';
       
       return `
         <div class="match-card">
@@ -455,7 +465,7 @@
             </div>
           </div>
           <div class="match-footer">
-            <div class="match-info">${match.COUNTRY_NAME || ''}</div>
+            <div class="match-info">${country}</div>
             <button class="bet-button">View Tip</button>
           </div>
         </div>
