@@ -2,115 +2,138 @@
 <html lang="hr">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dojava.bet - AI Prognoze za Kla?enje</title>
-  <meta name="description" content="Pametne AI prognoze za nogomet, ko�arku i tenis. Jednostavno obja�njeno, na tvom jeziku.">
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  
+  <title>Dojava.bet - AI Prognoze za Klađenje</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #0a0a0a;
-      color: #ffffff;
-      line-height: 1.6;
-    }
-    
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
-    
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .hero::before {
-      content: '';
-      position: absolute;
-      width: 500px;
-      height: 500px;
-      background: radial-gradient(circle, rgba(234,88,12,0.15) 0%, transparent 70%);
-      top: -250px;
-      right: -250px;
-      border-radius: 50%;
-    }
-    
-    .hero-content {
-      position: relative;
-      z-index: 1;
-      padding: 80px 0;
-    }
-    
-    .logo {
-      font-size: 32px;
-      font-weight: 800;
-      margin-bottom: 40px;
-      color: #ea580c;
-    }
-    
-    h1 {
-      font-size: 56px;
-      font-weight: 800;
-      line-height: 1.1;
-      margin-bottom: 24px;
-      background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .subtitle {
-      font-size: 24px;
-      color: #a0a0a0;
-      margin-bottom: 48px;
-      max-width: 600px;
-    }
-    
-    .cta-section {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-    
-    .email-form {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-    
-    input[type="email"] {
-      padding: 16px 24px;
-      font-size: 16px;
-      border: 2px solid #2a2a3e;
-      background: rgba(255,255,255,0.05);
-      color: white;
-      border-radius: 12px;
-      min-width: 300px;
-      transition: all 0.3s;
-    }
-    
-    input[type="email"]:focus {
-      outline: none;
-      border-color: #ea580c;
-      background: rgba(255,255,255,0.08);
-    }
-    
-    input[type="email"]::placeholder {
-      color: #666
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; background: #0a0a0a; color: #fff; line-height: 1.6; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+    .hero { min-height: 100vh; display: flex; align-items: center; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); }
+    .logo { font-size: 32px; font-weight: 800; margin-bottom: 40px; color: #ea580c; }
+    h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
+    .subtitle { font-size: 24px; color: #a0a0a0; margin-bottom: 48px; max-width: 600px; }
+    input[type="email"] { padding: 16px 24px; font-size: 16px; border: 2px solid #2a2a3e; background: rgba(255,255,255,0.05); color: white; border-radius: 12px; min-width: 300px; }
+    .btn { padding: 16px 32px; font-size: 16px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); color: white; }
+    .features { padding: 120px 20px; background: #0f0f0f; }
+    .section-title { text-align: center; font-size: 42px; font-weight: 800; margin-bottom: 64px; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto; }
+    .feature-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; }
+    .feature-icon { font-size: 48px; margin-bottom: 16px; }
+    .feature-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
+    .feature-description { color: #a0a0a0; }
+    .demo { padding: 120px 20px; background: #1a1a1a; }
+    .demo-card { background: #2a2a3e; border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto; }
+    .match-teams { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+    .prediction-result { background: rgba(234,88,12,0.2); border: 2px solid #ea580c; border-radius: 16px; padding: 32px; margin-bottom: 32px; text-align: center; }
+    .prediction-value { font-size: 36px; font-weight: 800; color: #ea580c; }
+    .reason { background: rgba(255,255,255,0.05); border-left: 3px solid #ea580c; padding: 16px; margin-bottom: 12px; border-radius: 8px; }
+    footer { padding: 48px 20px; background: #0a0a0a; text-align: center; color: #666; }
+    @media (max-width: 768px) { h1 { font-size: 36px; } input[type="email"] { min-width: 100%; } }
+  </style>
+</head>
+<body>
+
+  <section class="hero">
+    <div class="container">
+      <div class="logo">dojava.bet</div>
+      <h1>AI Prognoze Koje Zapravo Razumiješ</h1>
+      <p class="subtitle">Dosadilo ti da gubiš jer ne razumiješ statistiku? Dobij jasne AI prognoze na svom jeziku - bez komplikacija.</p>
+      <form style="display: flex; gap: 12px; flex-wrap: wrap;">
+        <input type="email" placeholder="Tvoj email..." required>
+        <button type="submit" class="btn">Pridruži Se Beta Programu</button>
+      </form>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2 class="section-title">Zašto Dojava.bet?</h2>
+      <div class="features-grid">
+        
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3 class="feature-title">Jednostavno Objašnjeno</h3>
+          <p class="feature-description">Nema 500 brojki koje ne razumiješ. Dobiješ 3 ključna razloga zašto AI preporučuje tip.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🇭🇷</div>
+          <h3 class="feature-title">Na Tvom Jeziku</h3>
+          <p class="feature-description">Prognoze na Hrvatskom/Srpskom/Bosanskom. Razumiješ 10x bolje nego engleske statistike.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">⚽</div>
+          <h3 class="feature-title">Svi Top Sportovi</h3>
+          <p class="feature-description">Nogomet, košarka, tenis - sve top lige i mečevi na jednom mjestu.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🤖</div>
+          <h3 class="feature-title">AI Analiza</h3>
+          <p class="feature-description">Napredna AI analizira forme, H2H, golove, pozicije - ti dobiješ samo zaključak.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">📊</div>
+          <h3 class="feature-title">Transparentnost</h3>
+          <p class="feature-description">Pokazujemo točnost naših prognoza. Vidiš stvarni win rate - bez obmana.</p>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">💰</div>
+          <h3 class="feature-title">Pristupačno</h3>
+          <p class="feature-description">Beta pristup besplatan. Nakon toga - manje nego 2 kave mjesečno.</p>
+        </div>
+        
+      </div>
+    </div>
+  </section>
+
+  <section class="demo">
+    <div class="container">
+      <h2 class="section-title">Kako Izgleda AI Prognoza?</h2>
+      <div class="demo-card">
+        <div class="match-teams">Liverpool vs Man United</div>
+        <div class="prediction-result">
+          <div class="prediction-value">LIVERPOOL POBJEDA</div>
+          <p>78% šansa</p>
+        </div>
+        <div style="margin-bottom: 24px;">
+          <h4 style="color: #ea580c; margin-bottom: 16px;">🔑 Ključni Razlozi:</h4>
+          <div class="reason">
+            <strong>💪 Dominacija kod kuće</strong>
+            <p style="color: #a0a0a0; font-size: 14px;">Liverpool 8-1-0 u zadnjih 9 domaćih utakmica - Anfield tvrđava!</p>
+          </div>
+          <div class="reason">
+            <strong>📉 Man Utd defanzivni haos</strong>
+            <p style="color: #a0a0a0; font-size: 14px;">Primili 12 golova u 5 gostovanja - prosijek 2.4 gola po utakmici.</p>
+          </div>
+          <div class="reason">
+            <strong>⚔️ H2H Prednost</strong>
+            <p style="color: #a0a0a0; font-size: 14px;">Liverpool 6-2-2 u zadnjih 10 međusobnih na Anfieldu.</p>
+          </div>
+        </div>
+        <p style="text-align: center; color: #a0a0a0;">💡 <strong>Preporuka:</strong> Liverpool WIN @ kvota 1.85</p>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding: 120px 20px; background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); text-align: center;">
+    <div class="container">
+      <h2 style="font-size: 48px; font-weight: 800; margin-bottom: 24px;">Spreman Za Bolje Tipove?</h2>
+      <p style="font-size: 20px; color: #a0a0a0; margin-bottom: 48px;">Pridruži se beta programu i dobij rani pristup AI prognozama.</p>
+      <form style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+        <input type="email" placeholder="Tvoj email..." required>
+        <button type="submit" class="btn">Rezerviši Mjesto</button>
+      </form>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>dojava.bet</strong> © 2025 - AI Sport Predictions</p>
+    <p style="margin-top: 8px; font-size: 14px;">Svi podaci su informativnog karaktera. Dojava.bet ne potiče kockanje.</p>
+  </footer>
+
+</body>
+</html>
