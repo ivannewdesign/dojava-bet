@@ -3,115 +3,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dojava.bet - Live Sports Predictions</title>
+  <title>Dojava.bet - Coming Soon</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
-    body { 
+    body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
-      background: #0a0e27;
+      background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
       color: #fff;
-      line-height: 1.6;
-    }
-    
-    /* HEADER */
-    .header {
-      background: #13193f;
-      padding: 20px 0;
-      border-bottom: 2px solid #4361ee;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-    
-    .header-content {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 0 20px;
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      text-align: center;
+      max-width: 600px;
     }
     
     .logo {
-      font-size: 28px;
+      font-size: 48px;
       font-weight: 800;
-      color: #4361ee;
-      text-decoration: none;
-    }
-    
-    .nav {
-      display: flex;
-      gap: 30px;
-    }
-    
-    .nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s;
-    }
-    
-    .nav a:hover {
-      color: #4361ee;
-    }
-    
-    /* MAIN CONTAINER */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    
-    /* SPORT TABS */
-    .sport-tabs {
-      display: flex;
-      gap: 10px;
+      background: linear-gradient(135deg, #4361ee 0%, #f72585 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
       margin-bottom: 30px;
-      justify-content: center;
-      flex-wrap: wrap;
     }
     
-    .sport-tab {
-      padding: 12px 30px;
-      background: #13193f;
-      border: 2px solid transparent;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 16px;
-      font-weight: 600;
-      transition: all 0.3s;
-      display: flex;
-      align-items: center;
-      gap: 8px;
+    h1 {
+      font-size: 36px;
+      margin-bottom: 20px;
     }
     
-    .sport-tab:hover {
-      border-color: #4361ee;
-      background: #1a2151;
-    }
-    
-    .sport-tab.active {
-      background: #4361ee;
-      border-color: #4361ee;
-    }
-    
-    /* LOADING */
-    .loading {
-      text-align: center;
-      padding: 60px;
+    p {
       font-size: 18px;
-      color: #666;
+      color: #888;
+      margin-bottom: 40px;
+      line-height: 1.6;
     }
     
     .spinner {
       border: 4px solid rgba(67, 97, 238, 0.2);
       border-top: 4px solid #4361ee;
       border-radius: 50%;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+      margin: 0 auto 30px;
     }
     
     @keyframes spin {
@@ -119,391 +59,20 @@
       100% { transform: rotate(360deg); }
     }
     
-    /* MATCHES GRID */
-    .matches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
-    }
-    
-    /* MATCH CARD */
-    .match-card {
-      background: #13193f;
-      border: 2px solid #1a2151;
-      border-radius: 12px;
-      padding: 20px;
-      transition: all 0.3s;
-      cursor: pointer;
-    }
-    
-    .match-card:hover {
-      border-color: #4361ee;
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
-    }
-    
-    .match-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    
-    .match-league {
-      font-size: 13px;
-      color: #888;
-      font-weight: 600;
-    }
-    
-    .match-time {
-      background: #4361ee;
-      color: white;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 700;
-    }
-    
-    .match-time.live {
-      background: #f72585;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.7; }
-    }
-    
-    .match-teams {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    
-    .team {
-      flex: 1;
-    }
-    
-    .team-name {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 5px;
-    }
-    
-    .team-score {
-      font-size: 28px;
-      font-weight: 800;
-      color: #4361ee;
-    }
-    
-    .match-vs {
-      padding: 0 20px;
-      font-size: 18px;
-      font-weight: 700;
-      color: #666;
-    }
-    
-    .team-right {
-      text-align: right;
-    }
-    
-    .match-footer {
-      padding-top: 15px;
-      border-top: 1px solid #1a2151;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    .match-info {
-      font-size: 12px;
-      color: #888;
-    }
-    
-    .bet-button {
-      background: linear-gradient(135deg, #f72585 0%, #4361ee 100%);
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    
-    .bet-button:hover {
-      transform: scale(1.05);
-    }
-    
-    /* NO MATCHES */
-    .no-matches {
-      text-align: center;
-      padding: 80px 20px;
-      color: #666;
-    }
-    
-    .no-matches-icon {
-      font-size: 60px;
-      margin-bottom: 20px;
-    }
-    
-    /* FOOTER */
-    .footer {
-      background: #13193f;
-      padding: 40px 20px;
-      margin-top: 80px;
-      border-top: 2px solid #1a2151;
-      text-align: center;
-    }
-    
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    
-    .footer p {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-    
-    .disclaimer {
-      color: #666;
-      font-size: 12px;
-      margin-top: 20px;
-    }
-    
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .nav {
-        gap: 15px;
-      }
-      
-      .matches-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .match-teams {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .team-right {
-        text-align: center;
-      }
-      
-      .match-vs {
-        padding: 10px 0;
-      }
+    .emoji {
+      font-size: 80px;
+      margin-bottom: 30px;
     }
   </style>
 </head>
 <body>
-
-  <!-- HEADER -->
-  <header class="header">
-    <div class="header-content">
-      <a href="/" class="logo">DOJAVA.BET</a>
-      <nav class="nav">
-        <a href="#live">Live</a>
-        <a href="#leagues">Leagues</a>
-        <a href="#premium">Premium</a>
-      </nav>
-    </div>
-  </header>
-
-  <!-- MAIN CONTENT -->
-  <main class="container">
-    
-    <!-- SPORT TABS -->
-    <div class="sport-tabs">
-      <div class="sport-tab active" data-sport="football">
-        <span>⚽</span> Football
-      </div>
-      <div class="sport-tab" data-sport="basketball">
-        <span>🏀</span> Basketball
-      </div>
-      <div class="sport-tab" data-sport="tennis">
-        <span>🎾</span> Tennis
-      </div>
-    </div>
-    
-    <!-- MATCHES CONTAINER -->
-    <div id="matches-container">
-      <div class="loading">
-        <div class="spinner"></div>
-        Loading live matches...
-      </div>
-    </div>
-    
-  </main>
-
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p><strong>DOJAVA.BET</strong> - AI-Powered Sports Predictions</p>
-      <p>Live scores and betting tips for Football, Basketball & Tennis</p>
-      <p class="disclaimer">⚠️ Gambling involves risk. 18+ only. Please bet responsibly.</p>
-    </div>
-  </footer>
-
-  <script>
-    // STATE
-    let allMatches = {
-      football: [],
-      basketball: [],
-      tennis: []
-    };
-    
-    let currentSport = 'football';
-    
-    // LOAD MATCHES FROM API
-    async function loadMatches() {
-      try {
-        const response = await fetch('/api/matches');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        
-        console.log('✅ Data loaded:', data);
-        
-        allMatches = {
-          football: data.football || [],
-          basketball: data.basketball || [],
-          tennis: data.tennis || []
-        };
-        
-        renderMatches();
-        
-      } catch (error) {
-        console.error('❌ Error loading matches:', error);
-        showError();
-      }
-    }
-    
-    // RENDER MATCHES
-    function renderMatches() {
-      const container = document.getElementById('matches-container');
-      const matches = allMatches[currentSport];
-      
-      if (!matches || matches.length === 0) {
-        container.innerHTML = `
-          <div class="no-matches">
-            <div class="no-matches-icon">😴</div>
-            <h2>No live matches right now</h2>
-            <p>Check back soon for live ${currentSport} matches!</p>
-          </div>
-        `;
-        return;
-      }
-      
-      const html = `
-        <div class="matches-grid">
-          ${matches.slice(0, 20).map(match => createMatchCard(match)).join('')}
-        </div>
-      `;
-      
-      container.innerHTML = html;
-    }
-    
-    // CREATE MATCH CARD - FINALNA VERZIJA
-    function createMatchCard(match) {
-      // Extract team names
-      const homeTeam = match.home_team?.name || 'Home';
-      const awayTeam = match.away_team?.name || 'Away';
-      
-      // Note: API doesn't return live scores
-      const homeScore = '-';
-      const awayScore = '-';
-      
-      // Extract tournament/league name (not available in API response)
-      const league = 'Unknown League';
-      
-      // Extract stage/status
-      let status = '';
-      let statusClass = '';
-      
-      if (match.stage && match.stage !== '0') {
-        status = match.stage;
-        statusClass = 'live';
-      } else if (match.timestamp) {
-        const matchDate = new Date(match.timestamp * 1000);
-        status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
-      } else {
-        status = 'Scheduled';
-      }
-      
-      return `
-        <div class="match-card">
-          <div class="match-header">
-            <div class="match-league">${league}</div>
-            <div class="match-time ${statusClass}">${status}</div>
-          </div>
-          <div class="match-teams">
-            <div class="team">
-              <div class="team-name">${homeTeam}</div>
-              <div class="team-score">${homeScore}</div>
-            </div>
-            <div class="match-vs">:</div>
-            <div class="team team-right">
-              <div class="team-name">${awayTeam}</div>
-              <div class="team-score">${awayScore}</div>
-            </div>
-          </div>
-          <div class="match-footer">
-            <div class="match-info">ID: ${match.match_id}</div>
-            <button class="bet-button">View Tip</button>
-          </div>
-        </div>
-      `;
-    }
-    
-    // SHOW ERROR
-    function showError() {
-      const container = document.getElementById('matches-container');
-      container.innerHTML = `
-        <div class="no-matches">
-          <div class="no-matches-icon">❌</div>
-          <h2>Failed to load matches</h2>
-          <p>Please refresh the page or try again later.</p>
-        </div>
-      `;
-    }
-    
-    // SPORT TAB CLICK
-    document.querySelectorAll('.sport-tab').forEach(tab => {
-      tab.addEventListener('click', () => {
-        // Remove active from all
-        document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
-        
-        // Add active to clicked
-        tab.classList.add('active');
-        
-        // Update current sport
-        currentSport = tab.dataset.sport;
-        
-        // Re-render
-        renderMatches();
-      });
-    });
-    
-    // INIT
-    loadMatches();
-    
-    // AUTO-REFRESH every 3 minutes
-    setInterval(loadMatches, 180000);
-  </script>
-
+  <div class="container">
+    <div class="logo">DOJAVA.BET</div>
+    <div class="emoji">⚽🏀🎾</div>
+    <h1>Coming Soon</h1>
+    <p>We're working hard to bring you the best AI-powered sports predictions platform. Check back soon!</p>
+    <div class="spinner"></div>
+    <p style="font-size: 14px; color: #666;">🚧 Under Construction 🚧</p>
+  </div>
 </body>
 </html>
