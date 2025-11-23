@@ -5,7 +5,7 @@ let cache = {
   timestamp: 0
 };
 
-const CACHE_DURATION = 180000; // 3 minute
+const CACHE_DURATION = 180000;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchFromFlashscore(sportId) {
@@ -31,16 +31,14 @@ async function fetchFromFlashscore(sportId) {
       
       data.forEach(tournament => {
         if (tournament.matches && Array.isArray(tournament.matches)) {
-          // Add each match to the flat array
           allMatches.push(...tournament.matches);
         }
       });
       
-      console.log(`Sport ${sportId}: ${allMatches.length} matches from ${data.length} tournaments`);
+      console.log(`Sport ${sportId}: ${allMatches.length} matches`);
       return allMatches;
     }
     
-    console.log(`Sport ${sportId}: No data`);
     return [];
     
   } catch (error) {
@@ -59,9 +57,7 @@ export default async function handler(req, res) {
 
   const now = Date.now();
 
-  // Check cache
   if (cache.data && (now - cache.timestamp) < CACHE_DURATION) {
-    console.log('Serving from cache');
     return res.status(200).json({
       ...cache.data,
       cached: true,
@@ -69,26 +65,15 @@ export default async function handler(req, res) {
     });
   }
 
-  console.log('Fetching fresh data');
-
   try {
-    // Fetch all sports in parallel
     const [football, basketball, tennis] = await Promise.all([
-      fetchFromFlashscore(1),  // Football
-      fetchFromFlashscore(3),  // Basketball
-      fetchFromFlashscore(2)   // Tennis
+      fetchFromFlashscore(1),
+      fetchFromFlashscore(3),
+      fetchFromFlashscore(2)
     ]);
 
-    console.log('Total matches - Football:', football.length, 'Basketball:', basketball.length, 'Tennis:', tennis.length);
-
-    // Update cache
     cache = {
-      data: {
-        football,
-        basketball,
-        tennis,
-        timestamp: now
-      },
+      data: { football, basketball, tennis, timestamp: now },
       timestamp: now
     };
 
@@ -101,7 +86,6 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Handler error:', error.message);
     
-    // Return stale cache if available
     if (cache.data) {
       return res.status(200).json({
         ...cache.data,
@@ -110,7 +94,6 @@ export default async function handler(req, res) {
       });
     }
 
-    // No cache, return empty
     return res.status(500).json({ 
       error: 'Failed to fetch',
       football: [],
