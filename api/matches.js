@@ -11,12 +11,12 @@ const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchFromFlashscore(sportId) {
   try {
-    const url = `https://flashscore.p.rapidapi.com/api/flashscore/v1/match/live/${sportId}`;
+    const url = `https://flashscore4.p.rapidapi.com/api/flashscore/v1/match/live/${sportId}`;
     
     const response = await fetch(url, {
       headers: {
         'X-RapidAPI-Key': RAPIDAPI_KEY,
-        'X-RapidAPI-Host': 'flashscore.p.rapidapi.com'
+        'X-RapidAPI-Host': 'flashscore4.p.rapidapi.com'
       }
     });
 
