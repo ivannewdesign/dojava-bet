@@ -5,12 +5,14 @@ let cache = {
   timestamp: 0
 };
 
-const CACHE_DURATION = 180000; // 3 minute
+const CACHE_DURATION = 180000;
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchFromFlashscore(sportId) {
   try {
     const url = `https://flashscore.p.rapidapi.com/api/flashscore/v1/match/live/${sportId}`;
+    
+    console.log(`Calling: ${url}`);
     
     const response = await fetch(url, {
       headers: {
@@ -19,17 +21,24 @@ async function fetchFromFlashscore(sportId) {
       }
     });
 
+    console.log(`Status: ${response.status}`);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Error: ${response.status} - ${errorText}`);
       throw new Error(`API Error: ${response.status}`);
     }
 
     const data = await response.json();
     
-    // Flashscore vraća array direktno
+    console.log(`Sport ${sportId} data:`, JSON.stringify(data).substring(0, 500));
+    console.log(`Type:`, Array.isArray(data) ? 'Array' : typeof data);
+    console.log(`Length:`, Array.isArray(data) ? data.length : 'N/A');
+    
     return data || [];
     
   } catch (error) {
-    console.error(`Error fetching sport ${sportId}:`, error);
+    console.error(`Error sport ${sportId}:`, error.message);
     return [];
   }
 }
@@ -45,7 +54,7 @@ export default async function handler(req, res) {
   const now = Date.now();
 
   if (cache.data && (now - cache.timestamp) < CACHE_DURATION) {
-    console.log('✅ Serving from cache');
+    console.log('Serving from cache');
     return res.status(200).json({
       ...cache.data,
       cached: true,
@@ -53,26 +62,26 @@ export default async function handler(req, res) {
     });
   }
 
-  console.log('🔄 Fetching fresh data...');
+  console.log('Fetching fresh data');
+  console.log('API Key present:', !!RAPIDAPI_KEY);
 
   try {
     const [football, basketball, tennis] = await Promise.all([
-      fetchFromFlashscore(1),  // Football
-      fetchFromFlashscore(3),  // Basketball
-      fetchFromFlashscore(2)   // Tennis
+      fetchFromFlashscore(1),
+      fetchFromFlashscore(3),
+      fetchFromFlashscore(2)
     ]);
 
+    console.log('Football items:', Array.isArray(football) ? football.length : 0);
+    console.log('Basketball items:', Array.isArray(basketball) ? basketball.length : 0);
+    console.log('Tennis items:', Array.isArray(tennis) ? tennis.length : 0);
+
     cache = {
-      data: {
-        football,
-        basketball,
-        tennis,
-        timestamp: now
-      },
+      data: { football, basketball, tennis, timestamp: now },
       timestamp: now
     };
 
-    console.log(`✅ Fresh data cached`);
+    console.log('Data cached');
 
     return res.status(200).json({
       ...cache.data,
@@ -81,7 +90,7 @@ export default async function handler(req, res) {
     });
 
   } catch (error) {
-    console.error('❌ Error:', error);
+    console.error('Handler error:', error.message);
     
     if (cache.data) {
       return res.status(200).json({
