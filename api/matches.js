@@ -5,14 +5,12 @@ let cache = {
   timestamp: 0
 };
 
-const CACHE_DURATION = 180000;
+const CACHE_DURATION = 180000; // 3 minute
 const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchFromFlashscore(sportId) {
   try {
     const url = `https://flashscore.p.rapidapi.com/api/flashscore/v1/match/live/${sportId}`;
-    
-    console.log(`Calling: ${url}`);
     
     const response = await fetch(url, {
       headers: {
@@ -21,21 +19,29 @@ async function fetchFromFlashscore(sportId) {
       }
     });
 
-    console.log(`Status: ${response.status}`);
-
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Error: ${response.status} - ${errorText}`);
       throw new Error(`API Error: ${response.status}`);
     }
 
     const data = await response.json();
     
-    console.log(`Sport ${sportId} data:`, JSON.stringify(data).substring(0, 500));
-    console.log(`Type:`, Array.isArray(data) ? 'Array' : typeof data);
-    console.log(`Length:`, Array.isArray(data) ? data.length : 'N/A');
+    // PARSE - Flashscore returns array of tournaments, each with matches
+    if (Array.isArray(data)) {
+      const allMatches = [];
+      
+      data.forEach(tournament => {
+        if (tournament.matches && Array.isArray(tournament.matches)) {
+          // Add each match to the flat array
+          allMatches.push(...tournament.matches);
+        }
+      });
+      
+      console.log(`Sport ${sportId}: ${allMatches.length} matches from ${data.length} tournaments`);
+      return allMatches;
+    }
     
-    return data || [];
+    console.log(`Sport ${sportId}: No data`);
+    return [];
     
   } catch (error) {
     console.error(`Error sport ${sportId}:`, error.message);
@@ -53,6 +59,7 @@ export default async function handler(req, res) {
 
   const now = Date.now();
 
+  // Check cache
   if (cache.data && (now - cache.timestamp) < CACHE_DURATION) {
     console.log('Serving from cache');
     return res.status(200).json({
@@ -63,25 +70,27 @@ export default async function handler(req, res) {
   }
 
   console.log('Fetching fresh data');
-  console.log('API Key present:', !!RAPIDAPI_KEY);
 
   try {
+    // Fetch all sports in parallel
     const [football, basketball, tennis] = await Promise.all([
-      fetchFromFlashscore(1),
-      fetchFromFlashscore(3),
-      fetchFromFlashscore(2)
+      fetchFromFlashscore(1),  // Football
+      fetchFromFlashscore(3),  // Basketball
+      fetchFromFlashscore(2)   // Tennis
     ]);
 
-    console.log('Football items:', Array.isArray(football) ? football.length : 0);
-    console.log('Basketball items:', Array.isArray(basketball) ? basketball.length : 0);
-    console.log('Tennis items:', Array.isArray(tennis) ? tennis.length : 0);
+    console.log('Total matches - Football:', football.length, 'Basketball:', basketball.length, 'Tennis:', tennis.length);
 
+    // Update cache
     cache = {
-      data: { football, basketball, tennis, timestamp: now },
+      data: {
+        football,
+        basketball,
+        tennis,
+        timestamp: now
+      },
       timestamp: now
     };
-
-    console.log('Data cached');
 
     return res.status(200).json({
       ...cache.data,
@@ -92,6 +101,7 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error('Handler error:', error.message);
     
+    // Return stale cache if available
     if (cache.data) {
       return res.status(200).json({
         ...cache.data,
@@ -100,6 +110,7 @@ export default async function handler(req, res) {
       });
     }
 
+    // No cache, return empty
     return res.status(500).json({ 
       error: 'Failed to fetch',
       football: [],
