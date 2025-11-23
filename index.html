@@ -13,22 +13,124 @@
     h1 { font-size: 56px; font-weight: 800; line-height: 1.1; margin-bottom: 24px; }
     .subtitle { font-size: 24px; color: #a0a0a0; margin-bottom: 48px; max-width: 600px; }
     input[type="email"] { padding: 16px 24px; font-size: 16px; border: 2px solid #2a2a3e; background: rgba(255,255,255,0.05); color: white; border-radius: 12px; min-width: 300px; }
-    .btn { padding: 16px 32px; font-size: 16px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); color: white; }
-    .features { padding: 120px 20px; background: #0f0f0f; }
+    .btn { padding: 16px 32px; font-size: 16px; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); color: white; transition: transform 0.2s; }
+    .btn:hover { transform: translateY(-2px); }
+    
+    /* LIVE SCORES SECTION */
+    .live-scores-section { padding: 80px 20px; background: #0f0f0f; }
+    .live-scores-section h2 { text-align: center; font-size: 42px; font-weight: 800; margin-bottom: 16px; }
+    .live-scores-section > p { text-align: center; font-size: 18px; color: #a0a0a0; margin-bottom: 48px; }
+    
+    /* SPORT TABS */
+    .sport-tabs { display: flex; justify-content: center; gap: 16px; margin-bottom: 40px; flex-wrap: wrap; }
+    .sport-tab { 
+      padding: 12px 28px; 
+      background: rgba(255,255,255,0.05); 
+      border: 2px solid transparent;
+      border-radius: 10px; 
+      cursor: pointer; 
+      font-size: 16px;
+      font-weight: 600;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .sport-tab:hover { background: rgba(234,88,12,0.2); border-color: rgba(234,88,12,0.5); }
+    .sport-tab.active { background: linear-gradient(135deg, #ea580c 0%, #dc2626 100%); border-color: #ea580c; }
+    
+    /* MATCHES CONTAINER */
+    .matches-container { max-width: 900px; margin: 0 auto; }
+    .sport-matches { display: none; }
+    .sport-matches.active { display: block; }
+    
+    /* MATCH CARD */
+    .match-card { 
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      border: 1px solid rgba(234,88,12,0.3);
+      border-radius: 16px; 
+      padding: 24px; 
+      margin-bottom: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .match-card:hover { 
+      border-color: #ea580c;
+      transform: translateX(4px);
+      box-shadow: 0 4px 20px rgba(234,88,12,0.2);
+    }
+    
+    .match-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+    .match-league { font-size: 13px; color: #a0a0a0; font-weight: 600; }
+    .match-time { 
+      background: #ea580c; 
+      color: white; 
+      padding: 4px 12px; 
+      border-radius: 6px; 
+      font-size: 12px;
+      font-weight: 700;
+      animation: pulse 2s infinite;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    
+    .match-teams { display: flex; justify-content: space-between; align-items: center; }
+    .team { flex: 1; }
+    .team-name { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+    .team-score { font-size: 32px; font-weight: 800; color: #ea580c; }
+    .match-vs { 
+      padding: 0 24px; 
+      font-size: 20px; 
+      font-weight: 700; 
+      color: #666;
+    }
+    
+    .match-footer { 
+      margin-top: 16px; 
+      padding-top: 16px; 
+      border-top: 1px solid rgba(255,255,255,0.1);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .match-stats { font-size: 13px; color: #a0a0a0; }
+    .ai-badge { 
+      background: rgba(234,88,12,0.2); 
+      border: 1px solid #ea580c;
+      color: #ea580c; 
+      padding: 6px 14px; 
+      border-radius: 6px; 
+      font-size: 12px;
+      font-weight: 700;
+    }
+    
+    .features { padding: 120px 20px; background: #1a1a1a; }
     .section-title { text-align: center; font-size: 42px; font-weight: 800; margin-bottom: 64px; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; max-width: 1200px; margin: 0 auto; }
     .feature-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 32px; }
     .feature-icon { font-size: 48px; margin-bottom: 16px; }
     .feature-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; }
     .feature-description { color: #a0a0a0; }
-    .demo { padding: 120px 20px; background: #1a1a1a; }
+    .demo { padding: 120px 20px; background: #0f0f0f; }
     .demo-card { background: #2a2a3e; border-radius: 20px; padding: 40px; max-width: 700px; margin: 0 auto; }
-    .match-teams { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
+    .match-teams-demo { font-size: 24px; font-weight: 700; margin-bottom: 24px; }
     .prediction-result { background: rgba(234,88,12,0.2); border: 2px solid #ea580c; border-radius: 16px; padding: 32px; margin-bottom: 32px; text-align: center; }
     .prediction-value { font-size: 36px; font-weight: 800; color: #ea580c; }
     .reason { background: rgba(255,255,255,0.05); border-left: 3px solid #ea580c; padding: 16px; margin-bottom: 12px; border-radius: 8px; }
     footer { padding: 48px 20px; background: #0a0a0a; text-align: center; color: #666; }
-    @media (max-width: 768px) { h1 { font-size: 36px; } input[type="email"] { min-width: 100%; } }
+    
+    @media (max-width: 768px) { 
+      h1 { font-size: 36px; } 
+      input[type="email"] { min-width: 100%; }
+      .match-teams { flex-direction: column; gap: 16px; }
+      .match-vs { padding: 8px 0; }
+      .team-score { font-size: 28px; }
+      .sport-tabs { gap: 8px; }
+      .sport-tab { padding: 10px 20px; font-size: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -42,6 +144,201 @@
         <input type="email" placeholder="Tvoj email..." required>
         <button type="submit" class="btn">Pridruži Se Beta Programu</button>
       </form>
+    </div>
+  </section>
+
+  <!-- LIVE SCORES WIDGET -->
+  <section class="live-scores-section">
+    <div class="container">
+      <h2>Live Utakmice & AI Prognoze</h2>
+      <p>Klikni na utakmicu za detaljnu AI analizu</p>
+      
+      <!-- SPORT TABS -->
+      <div class="sport-tabs">
+        <div class="sport-tab active" onclick="showSport('football')">
+          <span>⚽</span> Nogomet
+        </div>
+        <div class="sport-tab" onclick="showSport('basketball')">
+          <span>🏀</span> Košarka
+        </div>
+        <div class="sport-tab" onclick="showSport('tennis')">
+          <span>🎾</span> Tenis
+        </div>
+      </div>
+      
+      <!-- MATCHES CONTAINER -->
+      <div class="matches-container">
+        
+        <!-- NOGOMET -->
+        <div id="football-matches" class="sport-matches active">
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🏴󠁧󠁢󠁥󠁮󠁧󠁿 Premier League</div>
+              <div class="match-time">LIVE 67'</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Liverpool</div>
+                <div class="team-score">2</div>
+              </div>
+              <div class="match-vs">:</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Man United</div>
+                <div class="team-score">1</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">⚽ Salah 23', Jota 55' | ⚽ Rashford 41'</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇪🇸 La Liga</div>
+              <div class="match-time">LIVE 34'</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Real Madrid</div>
+                <div class="team-score">1</div>
+              </div>
+              <div class="match-vs">:</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Barcelona</div>
+                <div class="team-score">0</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">⚽ Vinicius 12'</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇮🇹 Serie A</div>
+              <div class="match-time">19:45</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Inter Milan</div>
+                <div class="team-score">-</div>
+              </div>
+              <div class="match-vs">vs</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">AC Milan</div>
+                <div class="team-score">-</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">Derby della Madonnina</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- KOŠARKA -->
+        <div id="basketball-matches" class="sport-matches">
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇺🇸 NBA</div>
+              <div class="match-time">LIVE Q3 5:32</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">LA Lakers</div>
+                <div class="team-score">87</div>
+              </div>
+              <div class="match-vs">:</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Boston Celtics</div>
+                <div class="team-score">92</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">LeBron 24pts, Tatum 28pts</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇪🇺 EuroLeague</div>
+              <div class="match-time">LIVE Q2 3:12</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Real Madrid</div>
+                <div class="team-score">42</div>
+              </div>
+              <div class="match-vs">:</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Partizan</div>
+                <div class="team-score">38</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">Hezonja 12pts, Nunnally 14pts</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+        </div>
+        
+        <!-- TENIS -->
+        <div id="tennis-matches" class="sport-matches">
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇦🇺 Australian Open</div>
+              <div class="match-time">LIVE Set 2</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Novak Djokovic</div>
+                <div class="team-score">6-4, 3-2</div>
+              </div>
+              <div class="match-vs">vs</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Carlos Alcaraz</div>
+                <div class="team-score">4-6, 2-3</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">Finals • Best of 5</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+          <div class="match-card">
+            <div class="match-header">
+              <div class="match-league">🇫🇷 Roland Garros</div>
+              <div class="match-time">15:30</div>
+            </div>
+            <div class="match-teams">
+              <div class="team">
+                <div class="team-name">Rafael Nadal</div>
+                <div class="team-score">-</div>
+              </div>
+              <div class="match-vs">vs</div>
+              <div class="team" style="text-align: right;">
+                <div class="team-name">Daniil Medvedev</div>
+                <div class="team-score">-</div>
+              </div>
+            </div>
+            <div class="match-footer">
+              <div class="match-stats">Semi-Finals • Clay Court</div>
+              <div class="ai-badge">🤖 AI Analiza</div>
+            </div>
+          </div>
+          
+        </div>
+        
+      </div>
     </div>
   </section>
 
@@ -94,7 +391,7 @@
     <div class="container">
       <h2 class="section-title">Kako Izgleda AI Prognoza?</h2>
       <div class="demo-card">
-        <div class="match-teams">Liverpool vs Man United</div>
+        <div class="match-teams-demo">Liverpool vs Man United</div>
         <div class="prediction-result">
           <div class="prediction-value">LIVERPOOL POBJEDA</div>
           <p>78% šansa</p>
@@ -134,6 +431,26 @@
     <p><strong>dojava.bet</strong> © 2025 - AI Sport Predictions</p>
     <p style="margin-top: 8px; font-size: 14px;">Svi podaci su informativnog karaktera. Dojava.bet ne potiče kockanje.</p>
   </footer>
+
+  <script>
+    function showSport(sport) {
+      // Hide all sport matches
+      document.querySelectorAll('.sport-matches').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Remove active from all tabs
+      document.querySelectorAll('.sport-tab').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      // Show selected sport
+      document.getElementById(sport + '-matches').classList.add('active');
+      
+      // Activate clicked tab
+      event.target.closest('.sport-tab').classList.add('active');
+    }
+  </script>
 
 </body>
 </html>
