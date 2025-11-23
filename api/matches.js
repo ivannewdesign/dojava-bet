@@ -10,24 +10,27 @@ const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchFromFlashscore(sportId) {
   try {
-    const response = await fetch(
-      `https://flashscore.p.rapidapi.com/v1/events/live/list?sport_id=${sportId}&locale=en_INT`,
-      {
-        headers: {
-          'X-RapidAPI-Key': RAPIDAPI_KEY,
-          'X-RapidAPI-Host': 'flashscore.p.rapidapi.com'
-        }
+    const url = `https://flashscore.p.rapidapi.com/api/flashscore/v1/match/live/${sportId}`;
+    
+    const response = await fetch(url, {
+      headers: {
+        'X-RapidAPI-Key': RAPIDAPI_KEY,
+        'X-RapidAPI-Host': 'flashscore.p.rapidapi.com'
       }
-    );
+    });
 
     if (!response.ok) {
       throw new Error(`API Error: ${response.status}`);
     }
 
-    return await response.json();
+    const data = await response.json();
+    
+    // Flashscore vraća array direktno
+    return data || [];
+    
   } catch (error) {
     console.error(`Error fetching sport ${sportId}:`, error);
-    return { DATA: [] };
+    return [];
   }
 }
 
@@ -54,16 +57,16 @@ export default async function handler(req, res) {
 
   try {
     const [football, basketball, tennis] = await Promise.all([
-      fetchFromFlashscore(1),
-      fetchFromFlashscore(3),
-      fetchFromFlashscore(2)
+      fetchFromFlashscore(1),  // Football
+      fetchFromFlashscore(3),  // Basketball
+      fetchFromFlashscore(2)   // Tennis
     ]);
 
     cache = {
       data: {
-        football: football.DATA || [],
-        basketball: basketball.DATA || [],
-        tennis: tennis.DATA || [],
+        football,
+        basketball,
+        tennis,
         timestamp: now
       },
       timestamp: now
