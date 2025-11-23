@@ -417,25 +417,25 @@
       container.innerHTML = html;
     }
     
-    // CREATE MATCH CARD - ISPRAVLJENA VERZIJA
+    // CREATE MATCH CARD - FINALNA VERZIJA
     function createMatchCard(match) {
       // Extract team names
-      const homeTeam = match.home_team?.name || match.HOME_PARTICIPANT_NAME || 'Home';
-      const awayTeam = match.away_team?.name || match.AWAY_PARTICIPANT_NAME || 'Away';
+      const homeTeam = match.home_team?.name || 'Home';
+      const awayTeam = match.away_team?.name || 'Away';
       
-      // Extract scores
-      const homeScore = match.home_score || match.score || '-';
-      const awayScore = match.away_score || match.score_after || '-';
+      // Note: API doesn't return live scores
+      const homeScore = '-';
+      const awayScore = '-';
       
-      // Extract league/tournament name
-      const league = match.tournament?.name || match.LEAGUE_NAME || 'Unknown League';
+      // Extract tournament/league name (not available in API response)
+      const league = 'Unknown League';
       
       // Extract stage/status
       let status = '';
       let statusClass = '';
       
       if (match.stage && match.stage !== '0') {
-        status = `${match.stage}'`;
+        status = match.stage;
         statusClass = 'live';
       } else if (match.timestamp) {
         const matchDate = new Date(match.timestamp * 1000);
@@ -443,9 +443,6 @@
       } else {
         status = 'Scheduled';
       }
-      
-      // Extract country (if available)
-      const country = match.country?.name || match.COUNTRY_NAME || '';
       
       return `
         <div class="match-card">
@@ -465,7 +462,7 @@
             </div>
           </div>
           <div class="match-footer">
-            <div class="match-info">${country}</div>
+            <div class="match-info">ID: ${match.match_id}</div>
             <button class="bet-button">View Tip</button>
           </div>
         </div>
