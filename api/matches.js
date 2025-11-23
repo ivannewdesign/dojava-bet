@@ -1,5 +1,6 @@
 // api/matches.js
 
+import fetch from 'node-fetch';
 let cache = {
   data: null,
   timestamp: 0
