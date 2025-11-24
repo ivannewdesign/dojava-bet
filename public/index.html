@@ -754,6 +754,85 @@ function toggleInternationalLeague(leagueName, flag) {
         showError();
       }
     }
+
+// ==================== GET FLAG FOR LEAGUE ====================
+function getFlagForLeague(leagueName) {
+  const flagMap = {
+    // Top 5 leagues
+    'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+    'LaLiga': '🇪🇸',
+    'La Liga': '🇪🇸',
+    'Bundesliga': '🇩🇪',
+    'Serie A': '🇮🇹',
+    'Ligue 1': '🇫🇷',
+    
+    // Balkan leagues
+    'Premijer Liga': '🇧🇦',
+    'Premijer Liga BiH': '🇧🇦',
+    'HNL': '🇭🇷',
+    'SuperLiga': '🇷🇸',
+    'Super Liga': '🇷🇸',
+    
+    // Other European leagues
+    'Eredivisie': '🇳🇱',
+    'Primeira Liga': '🇵🇹',
+    'Jupiler Pro League': '🇧🇪',
+    'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+    'Super League': '🇬🇷',
+    'Swiss Super League': '🇨🇭',
+    'Austrian Bundesliga': '🇦🇹',
+    'Süper Lig': '🇹🇷',
+    'Russian Premier League': '🇷🇺',
+    'Ukrainian Premier League': '🇺🇦',
+    'Polish Ekstraklasa': '🇵🇱',
+    
+    // South American leagues
+    'Brasileirão': '🇧🇷',
+    'Serie A': '🇧🇷',
+    'Liga Profesional': '🇦🇷',
+    'Primera División': '🇦🇷',
+    
+    // International competitions
+    'UEFA Champions League': '🏆',
+    'UEFA Europa League': '🏆',
+    'UEFA Conference League': '🏆',
+    'UEFA Nations League': '🏆',
+    'World Cup': '🌍',
+    'World Cup Qualifiers': '🌍',
+    'European Championship': '🇪🇺',
+    'Copa America': '🏆',
+    'Copa Libertadores': '🏆',
+    'Copa Sudamericana': '🏆',
+    
+    // Basketball
+    'NBA': '🏀',
+    'EuroLeague': '🏆',
+    'EuroCup': '🏆',
+    'ABA League': '🏆',
+    
+    // Tennis
+    'ATP Tour': '🎾',
+    'WTA Tour': '🎾',
+    'Grand Slam': '🏆',
+    'Davis Cup': '🏆'
+  };
+  
+  // Check exact match first
+  if (flagMap[leagueName]) {
+    return flagMap[leagueName];
+  }
+  
+  // Check partial match
+  for (const [key, flag] of Object.entries(flagMap)) {
+    if (leagueName.includes(key)) {
+      return flag;
+    }
+  }
+  
+  // Default
+  return '🏆';
+}
+
     
     // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
