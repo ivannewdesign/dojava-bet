@@ -417,57 +417,78 @@
       container.innerHTML = html;
     }
     
-    // CREATE MATCH CARD - FINALNA VERZIJA
-    function createMatchCard(match) {
-      // Extract team names
-      const homeTeam = match.home_team?.name || 'Home';
-      const awayTeam = match.away_team?.name || 'Away';
-      
-      // Note: API doesn't return live scores
-      const homeScore = '-';
-      const awayScore = '-';
-      
-      // Extract tournament/league name (not available in API response)
-      const league = 'Unknown League';
-      
-      // Extract stage/status
-      let status = '';
-      let statusClass = '';
-      
-      if (match.stage && match.stage !== '0') {
-        status = match.stage;
-        statusClass = 'live';
-      } else if (match.timestamp) {
-        const matchDate = new Date(match.timestamp * 1000);
-        status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
-      } else {
-        status = 'Scheduled';
-      }
-      
-      return `
-        <div class="match-card">
-          <div class="match-header">
-            <div class="match-league">${league}</div>
-            <div class="match-time ${statusClass}">${status}</div>
-          </div>
-          <div class="match-teams">
-            <div class="team">
-              <div class="team-name">${homeTeam}</div>
-              <div class="team-score">${homeScore}</div>
-            </div>
-            <div class="match-vs">:</div>
-            <div class="team team-right">
-              <div class="team-name">${awayTeam}</div>
-              <div class="team-score">${awayScore}</div>
-            </div>
-          </div>
-          <div class="match-footer">
-            <div class="match-info">ID: ${match.match_id}</div>
-            <button class="bet-button">View Tip</button>
-          </div>
-        </div>
-      `;
+   // CREATE MATCH CARD - FINALNA VERZIJA SA PRAVIM PODACIMA
+function createMatchCard(match) {
+  // Extract team names
+  const homeTeam = match.home_team?.name || 'Home';
+  const awayTeam = match.away_team?.name || 'Away';
+  
+  // Extract SCORES
+  const homeScore = match.home_team?.score ?? '-';
+  const awayScore = match.away_team?.score ?? '-';
+  
+  // Extract tournament/league name
+  const league = match.tournament_name || 'Unknown League';
+  
+  // Extract stage/status
+  let status = '';
+  let statusClass = '';
+  
+  if (match.stage) {
+    const stage = match.stage.toString();
+    
+    // Check if live (numeric stage = minute)
+    if (!isNaN(stage) && stage !== '0') {
+      status = stage + "'";
+      statusClass = 'live';
+    } else if (stage === 'Finished') {
+      status = 'Finished';
+      statusClass = '';
+    } else if (stage === 'Half Time' || stage === 'HT') {
+      status = 'Half Time';
+      statusClass = 'live';
+    } else if (match.timestamp) {
+      const matchDate = new Date(match.timestamp * 1000);
+      status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+      statusClass = '';
+    } else {
+      status = stage;
+      statusClass = '';
     }
+  } else if (match.timestamp) {
+    const matchDate = new Date(match.timestamp * 1000);
+    status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+    statusClass = '';
+  } else {
+    status = 'Scheduled';
+    statusClass = '';
+  }
+  
+  return `
+    <div class="match-card">
+      <div class="match-header">
+        <div class="match-league">${league}</div>
+        <div class="match-time ${statusClass}">${status}</div>
+      </div>
+      <div class="match-teams">
+        <div class="team">
+          <div class="team-name">${homeTeam}</div>
+          <div class="team-score">${homeScore}</div>
+        </div>
+        <div class="match-vs">:</div>
+        <div class="team team-right">
+          <div class="team-name">${awayTeam}</div>
+          <div class="team-score">${awayScore}</div>
+        </div>
+      </div>
+      <div class="match-footer">
+        <div class="match-info">ID: ${match.match_id}</div>
+        <button class="bet-button">View Tip</button>
+      </div>
+    </div>
+  `;
+}
+
     
     // SHOW ERROR
     function showError() {
