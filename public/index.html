@@ -152,10 +152,11 @@
     .pinned-league.active {
       background: #edf2f7;
       color: #667eea;
+      font-weight: 600;
     }
     
     .league-flag {
-      font-size: 16px;
+      font-size: 18px;
     }
     
     .pin-icon {
@@ -168,6 +169,44 @@
     
     .pin-icon:hover {
       opacity: 1;
+    }
+    
+    /* COLLAPSIBLE SECTION */
+    .collapsible-header {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+      color: #4a5568;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+      background: #fafbfc;
+    }
+    
+    .collapsible-header:hover {
+      background: #f0f4f8;
+    }
+    
+    .collapsible-arrow {
+      margin-left: auto;
+      transition: transform 0.3s;
+      font-size: 12px;
+      color: #a0aec0;
+    }
+    
+    .collapsible-section.expanded .collapsible-arrow {
+      transform: rotate(180deg);
+    }
+    
+    .collapsible-content {
+      display: none;
+      background: #fafbfc;
+    }
+    
+    .collapsible-section.expanded .collapsible-content {
+      display: block;
     }
     
     /* COUNTRIES */
@@ -229,6 +268,12 @@
     }
     
     .country-league.pinned {
+      color: #667eea;
+      font-weight: 600;
+    }
+    
+    .country-league.selected {
+      background: #edf2f7;
       color: #667eea;
       font-weight: 600;
     }
@@ -534,6 +579,7 @@
     };
     
     let currentSport = 'football';
+    let selectedLeague = null;
     
     let pinnedLeaguesBySport = JSON.parse(localStorage.getItem('pinnedLeaguesBySport')) || {
       football: getDefaultPinnedLeagues('football'),
@@ -542,6 +588,7 @@
     };
     
     let expandedCountries = {};
+    let expandedInternational = false;
     let countryLeagues = {};
     let showAllCountries = false;
     
@@ -630,22 +677,17 @@
     // ==================== GET FLAG FOR LEAGUE ====================
     function getFlagForLeague(leagueName) {
       const flagMap = {
-        // Top 5 leagues
         'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
         'LaLiga': '🇪🇸',
         'La Liga': '🇪🇸',
         'Bundesliga': '🇩🇪',
         'Serie A': '🇮🇹',
         'Ligue 1': '🇫🇷',
-        
-        // Balkan leagues
         'Premijer Liga': '🇧🇦',
         'Premijer Liga BiH': '🇧🇦',
         'HNL': '🇭🇷',
         'SuperLiga': '🇷🇸',
         'Super Liga': '🇷🇸',
-        
-        // Other European leagues
         'Eredivisie': '🇳🇱',
         'Primeira Liga': '🇵🇹',
         'Jupiler Pro League': '🇧🇪',
@@ -657,13 +699,9 @@
         'Russian Premier League': '🇷🇺',
         'Ukrainian Premier League': '🇺🇦',
         'Polish Ekstraklasa': '🇵🇱',
-        
-        // South American leagues
         'Brasileirão': '🇧🇷',
         'Liga Profesional': '🇦🇷',
         'Primera División': '🇦🇷',
-        
-        // International competitions
         'UEFA Champions League': '🏆',
         'UEFA Europa League': '🏆',
         'UEFA Conference League': '🏆',
@@ -674,14 +712,10 @@
         'Copa America': '🏆',
         'Copa Libertadores': '🏆',
         'Copa Sudamericana': '🏆',
-        
-        // Basketball
         'NBA': '🏀',
         'EuroLeague': '🏆',
         'EuroCup': '🏆',
         'ABA League': '🏆',
-        
-        // Tennis
         'ATP Tour': '🎾',
         'WTA Tour': '🎾',
         'Grand Slam': '🏆',
@@ -823,30 +857,38 @@
           <div class="sidebar-title">📌 Pinned Leagues</div>
           ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => {
             const flag = league.flag || getFlagForLeague(league.name);
+            const isSelected = selectedLeague === league.name;
             return `
-              <div class="pinned-league">
+              <div class="pinned-league ${isSelected ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
                 <span class="league-flag">${flag}</span>
                 <span>${league.name}</span>
-                <span class="pin-icon" onclick="unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
+                <span class="pin-icon" onclick="event.stopPropagation(); unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
               </div>
             `;
           }).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">No pinned leagues</div>'}
         </div>
         
-        <!-- INTERNATIONAL LEAGUES -->
-        <div class="sidebar-section">
-          <div class="sidebar-title">🏆 International Leagues</div>
-          ${internationalLeagues.map(league => {
-            const isPinned = pinnedLeagues.some(p => p.name === league.name);
-            return `
-              <div class="country-league ${isPinned ? 'pinned' : ''}" style="padding-left: 20px;">
-                <span>${league.name}</span>
-                <span class="pin-icon" onclick="toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
-                  ${isPinned ? '📌' : '➕'}
-                </span>
-              </div>
-            `;
-          }).join('')}
+        <!-- INTERNATIONAL LEAGUES - COLLAPSIBLE -->
+        <div class="sidebar-section collapsible-section ${expandedInternational ? 'expanded' : ''}">
+          <div class="collapsible-header" onclick="toggleInternational()">
+            <span>🏆 International Leagues</span>
+            <span class="collapsible-arrow">▼</span>
+          </div>
+          <div class="collapsible-content">
+            ${internationalLeagues.map(league => {
+              const isPinned = pinnedLeagues.some(p => p.name === league.name);
+              const isSelected = selectedLeague === league.name;
+              return `
+                <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 20px;" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
+                  <span class="league-flag">${league.flag}</span>
+                  <span>${league.name}</span>
+                  <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
+                    ${isPinned ? '📌' : '➕'}
+                  </span>
+                </div>
+              `;
+            }).join('')}
+          </div>
         </div>
         
         <!-- COUNTRIES -->
@@ -874,6 +916,18 @@
       `;
       
       sidebar.innerHTML = html;
+    }
+    
+    // ==================== SELECT LEAGUE ====================
+    function selectLeague(leagueName) {
+      selectedLeague = leagueName;
+      renderSidebar();
+    }
+    
+    // ==================== TOGGLE INTERNATIONAL ====================
+    function toggleInternational() {
+      expandedInternational = !expandedInternational;
+      renderSidebar();
     }
     
     // ==================== TOGGLE COUNTRY ====================
@@ -910,6 +964,7 @@
     function renderCountryLeagues(countryId) {
       const leagues = countryLeagues[`${currentSport}-${countryId}`] || [];
       const pinnedLeagues = getCurrentPinnedLeagues();
+      const country = COUNTRIES.find(c => c.id == countryId);
       
       if (leagues.length === 0) {
         return '<div class="country-league">Loading...</div>';
@@ -917,10 +972,12 @@
       
       return leagues.map(league => {
         const isPinned = pinnedLeagues.some(p => p.name === league.name);
+        const isSelected = selectedLeague === league.name;
         return `
-          <div class="country-league ${isPinned ? 'pinned' : ''}">
+          <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
+            <span class="league-flag">${country?.flag || '🏆'}</span>
             <span>${league.name}</span>
-            <span class="pin-icon" onclick="togglePinLeague('${league.name.replace(/'/g, "\\'")}', ${countryId})">
+            <span class="pin-icon" onclick="event.stopPropagation(); togglePinLeague('${league.name.replace(/'/g, "\\'")}', ${countryId})">
               ${isPinned ? '📌' : '➕'}
             </span>
           </div>
@@ -1042,7 +1099,7 @@
       });
       
       const html = leagues.map(league => {
-        const flag = getFlagForLeague(league.name) || '🏆';
+        const flag = getFlagForLeague(league.name);
         return `
           <div class="league-section">
             <div class="league-header">
@@ -1130,7 +1187,9 @@
         tab.classList.add('active');
         currentSport = tab.dataset.sport;
         expandedCountries = {};
+        expandedInternational = false;
         showAllCountries = false;
+        selectedLeague = null;
         renderSidebar();
         renderMatches();
       });
