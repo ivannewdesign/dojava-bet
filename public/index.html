@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dojava.bet - Live Sports Predictions</title>
+  <title>Dojava.bet - Uživo Sportski Rezultati</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -157,6 +157,7 @@
     
     .league-flag {
       font-size: 18px;
+      min-width: 22px;
     }
     
     .pin-icon {
@@ -515,8 +516,8 @@
     <div class="header-content">
       <a href="/" class="logo">DOJAVA.BET</a>
       <nav class="nav">
-        <a href="#live">Live</a>
-        <a href="#leagues">Leagues</a>
+        <a href="#live">Uživo</a>
+        <a href="#leagues">Lige</a>
         <a href="#premium">Premium</a>
       </nav>
     </div>
@@ -525,13 +526,13 @@
   <!-- SPORT TABS - STICKY -->
   <div class="sport-tabs">
     <div class="sport-tab active" data-sport="football">
-      <span>⚽</span> Football
+      <span>⚽</span> Nogomet
     </div>
     <div class="sport-tab" data-sport="basketball">
-      <span>🏀</span> Basketball
+      <span>🏀</span> Košarka
     </div>
     <div class="sport-tab" data-sport="tennis">
-      <span>🎾</span> Tennis
+      <span>🎾</span> Tenis
     </div>
   </div>
 
@@ -542,7 +543,7 @@
     <aside class="sidebar" id="sidebar">
       <div class="loading">
         <div class="spinner"></div>
-        Loading...
+        Učitavanje...
       </div>
     </aside>
 
@@ -550,7 +551,7 @@
     <main class="content" id="content">
       <div class="loading">
         <div class="spinner"></div>
-        Loading matches...
+        Učitavanje utakmica...
       </div>
     </main>
 
@@ -558,7 +559,7 @@
     <aside class="ad-space">
       <div class="ad-placeholder">
         <div style="font-size: 48px; margin-bottom: 10px;">📊</div>
-        <div>Advertisement Space</div>
+        <div>Prostor za Reklamu</div>
         <div style="font-size: 11px; margin-top: 5px;">300 x 600</div>
       </div>
       <div class="ad-placeholder" style="padding: 40px 20px;">
@@ -645,10 +646,16 @@
           { name: 'AFC Champions League', flag: '🏆' },
           { name: 'CONCACAF Champions League', flag: '🏆' },
           { name: 'World Cup', flag: '🌍' },
-          { name: 'World Cup Qualifiers', flag: '🌍' },
+          { name: 'World Cup Qualifiers - Europe', flag: '🇪🇺' },
+          { name: 'World Cup Qualifiers - Asia', flag: '🌏' },
+          { name: 'World Cup Qualifiers - Africa', flag: '🌍' },
+          { name: 'World Cup Qualifiers - South America', flag: '🌎' },
+          { name: 'World Cup Qualifiers - North America', flag: '🌎' },
+          { name: 'World Cup Qualifiers - Oceania', flag: '🌏' },
           { name: 'European Championship', flag: '🇪🇺' },
           { name: 'Copa America', flag: '🏆' },
-          { name: 'Africa Cup of Nations', flag: '🏆' }
+          { name: 'Africa Cup of Nations', flag: '🏆' },
+          { name: 'Asian Cup', flag: '🏆' }
         ];
       } else if (currentSport === 'basketball') {
         return [
@@ -658,7 +665,10 @@
           { name: 'ABA League', flag: '🏆' },
           { name: 'Basketball Champions League', flag: '🏆' },
           { name: 'FIBA World Cup', flag: '🌍' },
-          { name: 'FIBA EuroBasket', flag: '🇪🇺' }
+          { name: 'FIBA EuroBasket', flag: '🇪🇺' },
+          { name: 'FIBA AmeriCup', flag: '🌎' },
+          { name: 'FIBA Asia Cup', flag: '🌏' },
+          { name: 'FIBA AfroBasket', flag: '🌍' }
         ];
       } else if (currentSport === 'tennis') {
         return [
@@ -737,86 +747,84 @@
     
     // ==================== COUNTRIES DATA ====================
     const COUNTRIES = [
-      { id: 17, name: 'Albania', flag: '🇦🇱' },
-      { id: 18, name: 'Algeria', flag: '🇩🇿' },
-      { id: 19, name: 'Andorra', flag: '🇦🇩' },
+      { id: 17, name: 'Albanija', flag: '🇦🇱' },
+      { id: 18, name: 'Alžir', flag: '🇩🇿' },
+      { id: 19, name: 'Andora', flag: '🇦🇩' },
       { id: 20, name: 'Angola', flag: '🇦🇴' },
-      { id: 21, name: 'Antigua & Barbuda', flag: '🇦🇬' },
       { id: 22, name: 'Argentina', flag: '🇦🇷' },
-      { id: 23, name: 'Armenia', flag: '🇦🇲' },
-      { id: 24, name: 'Australia', flag: '🇦🇺' },
-      { id: 25, name: 'Austria', flag: '🇦🇹' },
-      { id: 26, name: 'Azerbaijan', flag: '🇦🇿' },
-      { id: 28, name: 'Bahrain', flag: '🇧🇭' },
-      { id: 29, name: 'Bangladesh', flag: '🇧🇩' },
-      { id: 30, name: 'Barbados', flag: '🇧🇧' },
-      { id: 31, name: 'Belarus', flag: '🇧🇾' },
-      { id: 32, name: 'Belgium', flag: '🇧🇪' },
-      { id: 37, name: 'Bosnia and Herzegovina', flag: '🇧🇦' },
+      { id: 23, name: 'Armenija', flag: '🇦🇲' },
+      { id: 24, name: 'Australija', flag: '🇦🇺' },
+      { id: 25, name: 'Austrija', flag: '🇦🇹' },
+      { id: 26, name: 'Azerbejdžan', flag: '🇦🇿' },
+      { id: 28, name: 'Bahrein', flag: '🇧🇭' },
+      { id: 29, name: 'Bangladeš', flag: '🇧🇩' },
+      { id: 31, name: 'Bjelorusija', flag: '🇧🇾' },
+      { id: 32, name: 'Belgija', flag: '🇧🇪' },
+      { id: 37, name: 'Bosna i Hercegovina', flag: '🇧🇦' },
       { id: 39, name: 'Brazil', flag: '🇧🇷' },
-      { id: 47, name: 'Canada', flag: '🇨🇦' },
-      { id: 51, name: 'Chile', flag: '🇨🇱' },
-      { id: 52, name: 'China', flag: '🇨🇳' },
-      { id: 53, name: 'Colombia', flag: '🇨🇴' },
-      { id: 59, name: 'Croatia', flag: '🇭🇷' },
-      { id: 62, name: 'Czech Republic', flag: '🇨🇿' },
-      { id: 63, name: 'Denmark', flag: '🇩🇰' },
-      { id: 68, name: 'Ecuador', flag: '🇪🇨' },
-      { id: 69, name: 'Egypt', flag: '🇪🇬' },
-      { id: 198, name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-      { id: 76, name: 'Finland', flag: '🇫🇮' },
-      { id: 77, name: 'France', flag: '🇫🇷' },
-      { id: 80, name: 'Georgia', flag: '🇬🇪' },
-      { id: 81, name: 'Germany', flag: '🇩🇪' },
-      { id: 82, name: 'Ghana', flag: '🇬🇭' },
-      { id: 83, name: 'Greece', flag: '🇬🇷' },
-      { id: 91, name: 'Hungary', flag: '🇭🇺' },
-      { id: 92, name: 'Iceland', flag: '🇮🇸' },
-      { id: 93, name: 'India', flag: '🇮🇳' },
-      { id: 228, name: 'Indonesia', flag: '🇮🇩' },
+      { id: 47, name: 'Kanada', flag: '🇨🇦' },
+      { id: 51, name: 'Čile', flag: '🇨🇱' },
+      { id: 52, name: 'Kina', flag: '🇨🇳' },
+      { id: 53, name: 'Kolumbija', flag: '🇨🇴' },
+      { id: 59, name: 'Hrvatska', flag: '🇭🇷' },
+      { id: 62, name: 'Češka', flag: '🇨🇿' },
+      { id: 63, name: 'Danska', flag: '🇩🇰' },
+      { id: 68, name: 'Ekvador', flag: '🇪🇨' },
+      { id: 69, name: 'Egipat', flag: '🇪🇬' },
+      { id: 198, name: 'Engleska', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+      { id: 76, name: 'Finska', flag: '🇫🇮' },
+      { id: 77, name: 'Francuska', flag: '🇫🇷' },
+      { id: 80, name: 'Gruzija', flag: '🇬🇪' },
+      { id: 81, name: 'Njemačka', flag: '🇩🇪' },
+      { id: 82, name: 'Gana', flag: '🇬🇭' },
+      { id: 83, name: 'Grčka', flag: '🇬🇷' },
+      { id: 91, name: 'Mađarska', flag: '🇭🇺' },
+      { id: 92, name: 'Island', flag: '🇮🇸' },
+      { id: 93, name: 'Indija', flag: '🇮🇳' },
+      { id: 228, name: 'Indonezija', flag: '🇮🇩' },
       { id: 94, name: 'Iran', flag: '🇮🇷' },
-      { id: 96, name: 'Ireland', flag: '🇮🇪' },
-      { id: 97, name: 'Israel', flag: '🇮🇱' },
-      { id: 98, name: 'Italy', flag: '🇮🇹' },
+      { id: 96, name: 'Irska', flag: '🇮🇪' },
+      { id: 97, name: 'Izrael', flag: '🇮🇱' },
+      { id: 98, name: 'Italija', flag: '🇮🇹' },
       { id: 100, name: 'Japan', flag: '🇯🇵' },
       { id: 101, name: 'Jordan', flag: '🇯🇴' },
-      { id: 102, name: 'Kazakhstan', flag: '🇰🇿' },
-      { id: 103, name: 'Kenya', flag: '🇰🇪' },
-      { id: 106, name: 'South Korea', flag: '🇰🇷' },
-      { id: 121, name: 'Malaysia', flag: '🇲🇾' },
-      { id: 128, name: 'Mexico', flag: '🇲🇽' },
-      { id: 134, name: 'Morocco', flag: '🇲🇦' },
-      { id: 139, name: 'Netherlands', flag: '🇳🇱' },
-      { id: 140, name: 'New Zealand', flag: '🇳🇿' },
-      { id: 143, name: 'Nigeria', flag: '🇳🇬' },
-      { id: 144, name: 'Northern Ireland', flag: '🇬🇧' },
-      { id: 145, name: 'Norway', flag: '🇳🇴' },
+      { id: 102, name: 'Kazahstan', flag: '🇰🇿' },
+      { id: 103, name: 'Kenija', flag: '🇰🇪' },
+      { id: 106, name: 'Južna Koreja', flag: '🇰🇷' },
+      { id: 121, name: 'Malezija', flag: '🇲🇾' },
+      { id: 128, name: 'Meksiko', flag: '🇲🇽' },
+      { id: 134, name: 'Maroko', flag: '🇲🇦' },
+      { id: 139, name: 'Nizozemska', flag: '🇳🇱' },
+      { id: 140, name: 'Novi Zeland', flag: '🇳🇿' },
+      { id: 143, name: 'Nigerija', flag: '🇳🇬' },
+      { id: 144, name: 'Sjeverna Irska', flag: '🇬🇧' },
+      { id: 145, name: 'Norveška', flag: '🇳🇴' },
       { id: 147, name: 'Pakistan', flag: '🇵🇰' },
       { id: 152, name: 'Peru', flag: '🇵🇪' },
-      { id: 153, name: 'Philippines', flag: '🇵🇭' },
-      { id: 154, name: 'Poland', flag: '🇵🇱' },
+      { id: 153, name: 'Filipini', flag: '🇵🇭' },
+      { id: 154, name: 'Poljska', flag: '🇵🇱' },
       { id: 155, name: 'Portugal', flag: '🇵🇹' },
-      { id: 156, name: 'Qatar', flag: '🇶🇦' },
-      { id: 157, name: 'Romania', flag: '🇷🇴' },
-      { id: 158, name: 'Russia', flag: '🇷🇺' },
-      { id: 165, name: 'Saudi Arabia', flag: '🇸🇦' },
-      { id: 199, name: 'Scotland', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+      { id: 156, name: 'Katar', flag: '🇶🇦' },
+      { id: 157, name: 'Rumunjska', flag: '🇷🇴' },
+      { id: 158, name: 'Rusija', flag: '🇷🇺' },
+      { id: 165, name: 'Saudijska Arabija', flag: '🇸🇦' },
+      { id: 199, name: 'Škotska', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
       { id: 166, name: 'Senegal', flag: '🇸🇳' },
-      { id: 167, name: 'Serbia', flag: '🇷🇸' },
-      { id: 170, name: 'Singapore', flag: '🇸🇬' },
-      { id: 171, name: 'Slovakia', flag: '🇸🇰' },
-      { id: 172, name: 'Slovenia', flag: '🇸🇮' },
-      { id: 175, name: 'South Africa', flag: '🇿🇦' },
-      { id: 176, name: 'Spain', flag: '🇪🇸' },
-      { id: 181, name: 'Sweden', flag: '🇸🇪' },
-      { id: 182, name: 'Switzerland', flag: '🇨🇭' },
-      { id: 186, name: 'Thailand', flag: '🇹🇭' },
-      { id: 190, name: 'Tunisia', flag: '🇹🇳' },
-      { id: 191, name: 'Turkey', flag: '🇹🇷' },
-      { id: 195, name: 'Ukraine', flag: '🇺🇦' },
-      { id: 196, name: 'United Arab Emirates', flag: '🇦🇪' },
-      { id: 200, name: 'USA', flag: '🇺🇸' },
-      { id: 201, name: 'Uruguay', flag: '🇺🇾' },
+      { id: 167, name: 'Srbija', flag: '🇷🇸' },
+      { id: 170, name: 'Singapur', flag: '🇸🇬' },
+      { id: 171, name: 'Slovačka', flag: '🇸🇰' },
+      { id: 172, name: 'Slovenija', flag: '🇸🇮' },
+      { id: 175, name: 'Južna Afrika', flag: '🇿🇦' },
+      { id: 176, name: 'Španjolska', flag: '🇪🇸' },
+      { id: 181, name: 'Švedska', flag: '🇸🇪' },
+      { id: 182, name: 'Švicarska', flag: '🇨🇭' },
+      { id: 186, name: 'Tajland', flag: '🇹🇭' },
+      { id: 190, name: 'Tunis', flag: '🇹🇳' },
+      { id: 191, name: 'Turska', flag: '🇹🇷' },
+      { id: 195, name: 'Ukrajina', flag: '🇺🇦' },
+      { id: 196, name: 'UAE', flag: '🇦🇪' },
+      { id: 200, name: 'SAD', flag: '🇺🇸' },
+      { id: 201, name: 'Urugvaj', flag: '🇺🇾' },
       { id: 207, name: 'Wales', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿' }
     ];
     
@@ -827,7 +835,7 @@
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
-        console.log('✅ Matches loaded:', data);
+        console.log('✅ Utakmice učitane:', data);
         
         allMatches = {
           football: data.football || [],
@@ -839,7 +847,7 @@
         renderMatches();
         
       } catch (error) {
-        console.error('❌ Error loading matches:', error);
+        console.error('❌ Greška pri učitavanju:', error);
         showError();
       }
     }
@@ -854,7 +862,7 @@
       const html = `
         <!-- PINNED LEAGUES -->
         <div class="sidebar-section">
-          <div class="sidebar-title">📌 Pinned Leagues</div>
+          <div class="sidebar-title">📌 Prikovane Lige</div>
           ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => {
             const flag = league.flag || getFlagForLeague(league.name);
             const isSelected = selectedLeague === league.name;
@@ -865,13 +873,13 @@
                 <span class="pin-icon" onclick="event.stopPropagation(); unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
               </div>
             `;
-          }).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">No pinned leagues</div>'}
+          }).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">Nema prikovanih liga</div>'}
         </div>
         
         <!-- INTERNATIONAL LEAGUES - COLLAPSIBLE -->
         <div class="sidebar-section collapsible-section ${expandedInternational ? 'expanded' : ''}">
           <div class="collapsible-header" onclick="toggleInternational()">
-            <span>🏆 International Leagues</span>
+            <span>🏆 Međunarodne Lige</span>
             <span class="collapsible-arrow">▼</span>
           </div>
           <div class="collapsible-content">
@@ -893,7 +901,7 @@
         
         <!-- COUNTRIES -->
         <div class="sidebar-section">
-          <div class="sidebar-title">🌍 Countries</div>
+          <div class="sidebar-title">🌍 Države</div>
           ${visibleCountries.map(country => `
             <div class="country-item ${expandedCountries[country.id] ? 'expanded' : ''}" id="country-${country.id}">
               <div class="country-header" onclick="toggleCountry(${country.id})">
@@ -909,7 +917,7 @@
           
           ${!showAllCountries ? `
             <div class="show-more-btn" onclick="showMoreCountries()">
-              Show All Countries (${COUNTRIES.length})
+              Prikaži Sve Države (${COUNTRIES.length})
             </div>
           ` : ''}
         </div>
@@ -952,10 +960,10 @@
         const data = await response.json();
         countryLeagues[`${currentSport}-${countryId}`] = data.leagues || [];
         
-        console.log(`✅ Loaded ${countryLeagues[`${currentSport}-${countryId}`].length} leagues for ${currentSport}, country ${countryId}`);
+        console.log(`✅ Učitano ${countryLeagues[`${currentSport}-${countryId}`].length} liga za ${currentSport}, država ${countryId}`);
         
       } catch (error) {
-        console.error(`❌ Error loading leagues for country ${countryId}:`, error);
+        console.error(`❌ Greška pri učitavanju liga za državu ${countryId}:`, error);
         countryLeagues[`${currentSport}-${countryId}`] = [];
       }
     }
@@ -967,7 +975,7 @@
       const country = COUNTRIES.find(c => c.id == countryId);
       
       if (leagues.length === 0) {
-        return '<div class="country-league">Loading...</div>';
+        return '<div class="country-league">Učitavanje...</div>';
       }
       
       return leagues.map(league => {
@@ -1050,8 +1058,8 @@
       if (!matches || matches.length === 0) {
         content.innerHTML = `
           <div class="no-matches">
-            <h2>No matches available</h2>
-            <p>Check back soon for ${currentSport} matches!</p>
+            <h2>Nema dostupnih utakmica</h2>
+            <p>Provjerite kasnije za ${currentSport === 'football' ? 'nogometne' : currentSport === 'basketball' ? 'košarkaške' : 'teniske'} utakmice!</p>
           </div>
         `;
         return;
@@ -1068,8 +1076,8 @@
       if (matches.length === 0) {
         content.innerHTML = `
           <div class="no-matches">
-            <h2>No matches from pinned leagues</h2>
-            <p>Pin some leagues from the sidebar to see matches!</p>
+            <h2>Nema utakmica iz prikovanih liga</h2>
+            <p>Prikovajte neke lige iz sidebar-a da vidite utakmice!</p>
           </div>
         `;
         return;
@@ -1077,7 +1085,7 @@
       
       const grouped = {};
       matches.forEach(match => {
-        const leagueName = match.tournament_name || 'Unknown League';
+        const leagueName = match.tournament_name || 'Nepoznata Liga';
         if (!grouped[leagueName]) {
           grouped[leagueName] = {
             name: leagueName,
@@ -1117,8 +1125,8 @@
     
     // ==================== CREATE MATCH CARD ====================
     function createMatchCard(match) {
-      const homeTeam = match.home_team?.name || 'Home';
-      const awayTeam = match.away_team?.name || 'Away';
+      const homeTeam = match.home_team?.name || 'Domaćin';
+      const awayTeam = match.away_team?.name || 'Gost';
       const homeScore = match.home_team?.score ?? '-';
       const awayScore = match.away_team?.score ?? '-';
       const homeLogo = match.home_team?.image_path || '';
@@ -1174,8 +1182,8 @@
     function showError() {
       document.getElementById('content').innerHTML = `
         <div class="no-matches">
-          <h2>Failed to load matches</h2>
-          <p>Please refresh the page or try again later.</p>
+          <h2>Greška pri učitavanju utakmica</h2>
+          <p>Molimo osvježite stranicu ili pokušajte kasnije.</p>
         </div>
       `;
     }
