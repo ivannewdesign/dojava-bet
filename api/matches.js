@@ -12,7 +12,7 @@ const RAPIDAPI_KEY = process.env.RAPIDAPI_KEY;
 
 async function fetchMatchesForDay(sportId) {
   try {
-    const url = `https://flashscore4.p.rapidapi.com/api/flashscore/v1/match/day/${sportId}`;
+    const url = `https://flashscore4.p.rapidapi.com/api/flashscore/v1/match/list/${sportId}/0`;
     
     const response = await fetch(url, {
       headers: {
