@@ -133,6 +133,15 @@
       background: #f7fafc;
     }
     
+    .category-header {
+      padding: 8px 20px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #667eea;
+      text-transform: uppercase;
+      background: #f7fafc;
+    }
+    
     /* PINNED LEAGUES */
     .pinned-league {
       padding: 10px 20px;
@@ -158,6 +167,7 @@
     .league-flag {
       font-size: 18px;
       min-width: 22px;
+      display: inline-block;
     }
     
     .pin-icon {
@@ -600,7 +610,7 @@
           { name: 'UEFA Champions League', flag: '🏆' },
           { name: 'UEFA Europa League', flag: '🏆' },
           { name: 'UEFA Conference League', flag: '🏆' },
-          { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+          { name: 'Premier League', flag: '🇬🇧' },
           { name: 'LaLiga', flag: '🇪🇸' },
           { name: 'Bundesliga', flag: '🇩🇪' },
           { name: 'Serie A', flag: '🇮🇹' },
@@ -646,12 +656,14 @@
           { name: 'AFC Champions League', flag: '🏆' },
           { name: 'CONCACAF Champions League', flag: '🏆' },
           { name: 'World Cup', flag: '🌍' },
-          { name: 'World Cup Qualifiers - Europe', flag: '🇪🇺' },
-          { name: 'World Cup Qualifiers - Asia', flag: '🌏' },
-          { name: 'World Cup Qualifiers - Africa', flag: '🌍' },
-          { name: 'World Cup Qualifiers - South America', flag: '🌎' },
-          { name: 'World Cup Qualifiers - North America', flag: '🌎' },
-          { name: 'World Cup Qualifiers - Oceania', flag: '🌏' },
+          { category: 'Kvalifikacije za SP', items: [
+            { name: 'WC Qualifiers - Europe', flag: '🇪🇺' },
+            { name: 'WC Qualifiers - Asia', flag: '🌏' },
+            { name: 'WC Qualifiers - Africa', flag: '🌍' },
+            { name: 'WC Qualifiers - South America', flag: '🌎' },
+            { name: 'WC Qualifiers - North America', flag: '🌎' },
+            { name: 'WC Qualifiers - Oceania', flag: '🌏' }
+          ]},
           { name: 'European Championship', flag: '🇪🇺' },
           { name: 'Copa America', flag: '🏆' },
           { name: 'Africa Cup of Nations', flag: '🏆' },
@@ -687,7 +699,7 @@
     // ==================== GET FLAG FOR LEAGUE ====================
     function getFlagForLeague(leagueName) {
       const flagMap = {
-        'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'Premier League': '🇬🇧',
         'LaLiga': '🇪🇸',
         'La Liga': '🇪🇸',
         'Bundesliga': '🇩🇪',
@@ -701,7 +713,7 @@
         'Eredivisie': '🇳🇱',
         'Primeira Liga': '🇵🇹',
         'Jupiler Pro League': '🇧🇪',
-        'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+        'Scottish Premiership': '🇬🇧',
         'Super League': '🇬🇷',
         'Swiss Super League': '🇨🇭',
         'Austrian Bundesliga': '🇦🇹',
@@ -771,7 +783,7 @@
       { id: 63, name: 'Danska', flag: '🇩🇰' },
       { id: 68, name: 'Ekvador', flag: '🇪🇨' },
       { id: 69, name: 'Egipat', flag: '🇪🇬' },
-      { id: 198, name: 'Engleska', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+      { id: 198, name: 'Engleska', flag: '🇬🇧' },
       { id: 76, name: 'Finska', flag: '🇫🇮' },
       { id: 77, name: 'Francuska', flag: '🇫🇷' },
       { id: 80, name: 'Gruzija', flag: '🇬🇪' },
@@ -808,7 +820,7 @@
       { id: 157, name: 'Rumunjska', flag: '🇷🇴' },
       { id: 158, name: 'Rusija', flag: '🇷🇺' },
       { id: 165, name: 'Saudijska Arabija', flag: '🇸🇦' },
-      { id: 199, name: 'Škotska', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+      { id: 199, name: 'Škotska', flag: '🇬🇧' },
       { id: 166, name: 'Senegal', flag: '🇸🇳' },
       { id: 167, name: 'Srbija', flag: '🇷🇸' },
       { id: 170, name: 'Singapur', flag: '🇸🇬' },
@@ -825,7 +837,7 @@
       { id: 196, name: 'UAE', flag: '🇦🇪' },
       { id: 200, name: 'SAD', flag: '🇺🇸' },
       { id: 201, name: 'Urugvaj', flag: '🇺🇾' },
-      { id: 207, name: 'Wales', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿' }
+      { id: 207, name: 'Wales', flag: '🇬🇧' }
     ];
     
     // ==================== LOAD MATCHES ====================
@@ -883,18 +895,37 @@
             <span class="collapsible-arrow">▼</span>
           </div>
           <div class="collapsible-content">
-            ${internationalLeagues.map(league => {
-              const isPinned = pinnedLeagues.some(p => p.name === league.name);
-              const isSelected = selectedLeague === league.name;
-              return `
-                <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 20px;" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-                  <span class="league-flag">${league.flag}</span>
-                  <span>${league.name}</span>
-                  <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
-                    ${isPinned ? '📌' : '➕'}
-                  </span>
-                </div>
-              `;
+            ${internationalLeagues.map(item => {
+              if (item.category) {
+                return `
+                  <div class="category-header">${item.category}</div>
+                  ${item.items.map(league => {
+                    const isPinned = pinnedLeagues.some(p => p.name === league.name);
+                    const isSelected = selectedLeague === league.name;
+                    return `
+                      <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 40px;" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
+                        <span class="league-flag">${league.flag}</span>
+                        <span>${league.name}</span>
+                        <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
+                          ${isPinned ? '📌' : '➕'}
+                        </span>
+                      </div>
+                    `;
+                  }).join('')}
+                `;
+              } else {
+                const isPinned = pinnedLeagues.some(p => p.name === item.name);
+                const isSelected = selectedLeague === item.name;
+                return `
+                  <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 20px;" onclick="selectLeague('${item.name.replace(/'/g, "\\'")}')">
+                    <span class="league-flag">${item.flag}</span>
+                    <span>${item.name}</span>
+                    <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${item.name.replace(/'/g, "\\'")}', '${item.flag}')">
+                      ${isPinned ? '📌' : '➕'}
+                    </span>
+                  </div>
+                `;
+              }
             }).join('')}
           </div>
         </div>
