@@ -25,7 +25,7 @@
     }
     
     .header-content {
-      max-width: 1400px;
+      max-width: 1600px;
       margin: 0 auto;
       padding: 0 20px;
       display: flex;
@@ -56,20 +56,14 @@
       color: #4361ee;
     }
     
-    /* MAIN CONTAINER */
-    .container {
-      max-width: 1400px;
-      margin: 0 auto;
-      padding: 40px 20px;
-    }
-    
     /* SPORT TABS */
     .sport-tabs {
+      background: #0a0e27;
+      padding: 20px;
       display: flex;
       gap: 10px;
-      margin-bottom: 30px;
       justify-content: center;
-      flex-wrap: wrap;
+      border-bottom: 1px solid #1a2151;
     }
     
     .sport-tab {
@@ -96,63 +90,118 @@
       border-color: #4361ee;
     }
     
-    /* LOADING */
-    .loading {
-      text-align: center;
-      padding: 60px;
-      font-size: 18px;
+    /* MAIN LAYOUT */
+    .main-layout {
+      display: flex;
+      max-width: 1600px;
+      margin: 0 auto;
+      min-height: calc(100vh - 200px);
+    }
+    
+    /* SIDEBAR */
+    .sidebar {
+      width: 280px;
+      background: #13193f;
+      border-right: 1px solid #1a2151;
+      overflow-y: auto;
+      position: sticky;
+      top: 140px;
+      height: calc(100vh - 140px);
+    }
+    
+    .sidebar-section {
+      padding: 20px;
+      border-bottom: 1px solid #1a2151;
+    }
+    
+    .sidebar-title {
+      font-size: 12px;
+      font-weight: 700;
       color: #666;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+      letter-spacing: 1px;
     }
     
-    .spinner {
-      border: 4px solid rgba(67, 97, 238, 0.2);
-      border-top: 4px solid #4361ee;
-      border-radius: 50%;
-      width: 50px;
-      height: 50px;
-      animation: spin 1s linear infinite;
-      margin: 0 auto 20px;
+    .league-item {
+      padding: 10px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+      color: #ccc;
     }
     
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    .league-item:hover {
+      background: #1a2151;
+      color: #fff;
     }
     
-    /* MATCHES GRID */
-    .matches-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-      gap: 20px;
+    .league-item.active {
+      background: #4361ee;
+      color: #fff;
+    }
+    
+    .league-count {
+      float: right;
+      background: #1a2151;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      color: #888;
+    }
+    
+    /* CONTENT */
+    .content {
+      flex: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    
+    /* LEAGUE SECTION */
+    .league-section {
+      margin-bottom: 40px;
+    }
+    
+    .league-header {
+      background: #13193f;
+      padding: 15px 20px;
+      border-radius: 8px 8px 0 0;
+      font-weight: 700;
+      font-size: 15px;
+      color: #fff;
+      border-left: 4px solid #4361ee;
+      margin-bottom: 10px;
+    }
+    
+    .league-country {
+      color: #888;
+      font-size: 13px;
+      font-weight: 600;
+      margin-right: 10px;
     }
     
     /* MATCH CARD */
     .match-card {
       background: #13193f;
-      border: 2px solid #1a2151;
-      border-radius: 12px;
-      padding: 20px;
+      border: 1px solid #1a2151;
+      border-radius: 8px;
+      padding: 15px 20px;
+      margin-bottom: 10px;
       transition: all 0.3s;
       cursor: pointer;
     }
     
     .match-card:hover {
       border-color: #4361ee;
-      transform: translateY(-4px);
-      box-shadow: 0 8px 20px rgba(67, 97, 238, 0.3);
+      transform: translateX(5px);
     }
     
     .match-header {
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 15px;
-    }
-    
-    .match-league {
-      font-size: 13px;
-      color: #888;
-      font-weight: 600;
+      justify-content: flex-end;
+      margin-bottom: 10px;
     }
     
     .match-time {
@@ -178,63 +227,60 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 15px;
     }
     
     .team {
       flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 15px;
     }
     
     .team-name {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 5px;
+      font-size: 15px;
+      font-weight: 600;
     }
     
     .team-score {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 800;
       color: #4361ee;
+      min-width: 30px;
+      text-align: center;
     }
     
     .match-vs {
       padding: 0 20px;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       color: #666;
     }
     
     .team-right {
-      text-align: right;
+      flex-direction: row-reverse;
     }
     
-    .match-footer {
-      padding-top: 15px;
-      border-top: 1px solid #1a2151;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+    /* LOADING */
+    .loading {
+      text-align: center;
+      padding: 60px;
+      font-size: 18px;
+      color: #666;
     }
     
-    .match-info {
-      font-size: 12px;
-      color: #888;
+    .spinner {
+      border: 4px solid rgba(67, 97, 238, 0.2);
+      border-top: 4px solid #4361ee;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
     }
     
-    .bet-button {
-      background: linear-gradient(135deg, #f72585 0%, #4361ee 100%);
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-size: 13px;
-      font-weight: 700;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    
-    .bet-button:hover {
-      transform: scale(1.05);
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
     }
     
     /* NO MATCHES */
@@ -244,64 +290,10 @@
       color: #666;
     }
     
-    .no-matches-icon {
-      font-size: 60px;
-      margin-bottom: 20px;
-    }
-    
-    /* FOOTER */
-    .footer {
-      background: #13193f;
-      padding: 40px 20px;
-      margin-top: 80px;
-      border-top: 2px solid #1a2151;
-      text-align: center;
-    }
-    
-    .footer-content {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
-    
-    .footer p {
-      color: #888;
-      font-size: 14px;
-      margin-bottom: 10px;
-    }
-    
-    .disclaimer {
-      color: #666;
-      font-size: 12px;
-      margin-top: 20px;
-    }
-    
     /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .header-content {
-        flex-direction: column;
-        gap: 20px;
-      }
-      
-      .nav {
-        gap: 15px;
-      }
-      
-      .matches-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .match-teams {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-      }
-      
-      .team-right {
-        text-align: center;
-      }
-      
-      .match-vs {
-        padding: 10px 0;
+    @media (max-width: 1024px) {
+      .sidebar {
+        display: none;
       }
     }
   </style>
@@ -320,40 +312,39 @@
     </div>
   </header>
 
-  <!-- MAIN CONTENT -->
-  <main class="container">
-    
-    <!-- SPORT TABS -->
-    <div class="sport-tabs">
-      <div class="sport-tab active" data-sport="football">
-        <span>⚽</span> Football
-      </div>
-      <div class="sport-tab" data-sport="basketball">
-        <span>🏀</span> Basketball
-      </div>
-      <div class="sport-tab" data-sport="tennis">
-        <span>🎾</span> Tennis
-      </div>
+  <!-- SPORT TABS -->
+  <div class="sport-tabs">
+    <div class="sport-tab active" data-sport="football">
+      <span>⚽</span> Football
     </div>
+    <div class="sport-tab" data-sport="basketball">
+      <span>🏀</span> Basketball
+    </div>
+    <div class="sport-tab" data-sport="tennis">
+      <span>🎾</span> Tennis
+    </div>
+  </div>
+
+  <!-- MAIN LAYOUT -->
+  <div class="main-layout">
     
-    <!-- MATCHES CONTAINER -->
-    <div id="matches-container">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
       <div class="loading">
         <div class="spinner"></div>
-        Loading live matches...
+        Loading leagues...
       </div>
-    </div>
-    
-  </main>
+    </aside>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer-content">
-      <p><strong>DOJAVA.BET</strong> - AI-Powered Sports Predictions</p>
-      <p>Live scores and betting tips for Football, Basketball & Tennis</p>
-      <p class="disclaimer">⚠️ Gambling involves risk. 18+ only. Please bet responsibly.</p>
-    </div>
-  </footer>
+    <!-- CONTENT -->
+    <main class="content" id="content">
+      <div class="loading">
+        <div class="spinner"></div>
+        Loading matches...
+      </div>
+    </main>
+
+  </div>
 
   <script>
     // STATE
@@ -364,6 +355,7 @@
     };
     
     let currentSport = 'football';
+    let selectedLeague = null;
     
     // LOAD MATCHES FROM API
     async function loadMatches() {
@@ -384,6 +376,7 @@
           tennis: data.tennis || []
         };
         
+        renderSidebar();
         renderMatches();
         
       } catch (error) {
@@ -392,110 +385,162 @@
       }
     }
     
-    // RENDER MATCHES
-    function renderMatches() {
-      const container = document.getElementById('matches-container');
+    // RENDER SIDEBAR
+    function renderSidebar() {
+      const sidebar = document.getElementById('sidebar');
       const matches = allMatches[currentSport];
       
       if (!matches || matches.length === 0) {
-        container.innerHTML = `
+        sidebar.innerHTML = '<div class="loading">No leagues</div>';
+        return;
+      }
+      
+      // Extract unique leagues with counts
+      const leagueMap = {};
+      matches.forEach(match => {
+        const leagueName = match.tournament_name || 'Unknown League';
+        if (!leagueMap[leagueName]) {
+          leagueMap[leagueName] = {
+            name: leagueName,
+            country: match.country_name || '',
+            count: 0
+          };
+        }
+        leagueMap[leagueName].count++;
+      });
+      
+      const leagues = Object.values(leagueMap).sort((a, b) => a.name.localeCompare(b.name));
+      
+      const html = `
+        <div class="sidebar-section">
+          <div class="sidebar-title">All Leagues (${leagues.length})</div>
+          <div class="league-item" onclick="selectLeague(null)" ${!selectedLeague ? 'class="league-item active"' : ''}>
+            <strong>All Matches</strong>
+            <span class="league-count">${matches.length}</span>
+          </div>
+          ${leagues.map(league => `
+            <div class="league-item ${selectedLeague === league.name ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
+              ${league.name}
+              <span class="league-count">${league.count}</span>
+            </div>
+          `).join('')}
+        </div>
+      `;
+      
+      sidebar.innerHTML = html;
+    }
+    
+    // SELECT LEAGUE
+    function selectLeague(leagueName) {
+      selectedLeague = leagueName;
+      renderSidebar();
+      renderMatches();
+    }
+    
+    // RENDER MATCHES
+    function renderMatches() {
+      const content = document.getElementById('content');
+      let matches = allMatches[currentSport];
+      
+      if (!matches || matches.length === 0) {
+        content.innerHTML = `
           <div class="no-matches">
-            <div class="no-matches-icon">😴</div>
-            <h2>No live matches right now</h2>
-            <p>Check back soon for live ${currentSport} matches!</p>
+            <h2>No matches available</h2>
+            <p>Check back soon for ${currentSport} matches!</p>
           </div>
         `;
         return;
       }
       
-      const html = `
-        <div class="matches-grid">
-          ${matches.slice(0, 20).map(match => createMatchCard(match)).join('')}
+      // Filter by selected league
+      if (selectedLeague) {
+        matches = matches.filter(m => m.tournament_name === selectedLeague);
+      }
+      
+      // Group by league
+      const grouped = {};
+      matches.forEach(match => {
+        const leagueName = match.tournament_name || 'Unknown League';
+        if (!grouped[leagueName]) {
+          grouped[leagueName] = {
+            name: leagueName,
+            country: match.country_name || '',
+            matches: []
+          };
+        }
+        grouped[leagueName].matches.push(match);
+      });
+      
+      const leagues = Object.values(grouped);
+      
+      const html = leagues.map(league => `
+        <div class="league-section">
+          <div class="league-header">
+            <span class="league-country">${league.country}:</span>
+            ${league.name}
+          </div>
+          ${league.matches.map(match => createMatchCard(match)).join('')}
+        </div>
+      `).join('');
+      
+      content.innerHTML = html || '<div class="no-matches"><h2>No matches found</h2></div>';
+    }
+    
+    // CREATE MATCH CARD
+    function createMatchCard(match) {
+      const homeTeam = match.home_team?.name || 'Home';
+      const awayTeam = match.away_team?.name || 'Away';
+      const homeScore = match.home_team?.score ?? '-';
+      const awayScore = match.away_team?.score ?? '-';
+      
+      let status = '';
+      let statusClass = '';
+      
+      if (match.stage) {
+        const stage = match.stage.toString();
+        if (!isNaN(stage) && stage !== '0') {
+          status = stage + "'";
+          statusClass = 'live';
+        } else if (stage === 'Finished') {
+          status = 'FT';
+        } else if (stage === 'Half Time' || stage === 'HT') {
+          status = 'HT';
+          statusClass = 'live';
+        } else if (match.timestamp) {
+          const matchDate = new Date(match.timestamp * 1000);
+          status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+        } else {
+          status = stage;
+        }
+      } else if (match.timestamp) {
+        const matchDate = new Date(match.timestamp * 1000);
+        status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
+      }
+      
+      return `
+        <div class="match-card">
+          <div class="match-header">
+            <div class="match-time ${statusClass}">${status}</div>
+          </div>
+          <div class="match-teams">
+            <div class="team">
+              <div class="team-name">${homeTeam}</div>
+              <div class="team-score">${homeScore}</div>
+            </div>
+            <div class="match-vs">-</div>
+            <div class="team team-right">
+              <div class="team-score">${awayScore}</div>
+              <div class="team-name">${awayTeam}</div>
+            </div>
+          </div>
         </div>
       `;
-      
-      container.innerHTML = html;
     }
-    
-   // CREATE MATCH CARD - FINALNA VERZIJA SA PRAVIM PODACIMA
-function createMatchCard(match) {
-  // Extract team names
-  const homeTeam = match.home_team?.name || 'Home';
-  const awayTeam = match.away_team?.name || 'Away';
-  
-  // Extract SCORES
-  const homeScore = match.home_team?.score ?? '-';
-  const awayScore = match.away_team?.score ?? '-';
-  
-  // Extract tournament/league name
-  const league = match.tournament_name || 'Unknown League';
-  
-  // Extract stage/status
-  let status = '';
-  let statusClass = '';
-  
-  if (match.stage) {
-    const stage = match.stage.toString();
-    
-    // Check if live (numeric stage = minute)
-    if (!isNaN(stage) && stage !== '0') {
-      status = stage + "'";
-      statusClass = 'live';
-    } else if (stage === 'Finished') {
-      status = 'Finished';
-      statusClass = '';
-    } else if (stage === 'Half Time' || stage === 'HT') {
-      status = 'Half Time';
-      statusClass = 'live';
-    } else if (match.timestamp) {
-      const matchDate = new Date(match.timestamp * 1000);
-      status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
-      statusClass = '';
-    } else {
-      status = stage;
-      statusClass = '';
-    }
-  } else if (match.timestamp) {
-    const matchDate = new Date(match.timestamp * 1000);
-    status = matchDate.toLocaleTimeString('hr-HR', { hour: '2-digit', minute: '2-digit' });
-    statusClass = '';
-  } else {
-    status = 'Scheduled';
-    statusClass = '';
-  }
-  
-  return `
-    <div class="match-card">
-      <div class="match-header">
-        <div class="match-league">${league}</div>
-        <div class="match-time ${statusClass}">${status}</div>
-      </div>
-      <div class="match-teams">
-        <div class="team">
-          <div class="team-name">${homeTeam}</div>
-          <div class="team-score">${homeScore}</div>
-        </div>
-        <div class="match-vs">:</div>
-        <div class="team team-right">
-          <div class="team-name">${awayTeam}</div>
-          <div class="team-score">${awayScore}</div>
-        </div>
-      </div>
-      <div class="match-footer">
-        <div class="match-info">ID: ${match.match_id}</div>
-        <button class="bet-button">View Tip</button>
-      </div>
-    </div>
-  `;
-}
-
     
     // SHOW ERROR
     function showError() {
-      const container = document.getElementById('matches-container');
-      container.innerHTML = `
+      document.getElementById('content').innerHTML = `
         <div class="no-matches">
-          <div class="no-matches-icon">❌</div>
           <h2>Failed to load matches</h2>
           <p>Please refresh the page or try again later.</p>
         </div>
@@ -505,16 +550,11 @@ function createMatchCard(match) {
     // SPORT TAB CLICK
     document.querySelectorAll('.sport-tab').forEach(tab => {
       tab.addEventListener('click', () => {
-        // Remove active from all
         document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
-        
-        // Add active to clicked
         tab.classList.add('active');
-        
-        // Update current sport
         currentSport = tab.dataset.sport;
-        
-        // Re-render
+        selectedLeague = null;
+        renderSidebar();
         renderMatches();
       });
     });
