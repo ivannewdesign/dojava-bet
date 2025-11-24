@@ -100,7 +100,7 @@
     
     /* SIDEBAR */
     .sidebar {
-      width: 280px;
+      width: 300px;
       background: #13193f;
       border-right: 1px solid #1a2151;
       overflow-y: auto;
@@ -110,46 +110,125 @@
     }
     
     .sidebar-section {
-      padding: 20px;
       border-bottom: 1px solid #1a2151;
     }
     
     .sidebar-title {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 700;
-      color: #666;
+      color: #888;
       text-transform: uppercase;
-      margin-bottom: 15px;
+      padding: 15px 20px 10px;
       letter-spacing: 1px;
     }
     
-    .league-item {
-      padding: 10px;
-      margin-bottom: 5px;
-      border-radius: 6px;
+    /* PINNED LEAGUES */
+    .pinned-league {
+      padding: 10px 20px;
       cursor: pointer;
       font-size: 14px;
       transition: all 0.2s;
-      color: #ccc;
-    }
-    
-    .league-item:hover {
-      background: #1a2151;
       color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
-    .league-item.active {
+    .pinned-league:hover {
+      background: #1a2151;
+    }
+    
+    .pinned-league.active {
       background: #4361ee;
+    }
+    
+    .league-flag {
+      font-size: 18px;
+    }
+    
+    .pin-icon {
+      margin-left: auto;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+    
+    .pin-icon:hover {
+      opacity: 1;
+    }
+    
+    /* COUNTRIES */
+    .country-item {
+      border-bottom: 1px solid #1a2151;
+    }
+    
+    .country-header {
+      padding: 12px 20px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #ccc;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: all 0.2s;
+    }
+    
+    .country-header:hover {
+      background: #1a2151;
       color: #fff;
     }
     
-    .league-count {
-      float: right;
+    .country-arrow {
+      margin-left: auto;
+      transition: transform 0.3s;
+    }
+    
+    .country-item.expanded .country-arrow {
+      transform: rotate(180deg);
+    }
+    
+    .country-leagues {
+      display: none;
+      background: #0f1435;
+      padding: 5px 0;
+    }
+    
+    .country-item.expanded .country-leagues {
+      display: block;
+    }
+    
+    .country-league {
+      padding: 8px 20px 8px 50px;
+      cursor: pointer;
+      font-size: 13px;
+      color: #aaa;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+    
+    .country-league:hover {
       background: #1a2151;
-      padding: 2px 8px;
-      border-radius: 10px;
-      font-size: 11px;
-      color: #888;
+      color: #fff;
+    }
+    
+    .country-league.pinned {
+      color: #4361ee;
+    }
+    
+    .show-more-btn {
+      padding: 15px 20px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 13px;
+      color: #4361ee;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    
+    .show-more-btn:hover {
+      background: #1a2151;
     }
     
     /* CONTENT */
@@ -173,13 +252,15 @@
       color: #fff;
       border-left: 4px solid #4361ee;
       margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
     
     .league-country {
       color: #888;
       font-size: 13px;
       font-weight: 600;
-      margin-right: 10px;
     }
     
     /* MATCH CARD */
@@ -227,6 +308,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 20px;
     }
     
     .team {
@@ -236,9 +318,16 @@
       gap: 15px;
     }
     
+    .team-logo {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+    
     .team-name {
       font-size: 15px;
       font-weight: 600;
+      flex: 1;
     }
     
     .team-score {
@@ -250,7 +339,7 @@
     }
     
     .match-vs {
-      padding: 0 20px;
+      padding: 0 15px;
       font-size: 16px;
       font-weight: 700;
       color: #666;
@@ -332,7 +421,7 @@
     <aside class="sidebar" id="sidebar">
       <div class="loading">
         <div class="spinner"></div>
-        Loading leagues...
+        Loading...
       </div>
     </aside>
 
@@ -347,7 +436,7 @@
   </div>
 
   <script>
-    // STATE
+    // ==================== STATE ====================
     let allMatches = {
       football: [],
       basketball: [],
@@ -355,20 +444,122 @@
     };
     
     let currentSport = 'football';
-    let selectedLeague = null;
+    let pinnedLeagues = JSON.parse(localStorage.getItem('pinnedLeagues')) || getDefaultPinnedLeagues();
+    let expandedCountries = {};
+    let countryLeagues = {}; // Cache for loaded leagues
+    let showAllCountries = false;
     
-    // LOAD MATCHES FROM API
+    // ==================== DEFAULT PINNED LEAGUES ====================
+    function getDefaultPinnedLeagues() {
+      return [
+        { name: 'UEFA Champions League', flag: '🏆' },
+        { name: 'UEFA Europa League', flag: '🏆' },
+        { name: 'UEFA Conference League', flag: '🏆' },
+        { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+        { name: 'LaLiga', flag: '🇪🇸' },
+        { name: 'Bundesliga', flag: '🇩🇪' },
+        { name: 'Serie A', flag: '🇮🇹' },
+        { name: 'Ligue 1', flag: '🇫🇷' },
+        { name: 'Premijer Liga BiH', flag: '🇧🇦' },
+        { name: 'HNL', flag: '🇭🇷' },
+        { name: 'SuperLiga', flag: '🇷🇸' },
+        { name: 'World Cup Qualifiers', flag: '🌍' }
+      ];
+    }
+    
+    // ==================== COUNTRIES DATA ====================
+    const COUNTRIES = [
+      { id: 17, name: 'Albania', flag: '🇦🇱' },
+      { id: 18, name: 'Algeria', flag: '🇩🇿' },
+      { id: 19, name: 'Andorra', flag: '🇦🇩' },
+      { id: 20, name: 'Angola', flag: '🇦🇴' },
+      { id: 21, name: 'Antigua & Barbuda', flag: '🇦🇬' },
+      { id: 22, name: 'Argentina', flag: '🇦🇷' },
+      { id: 23, name: 'Armenia', flag: '🇦🇲' },
+      { id: 24, name: 'Australia', flag: '🇦🇺' },
+      { id: 25, name: 'Austria', flag: '🇦🇹' },
+      { id: 26, name: 'Azerbaijan', flag: '🇦🇿' },
+      { id: 28, name: 'Bahrain', flag: '🇧🇭' },
+      { id: 29, name: 'Bangladesh', flag: '🇧🇩' },
+      { id: 30, name: 'Barbados', flag: '🇧🇧' },
+      { id: 31, name: 'Belarus', flag: '🇧🇾' },
+      { id: 32, name: 'Belgium', flag: '🇧🇪' },
+      { id: 37, name: 'Bosnia and Herzegovina', flag: '🇧🇦' },
+      { id: 39, name: 'Brazil', flag: '🇧🇷' },
+      { id: 47, name: 'Canada', flag: '🇨🇦' },
+      { id: 51, name: 'Chile', flag: '🇨🇱' },
+      { id: 52, name: 'China', flag: '🇨🇳' },
+      { id: 53, name: 'Colombia', flag: '🇨🇴' },
+      { id: 59, name: 'Croatia', flag: '🇭🇷' },
+      { id: 62, name: 'Czech Republic', flag: '🇨🇿' },
+      { id: 63, name: 'Denmark', flag: '🇩🇰' },
+      { id: 68, name: 'Ecuador', flag: '🇪🇨' },
+      { id: 69, name: 'Egypt', flag: '🇪🇬' },
+      { id: 198, name: 'England', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+      { id: 76, name: 'Finland', flag: '🇫🇮' },
+      { id: 77, name: 'France', flag: '🇫🇷' },
+      { id: 80, name: 'Georgia', flag: '🇬🇪' },
+      { id: 81, name: 'Germany', flag: '🇩🇪' },
+      { id: 82, name: 'Ghana', flag: '🇬🇭' },
+      { id: 83, name: 'Greece', flag: '🇬🇷' },
+      { id: 91, name: 'Hungary', flag: '🇭🇺' },
+      { id: 92, name: 'Iceland', flag: '🇮🇸' },
+      { id: 93, name: 'India', flag: '🇮🇳' },
+      { id: 228, name: 'Indonesia', flag: '🇮🇩' },
+      { id: 94, name: 'Iran', flag: '🇮🇷' },
+      { id: 96, name: 'Ireland', flag: '🇮🇪' },
+      { id: 97, name: 'Israel', flag: '🇮🇱' },
+      { id: 98, name: 'Italy', flag: '🇮🇹' },
+      { id: 100, name: 'Japan', flag: '🇯🇵' },
+      { id: 101, name: 'Jordan', flag: '🇯🇴' },
+      { id: 102, name: 'Kazakhstan', flag: '🇰🇿' },
+      { id: 103, name: 'Kenya', flag: '🇰🇪' },
+      { id: 106, name: 'South Korea', flag: '🇰🇷' },
+      { id: 121, name: 'Malaysia', flag: '🇲🇾' },
+      { id: 128, name: 'Mexico', flag: '🇲🇽' },
+      { id: 134, name: 'Morocco', flag: '🇲🇦' },
+      { id: 139, name: 'Netherlands', flag: '🇳🇱' },
+      { id: 140, name: 'New Zealand', flag: '🇳🇿' },
+      { id: 143, name: 'Nigeria', flag: '🇳🇬' },
+      { id: 144, name: 'Northern Ireland', flag: '🇬🇧' },
+      { id: 145, name: 'Norway', flag: '🇳🇴' },
+      { id: 147, name: 'Pakistan', flag: '🇵🇰' },
+      { id: 152, name: 'Peru', flag: '🇵🇪' },
+      { id: 153, name: 'Philippines', flag: '🇵🇭' },
+      { id: 154, name: 'Poland', flag: '🇵🇱' },
+      { id: 155, name: 'Portugal', flag: '🇵🇹' },
+      { id: 156, name: 'Qatar', flag: '🇶🇦' },
+      { id: 157, name: 'Romania', flag: '🇷🇴' },
+      { id: 158, name: 'Russia', flag: '🇷🇺' },
+      { id: 165, name: 'Saudi Arabia', flag: '🇸🇦' },
+      { id: 199, name: 'Scotland', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
+      { id: 166, name: 'Senegal', flag: '🇸🇳' },
+      { id: 167, name: 'Serbia', flag: '🇷🇸' },
+      { id: 170, name: 'Singapore', flag: '🇸🇬' },
+      { id: 171, name: 'Slovakia', flag: '🇸🇰' },
+      { id: 172, name: 'Slovenia', flag: '🇸🇮' },
+      { id: 175, name: 'South Africa', flag: '🇿🇦' },
+      { id: 176, name: 'Spain', flag: '🇪🇸' },
+      { id: 181, name: 'Sweden', flag: '🇸🇪' },
+      { id: 182, name: 'Switzerland', flag: '🇨🇭' },
+      { id: 186, name: 'Thailand', flag: '🇹🇭' },
+      { id: 190, name: 'Tunisia', flag: '🇹🇳' },
+      { id: 191, name: 'Turkey', flag: '🇹🇷' },
+      { id: 195, name: 'Ukraine', flag: '🇺🇦' },
+      { id: 196, name: 'United Arab Emirates', flag: '🇦🇪' },
+      { id: 200, name: 'USA', flag: '🇺🇸' },
+      { id: 201, name: 'Uruguay', flag: '🇺🇾' },
+      { id: 207, name: 'Wales', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿' }
+    ];
+    
+    // ==================== LOAD MATCHES ====================
     async function loadMatches() {
       try {
         const response = await fetch('/api/matches');
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
-        
-        console.log('✅ Data loaded:', data);
+        console.log('✅ Matches loaded:', data);
         
         allMatches = {
           football: data.football || [],
@@ -385,59 +576,134 @@
       }
     }
     
-    // RENDER SIDEBAR
+    // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
       const sidebar = document.getElementById('sidebar');
-      const matches = allMatches[currentSport];
       
-      if (!matches || matches.length === 0) {
-        sidebar.innerHTML = '<div class="loading">No leagues</div>';
-        return;
-      }
-      
-      // Extract unique leagues with counts
-      const leagueMap = {};
-      matches.forEach(match => {
-        const leagueName = match.tournament_name || 'Unknown League';
-        if (!leagueMap[leagueName]) {
-          leagueMap[leagueName] = {
-            name: leagueName,
-            country: match.country_name || '',
-            count: 0
-          };
-        }
-        leagueMap[leagueName].count++;
-      });
-      
-      const leagues = Object.values(leagueMap).sort((a, b) => a.name.localeCompare(b.name));
+      const visibleCountries = showAllCountries ? COUNTRIES : COUNTRIES.slice(0, 10);
       
       const html = `
+        <!-- PINNED LEAGUES -->
         <div class="sidebar-section">
-          <div class="sidebar-title">All Leagues (${leagues.length})</div>
-          <div class="league-item" onclick="selectLeague(null)" ${!selectedLeague ? 'class="league-item active"' : ''}>
-            <strong>All Matches</strong>
-            <span class="league-count">${matches.length}</span>
-          </div>
-          ${leagues.map(league => `
-            <div class="league-item ${selectedLeague === league.name ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-              ${league.name}
-              <span class="league-count">${league.count}</span>
+          <div class="sidebar-title">📌 Pinned Leagues</div>
+          ${pinnedLeagues.map(league => `
+            <div class="pinned-league">
+              <span class="league-flag">${league.flag}</span>
+              <span>${league.name}</span>
+              <span class="pin-icon" onclick="unpinLeague('${league.name}')">📌</span>
             </div>
           `).join('')}
+        </div>
+        
+        <!-- COUNTRIES -->
+        <div class="sidebar-section">
+          <div class="sidebar-title">🌍 Countries</div>
+          ${visibleCountries.map(country => `
+            <div class="country-item ${expandedCountries[country.id] ? 'expanded' : ''}" id="country-${country.id}">
+              <div class="country-header" onclick="toggleCountry(${country.id})">
+                <span class="league-flag">${country.flag}</span>
+                <span>${country.name}</span>
+                <span class="country-arrow">▼</span>
+              </div>
+              <div class="country-leagues" id="leagues-${country.id}">
+                ${expandedCountries[country.id] ? renderCountryLeagues(country.id) : ''}
+              </div>
+            </div>
+          `).join('')}
+          
+          ${!showAllCountries ? `
+            <div class="show-more-btn" onclick="showMoreCountries()">
+              Show All Countries (${COUNTRIES.length})
+            </div>
+          ` : ''}
         </div>
       `;
       
       sidebar.innerHTML = html;
     }
     
-    // SELECT LEAGUE
-    function selectLeague(leagueName) {
-      selectedLeague = leagueName;
+    // ==================== TOGGLE COUNTRY ====================
+    async function toggleCountry(countryId) {
+      expandedCountries[countryId] = !expandedCountries[countryId];
+      
+      if (expandedCountries[countryId] && !countryLeagues[countryId]) {
+        // Load leagues for this country
+        await loadCountryLeagues(countryId);
+      }
+      
       renderSidebar();
-      renderMatches();
     }
     
-    // RENDER MATCHES
+    // ==================== LOAD COUNTRY LEAGUES ====================
+    async function loadCountryLeagues(countryId) {
+      try {
+        const sportId = currentSport === 'football' ? 1 : currentSport === 'basketball' ? 3 : 2;
+        const response = await fetch(`/api/leagues?sport=${sportId}&country=${countryId}`);
+        
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        
+        const data = await response.json();
+        countryLeagues[countryId] = data.leagues || [];
+        
+        console.log(`✅ Loaded ${countryLeagues[countryId].length} leagues for country ${countryId}`);
+        
+      } catch (error) {
+        console.error(`❌ Error loading leagues for country ${countryId}:`, error);
+        countryLeagues[countryId] = [];
+      }
+    }
+    
+    // ==================== RENDER COUNTRY LEAGUES ====================
+    function renderCountryLeagues(countryId) {
+      const leagues = countryLeagues[countryId] || [];
+      
+      if (leagues.length === 0) {
+        return '<div class="country-league">Loading...</div>';
+      }
+      
+      return leagues.map(league => {
+        const isPinned = pinnedLeagues.some(p => p.name === league.name);
+        return `
+          <div class="country-league ${isPinned ? 'pinned' : ''}">
+            <span>${league.name}</span>
+            <span class="pin-icon" onclick="togglePinLeague('${league.name.replace(/'/g, "\\'")}', '${countryId}')">
+              ${isPinned ? '📌' : '➕'}
+            </span>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // ==================== PIN/UNPIN LEAGUE ====================
+    function togglePinLeague(leagueName, countryId) {
+      const country = COUNTRIES.find(c => c.id == countryId);
+      const isPinned = pinnedLeagues.some(p => p.name === leagueName);
+      
+      if (isPinned) {
+        unpinLeague(leagueName);
+      } else {
+        pinnedLeagues.push({ 
+          name: leagueName, 
+          flag: country?.flag || '🏆' 
+        });
+        localStorage.setItem('pinnedLeagues', JSON.stringify(pinnedLeagues));
+        renderSidebar();
+      }
+    }
+    
+    function unpinLeague(leagueName) {
+      pinnedLeagues = pinnedLeagues.filter(p => p.name !== leagueName);
+      localStorage.setItem('pinnedLeagues', JSON.stringify(pinnedLeagues));
+      renderSidebar();
+    }
+    
+    // ==================== SHOW MORE COUNTRIES ====================
+    function showMoreCountries() {
+      showAllCountries = true;
+      renderSidebar();
+    }
+    
+    // ==================== RENDER MATCHES ====================
     function renderMatches() {
       const content = document.getElementById('content');
       let matches = allMatches[currentSport];
@@ -450,11 +716,6 @@
           </div>
         `;
         return;
-      }
-      
-      // Filter by selected league
-      if (selectedLeague) {
-        matches = matches.filter(m => m.tournament_name === selectedLeague);
       }
       
       // Group by league
@@ -486,12 +747,14 @@
       content.innerHTML = html || '<div class="no-matches"><h2>No matches found</h2></div>';
     }
     
-    // CREATE MATCH CARD
+    // ==================== CREATE MATCH CARD ====================
     function createMatchCard(match) {
       const homeTeam = match.home_team?.name || 'Home';
       const awayTeam = match.away_team?.name || 'Away';
       const homeScore = match.home_team?.score ?? '-';
       const awayScore = match.away_team?.score ?? '-';
+      const homeLogo = match.home_team?.image_path || '';
+      const awayLogo = match.away_team?.image_path || '';
       
       let status = '';
       let statusClass = '';
@@ -524,6 +787,7 @@
           </div>
           <div class="match-teams">
             <div class="team">
+              ${homeLogo ? `<img src="${homeLogo}" class="team-logo" alt="${homeTeam}">` : ''}
               <div class="team-name">${homeTeam}</div>
               <div class="team-score">${homeScore}</div>
             </div>
@@ -531,13 +795,14 @@
             <div class="team team-right">
               <div class="team-score">${awayScore}</div>
               <div class="team-name">${awayTeam}</div>
+              ${awayLogo ? `<img src="${awayLogo}" class="team-logo" alt="${awayTeam}">` : ''}
             </div>
           </div>
         </div>
       `;
     }
     
-    // SHOW ERROR
+    // ==================== SHOW ERROR ====================
     function showError() {
       document.getElementById('content').innerHTML = `
         <div class="no-matches">
@@ -547,19 +812,20 @@
       `;
     }
     
-    // SPORT TAB CLICK
+    // ==================== SPORT TAB CLICK ====================
     document.querySelectorAll('.sport-tab').forEach(tab => {
       tab.addEventListener('click', () => {
         document.querySelectorAll('.sport-tab').forEach(t => t.classList.remove('active'));
         tab.classList.add('active');
         currentSport = tab.dataset.sport;
-        selectedLeague = null;
+        expandedCountries = {};
+        countryLeagues = {};
         renderSidebar();
         renderMatches();
       });
     });
     
-    // INIT
+    // ==================== INIT ====================
     loadMatches();
     
     // AUTO-REFRESH every 3 minutes
