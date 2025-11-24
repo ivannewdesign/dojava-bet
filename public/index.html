@@ -567,7 +567,7 @@
           { name: 'NBA', flag: '🏀' },
           { name: 'EuroLeague', flag: '🏆' },
           { name: 'EuroCup', flag: '🏆' },
-          { name: 'ABA League', flag: '🏀' }
+          { name: 'ABA League', flag: '🏆' }
         ];
       } else if (sport === 'tennis') {
         return [
@@ -583,68 +583,123 @@
     function getCurrentPinnedLeagues() {
       return pinnedLeaguesBySport[currentSport] || [];
     }
-
+    
     // ==================== GET INTERNATIONAL LEAGUES ====================
-function getInternationalLeagues() {
-  if (currentSport === 'football') {
-    return [
-      { name: 'UEFA Champions League', flag: '🏆' },
-      { name: 'UEFA Europa League', flag: '🏆' },
-      { name: 'UEFA Conference League', flag: '🏆' },
-      { name: 'UEFA Nations League', flag: '🏆' },
-      { name: 'Copa Libertadores', flag: '🏆' },
-      { name: 'Copa Sudamericana', flag: '🏆' },
-      { name: 'CAF Champions League', flag: '🏆' },
-      { name: 'AFC Champions League', flag: '🏆' },
-      { name: 'CONCACAF Champions League', flag: '🏆' },
-      { name: 'World Cup', flag: '🌍' },
-      { name: 'World Cup Qualifiers', flag: '🌍' },
-      { name: 'European Championship', flag: '🇪🇺' },
-      { name: 'Copa America', flag: '🏆' },
-      { name: 'Africa Cup of Nations', flag: '🏆' }
-    ];
-  } else if (currentSport === 'basketball') {
-    return [
-      { name: 'NBA', flag: '🏀' },
-      { name: 'EuroLeague', flag: '🏆' },
-      { name: 'EuroCup', flag: '🏆' },
-      { name: 'ABA League', flag: '🏆' },
-      { name: 'Basketball Champions League', flag: '🏆' },
-      { name: 'FIBA World Cup', flag: '🌍' },
-      { name: 'FIBA EuroBasket', flag: '🇪🇺' }
-    ];
-  } else if (currentSport === 'tennis') {
-    return [
-      { name: 'ATP Tour', flag: '🎾' },
-      { name: 'WTA Tour', flag: '🎾' },
-      { name: 'Grand Slam', flag: '🏆' },
-      { name: 'Davis Cup', flag: '🏆' },
-      { name: 'Billie Jean King Cup', flag: '🏆' },
-      { name: 'ATP Finals', flag: '🏆' },
-      { name: 'WTA Finals', flag: '🏆' }
-    ];
-  }
-  return [];
-}
-
-// ==================== TOGGLE INTERNATIONAL LEAGUE ====================
-function toggleInternationalLeague(leagueName, flag) {
-  const pinnedLeagues = getCurrentPinnedLeagues();
-  const isPinned = pinnedLeagues.some(p => p.name === leagueName);
-  
-  if (isPinned) {
-    unpinLeague(leagueName);
-  } else {
-    pinnedLeagues.push({ 
-      name: leagueName, 
-      flag: flag 
-    });
-    pinnedLeaguesBySport[currentSport] = pinnedLeagues;
-    localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
-    renderSidebar();
-    renderMatches();
-  }
-}
+    function getInternationalLeagues() {
+      if (currentSport === 'football') {
+        return [
+          { name: 'UEFA Champions League', flag: '🏆' },
+          { name: 'UEFA Europa League', flag: '🏆' },
+          { name: 'UEFA Conference League', flag: '🏆' },
+          { name: 'UEFA Nations League', flag: '🏆' },
+          { name: 'Copa Libertadores', flag: '🏆' },
+          { name: 'Copa Sudamericana', flag: '🏆' },
+          { name: 'CAF Champions League', flag: '🏆' },
+          { name: 'AFC Champions League', flag: '🏆' },
+          { name: 'CONCACAF Champions League', flag: '🏆' },
+          { name: 'World Cup', flag: '🌍' },
+          { name: 'World Cup Qualifiers', flag: '🌍' },
+          { name: 'European Championship', flag: '🇪🇺' },
+          { name: 'Copa America', flag: '🏆' },
+          { name: 'Africa Cup of Nations', flag: '🏆' }
+        ];
+      } else if (currentSport === 'basketball') {
+        return [
+          { name: 'NBA', flag: '🏀' },
+          { name: 'EuroLeague', flag: '🏆' },
+          { name: 'EuroCup', flag: '🏆' },
+          { name: 'ABA League', flag: '🏆' },
+          { name: 'Basketball Champions League', flag: '🏆' },
+          { name: 'FIBA World Cup', flag: '🌍' },
+          { name: 'FIBA EuroBasket', flag: '🇪🇺' }
+        ];
+      } else if (currentSport === 'tennis') {
+        return [
+          { name: 'ATP Tour', flag: '🎾' },
+          { name: 'WTA Tour', flag: '🎾' },
+          { name: 'Grand Slam', flag: '🏆' },
+          { name: 'Davis Cup', flag: '🏆' },
+          { name: 'Billie Jean King Cup', flag: '🏆' },
+          { name: 'ATP Finals', flag: '🏆' },
+          { name: 'WTA Finals', flag: '🏆' }
+        ];
+      }
+      return [];
+    }
+    
+    // ==================== GET FLAG FOR LEAGUE ====================
+    function getFlagForLeague(leagueName) {
+      const flagMap = {
+        // Top 5 leagues
+        'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'LaLiga': '🇪🇸',
+        'La Liga': '🇪🇸',
+        'Bundesliga': '🇩🇪',
+        'Serie A': '🇮🇹',
+        'Ligue 1': '🇫🇷',
+        
+        // Balkan leagues
+        'Premijer Liga': '🇧🇦',
+        'Premijer Liga BiH': '🇧🇦',
+        'HNL': '🇭🇷',
+        'SuperLiga': '🇷🇸',
+        'Super Liga': '🇷🇸',
+        
+        // Other European leagues
+        'Eredivisie': '🇳🇱',
+        'Primeira Liga': '🇵🇹',
+        'Jupiler Pro League': '🇧🇪',
+        'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+        'Super League': '🇬🇷',
+        'Swiss Super League': '🇨🇭',
+        'Austrian Bundesliga': '🇦🇹',
+        'Süper Lig': '🇹🇷',
+        'Russian Premier League': '🇷🇺',
+        'Ukrainian Premier League': '🇺🇦',
+        'Polish Ekstraklasa': '🇵🇱',
+        
+        // South American leagues
+        'Brasileirão': '🇧🇷',
+        'Liga Profesional': '🇦🇷',
+        'Primera División': '🇦🇷',
+        
+        // International competitions
+        'UEFA Champions League': '🏆',
+        'UEFA Europa League': '🏆',
+        'UEFA Conference League': '🏆',
+        'UEFA Nations League': '🏆',
+        'World Cup': '🌍',
+        'World Cup Qualifiers': '🌍',
+        'European Championship': '🇪🇺',
+        'Copa America': '🏆',
+        'Copa Libertadores': '🏆',
+        'Copa Sudamericana': '🏆',
+        
+        // Basketball
+        'NBA': '🏀',
+        'EuroLeague': '🏆',
+        'EuroCup': '🏆',
+        'ABA League': '🏆',
+        
+        // Tennis
+        'ATP Tour': '🎾',
+        'WTA Tour': '🎾',
+        'Grand Slam': '🏆',
+        'Davis Cup': '🏆'
+      };
+      
+      if (flagMap[leagueName]) {
+        return flagMap[leagueName];
+      }
+      
+      for (const [key, flag] of Object.entries(flagMap)) {
+        if (leagueName.includes(key)) {
+          return flag;
+        }
+      }
+      
+      return '🏆';
+    }
     
     // ==================== COUNTRIES DATA ====================
     const COUNTRIES = [
@@ -754,104 +809,47 @@ function toggleInternationalLeague(leagueName, flag) {
         showError();
       }
     }
-
-// ==================== GET FLAG FOR LEAGUE ====================
-function getFlagForLeague(leagueName) {
-  const flagMap = {
-    // Top 5 leagues
-    'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-    'LaLiga': '🇪🇸',
-    'La Liga': '🇪🇸',
-    'Bundesliga': '🇩🇪',
-    'Serie A': '🇮🇹',
-    'Ligue 1': '🇫🇷',
-    
-    // Balkan leagues
-    'Premijer Liga': '🇧🇦',
-    'Premijer Liga BiH': '🇧🇦',
-    'HNL': '🇭🇷',
-    'SuperLiga': '🇷🇸',
-    'Super Liga': '🇷🇸',
-    
-    // Other European leagues
-    'Eredivisie': '🇳🇱',
-    'Primeira Liga': '🇵🇹',
-    'Jupiler Pro League': '🇧🇪',
-    'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-    'Super League': '🇬🇷',
-    'Swiss Super League': '🇨🇭',
-    'Austrian Bundesliga': '🇦🇹',
-    'Süper Lig': '🇹🇷',
-    'Russian Premier League': '🇷🇺',
-    'Ukrainian Premier League': '🇺🇦',
-    'Polish Ekstraklasa': '🇵🇱',
-    
-    // South American leagues
-    'Brasileirão': '🇧🇷',
-    'Serie A': '🇧🇷',
-    'Liga Profesional': '🇦🇷',
-    'Primera División': '🇦🇷',
-    
-    // International competitions
-    'UEFA Champions League': '🏆',
-    'UEFA Europa League': '🏆',
-    'UEFA Conference League': '🏆',
-    'UEFA Nations League': '🏆',
-    'World Cup': '🌍',
-    'World Cup Qualifiers': '🌍',
-    'European Championship': '🇪🇺',
-    'Copa America': '🏆',
-    'Copa Libertadores': '🏆',
-    'Copa Sudamericana': '🏆',
-    
-    // Basketball
-    'NBA': '🏀',
-    'EuroLeague': '🏆',
-    'EuroCup': '🏆',
-    'ABA League': '🏆',
-    
-    // Tennis
-    'ATP Tour': '🎾',
-    'WTA Tour': '🎾',
-    'Grand Slam': '🏆',
-    'Davis Cup': '🏆'
-  };
-  
-  // Check exact match first
-  if (flagMap[leagueName]) {
-    return flagMap[leagueName];
-  }
-  
-  // Check partial match
-  for (const [key, flag] of Object.entries(flagMap)) {
-    if (leagueName.includes(key)) {
-      return flag;
-    }
-  }
-  
-  // Default
-  return '🏆';
-}
-
     
     // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
       const sidebar = document.getElementById('sidebar');
       const pinnedLeagues = getCurrentPinnedLeagues();
       const visibleCountries = showAllCountries ? COUNTRIES : COUNTRIES.slice(0, 10);
+      const internationalLeagues = getInternationalLeagues();
       
       const html = `
+        <!-- PINNED LEAGUES -->
         <div class="sidebar-section">
           <div class="sidebar-title">📌 Pinned Leagues</div>
-          ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => `
-            <div class="pinned-league">
-              <span class="league-flag">${league.flag}</span>
-              <span>${league.name}</span>
-              <span class="pin-icon" onclick="unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
-            </div>
-          `).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">No pinned leagues</div>'}
+          ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => {
+            const flag = league.flag || getFlagForLeague(league.name);
+            return `
+              <div class="pinned-league">
+                <span class="league-flag">${flag}</span>
+                <span>${league.name}</span>
+                <span class="pin-icon" onclick="unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
+              </div>
+            `;
+          }).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">No pinned leagues</div>'}
         </div>
         
+        <!-- INTERNATIONAL LEAGUES -->
+        <div class="sidebar-section">
+          <div class="sidebar-title">🏆 International Leagues</div>
+          ${internationalLeagues.map(league => {
+            const isPinned = pinnedLeagues.some(p => p.name === league.name);
+            return `
+              <div class="country-league ${isPinned ? 'pinned' : ''}" style="padding-left: 20px;">
+                <span>${league.name}</span>
+                <span class="pin-icon" onclick="toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
+                  ${isPinned ? '📌' : '➕'}
+                </span>
+              </div>
+            `;
+          }).join('')}
+        </div>
+        
+        <!-- COUNTRIES -->
         <div class="sidebar-section">
           <div class="sidebar-title">🌍 Countries</div>
           ${visibleCountries.map(country => `
@@ -939,9 +937,11 @@ function getFlagForLeague(leagueName) {
       if (isPinned) {
         unpinLeague(leagueName);
       } else {
+        const flag = country?.flag || getFlagForLeague(leagueName);
+        
         pinnedLeagues.push({ 
           name: leagueName, 
-          flag: country?.flag || '🏆' 
+          flag: flag 
         });
         pinnedLeaguesBySport[currentSport] = pinnedLeagues;
         localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
@@ -956,6 +956,25 @@ function getFlagForLeague(leagueName) {
       localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
       renderSidebar();
       renderMatches();
+    }
+    
+    // ==================== TOGGLE INTERNATIONAL LEAGUE ====================
+    function toggleInternationalLeague(leagueName, flag) {
+      const pinnedLeagues = getCurrentPinnedLeagues();
+      const isPinned = pinnedLeagues.some(p => p.name === leagueName);
+      
+      if (isPinned) {
+        unpinLeague(leagueName);
+      } else {
+        pinnedLeagues.push({ 
+          name: leagueName, 
+          flag: flag 
+        });
+        pinnedLeaguesBySport[currentSport] = pinnedLeagues;
+        localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+        renderSidebar();
+        renderMatches();
+      }
     }
     
     // ==================== SHOW MORE COUNTRIES ====================
@@ -1022,15 +1041,19 @@ function getFlagForLeague(leagueName) {
         return a.name.localeCompare(b.name);
       });
       
-      const html = leagues.map(league => `
-        <div class="league-section">
-          <div class="league-header">
-            <span class="league-country">${league.country}:</span>
-            ${league.name}
+      const html = leagues.map(league => {
+        const flag = getFlagForLeague(league.name) || '🏆';
+        return `
+          <div class="league-section">
+            <div class="league-header">
+              <span class="league-flag">${flag}</span>
+              <span class="league-country">${league.country}</span>
+              ${league.name}
+            </div>
+            ${league.matches.map(match => createMatchCard(match)).join('')}
           </div>
-          ${league.matches.map(match => createMatchCard(match)).join('')}
-        </div>
-      `).join('');
+        `;
+      }).join('');
       
       content.innerHTML = html;
     }
