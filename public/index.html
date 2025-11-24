@@ -150,6 +150,7 @@
       margin-left: auto;
       cursor: pointer;
       opacity: 0.5;
+      font-size: 12px;
     }
     
     .pin-icon:hover {
@@ -181,6 +182,7 @@
     .country-arrow {
       margin-left: auto;
       transition: transform 0.3s;
+      font-size: 12px;
     }
     
     .country-item.expanded .country-arrow {
@@ -215,6 +217,7 @@
     
     .country-league.pinned {
       color: #4361ee;
+      font-weight: 600;
     }
     
     .show-more-btn {
@@ -444,27 +447,56 @@
     };
     
     let currentSport = 'football';
-    let pinnedLeagues = JSON.parse(localStorage.getItem('pinnedLeagues')) || getDefaultPinnedLeagues();
+    
+    // Separate pinned leagues for each sport
+    let pinnedLeaguesBySport = JSON.parse(localStorage.getItem('pinnedLeaguesBySport')) || {
+      football: getDefaultPinnedLeagues('football'),
+      basketball: getDefaultPinnedLeagues('basketball'),
+      tennis: getDefaultPinnedLeagues('tennis')
+    };
+    
     let expandedCountries = {};
-    let countryLeagues = {}; // Cache for loaded leagues
+    let countryLeagues = {};
     let showAllCountries = false;
     
-    // ==================== DEFAULT PINNED LEAGUES ====================
-    function getDefaultPinnedLeagues() {
-      return [
-        { name: 'UEFA Champions League', flag: '🏆' },
-        { name: 'UEFA Europa League', flag: '🏆' },
-        { name: 'UEFA Conference League', flag: '🏆' },
-        { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-        { name: 'LaLiga', flag: '🇪🇸' },
-        { name: 'Bundesliga', flag: '🇩🇪' },
-        { name: 'Serie A', flag: '🇮🇹' },
-        { name: 'Ligue 1', flag: '🇫🇷' },
-        { name: 'Premijer Liga BiH', flag: '🇧🇦' },
-        { name: 'HNL', flag: '🇭🇷' },
-        { name: 'SuperLiga', flag: '🇷🇸' },
-        { name: 'World Cup Qualifiers', flag: '🌍' }
-      ];
+    // ==================== DEFAULT PINNED LEAGUES BY SPORT ====================
+    function getDefaultPinnedLeagues(sport) {
+      if (sport === 'football') {
+        return [
+          { name: 'UEFA Champions League', flag: '🏆' },
+          { name: 'UEFA Europa League', flag: '🏆' },
+          { name: 'UEFA Conference League', flag: '🏆' },
+          { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
+          { name: 'LaLiga', flag: '🇪🇸' },
+          { name: 'Bundesliga', flag: '🇩🇪' },
+          { name: 'Serie A', flag: '🇮🇹' },
+          { name: 'Ligue 1', flag: '🇫🇷' },
+          { name: 'Premijer Liga BiH', flag: '🇧🇦' },
+          { name: 'HNL', flag: '🇭🇷' },
+          { name: 'SuperLiga', flag: '🇷🇸' },
+          { name: 'World Cup Qualifiers', flag: '🌍' }
+        ];
+      } else if (sport === 'basketball') {
+        return [
+          { name: 'NBA', flag: '🏀' },
+          { name: 'EuroLeague', flag: '🏆' },
+          { name: 'EuroCup', flag: '🏆' },
+          { name: 'ABA League', flag: '🏀' }
+        ];
+      } else if (sport === 'tennis') {
+        return [
+          { name: 'ATP Tour', flag: '🎾' },
+          { name: 'WTA Tour', flag: '🎾' },
+          { name: 'Grand Slam', flag: '🏆' },
+          { name: 'Davis Cup', flag: '🏆' }
+        ];
+      }
+      return [];
+    }
+    
+    // Get current sport pinned leagues
+    function getCurrentPinnedLeagues() {
+      return pinnedLeaguesBySport[currentSport] || [];
     }
     
     // ==================== COUNTRIES DATA ====================
@@ -579,20 +611,20 @@
     // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
       const sidebar = document.getElementById('sidebar');
-      
+      const pinnedLeagues = getCurrentPinnedLeagues();
       const visibleCountries = showAllCountries ? COUNTRIES : COUNTRIES.slice(0, 10);
       
       const html = `
         <!-- PINNED LEAGUES -->
         <div class="sidebar-section">
           <div class="sidebar-title">📌 Pinned Leagues</div>
-          ${pinnedLeagues.map(league => `
+          ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => `
             <div class="pinned-league">
               <span class="league-flag">${league.flag}</span>
               <span>${league.name}</span>
-              <span class="pin-icon" onclick="unpinLeague('${league.name}')">📌</span>
+              <span class="pin-icon" onclick="unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
             </div>
-          `).join('')}
+          `).join('') : '<div style="padding: 10px 20px; color: #666; font-size: 13px;">No pinned leagues</div>'}
         </div>
         
         <!-- COUNTRIES -->
@@ -626,8 +658,7 @@
     async function toggleCountry(countryId) {
       expandedCountries[countryId] = !expandedCountries[countryId];
       
-      if (expandedCountries[countryId] && !countryLeagues[countryId]) {
-        // Load leagues for this country
+      if (expandedCountries[countryId] && !countryLeagues[`${currentSport}-${countryId}`]) {
         await loadCountryLeagues(countryId);
       }
       
@@ -643,19 +674,20 @@
         if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
         
         const data = await response.json();
-        countryLeagues[countryId] = data.leagues || [];
+        countryLeagues[`${currentSport}-${countryId}`] = data.leagues || [];
         
-        console.log(`✅ Loaded ${countryLeagues[countryId].length} leagues for country ${countryId}`);
+        console.log(`✅ Loaded ${countryLeagues[`${currentSport}-${countryId}`].length} leagues for ${currentSport}, country ${countryId}`);
         
       } catch (error) {
         console.error(`❌ Error loading leagues for country ${countryId}:`, error);
-        countryLeagues[countryId] = [];
+        countryLeagues[`${currentSport}-${countryId}`] = [];
       }
     }
     
     // ==================== RENDER COUNTRY LEAGUES ====================
     function renderCountryLeagues(countryId) {
-      const leagues = countryLeagues[countryId] || [];
+      const leagues = countryLeagues[`${currentSport}-${countryId}`] || [];
+      const pinnedLeagues = getCurrentPinnedLeagues();
       
       if (leagues.length === 0) {
         return '<div class="country-league">Loading...</div>';
@@ -666,7 +698,7 @@
         return `
           <div class="country-league ${isPinned ? 'pinned' : ''}">
             <span>${league.name}</span>
-            <span class="pin-icon" onclick="togglePinLeague('${league.name.replace(/'/g, "\\'")}', '${countryId}')">
+            <span class="pin-icon" onclick="togglePinLeague('${league.name.replace(/'/g, "\\'")}', ${countryId})">
               ${isPinned ? '📌' : '➕'}
             </span>
           </div>
@@ -677,6 +709,7 @@
     // ==================== PIN/UNPIN LEAGUE ====================
     function togglePinLeague(leagueName, countryId) {
       const country = COUNTRIES.find(c => c.id == countryId);
+      const pinnedLeagues = getCurrentPinnedLeagues();
       const isPinned = pinnedLeagues.some(p => p.name === leagueName);
       
       if (isPinned) {
@@ -686,15 +719,19 @@
           name: leagueName, 
           flag: country?.flag || '🏆' 
         });
-        localStorage.setItem('pinnedLeagues', JSON.stringify(pinnedLeagues));
+        pinnedLeaguesBySport[currentSport] = pinnedLeagues;
+        localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
         renderSidebar();
+        renderMatches();
       }
     }
     
     function unpinLeague(leagueName) {
-      pinnedLeagues = pinnedLeagues.filter(p => p.name !== leagueName);
-      localStorage.setItem('pinnedLeagues', JSON.stringify(pinnedLeagues));
+      const pinnedLeagues = getCurrentPinnedLeagues();
+      pinnedLeaguesBySport[currentSport] = pinnedLeagues.filter(p => p.name !== leagueName);
+      localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
       renderSidebar();
+      renderMatches();
     }
     
     // ==================== SHOW MORE COUNTRIES ====================
@@ -707,12 +744,33 @@
     function renderMatches() {
       const content = document.getElementById('content');
       let matches = allMatches[currentSport];
+      const pinnedLeagues = getCurrentPinnedLeagues();
+      const pinnedLeagueNames = pinnedLeagues.map(l => l.name);
       
       if (!matches || matches.length === 0) {
         content.innerHTML = `
           <div class="no-matches">
             <h2>No matches available</h2>
             <p>Check back soon for ${currentSport} matches!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      // FILTER: Show only matches from pinned leagues
+      if (pinnedLeagueNames.length > 0) {
+        matches = matches.filter(match => 
+          pinnedLeagueNames.some(pinned => 
+            match.tournament_name && match.tournament_name.includes(pinned)
+          )
+        );
+      }
+      
+      if (matches.length === 0) {
+        content.innerHTML = `
+          <div class="no-matches">
+            <h2>No matches from pinned leagues</h2>
+            <p>Pin some leagues from the sidebar to see matches!</p>
           </div>
         `;
         return;
@@ -732,7 +790,16 @@
         grouped[leagueName].matches.push(match);
       });
       
-      const leagues = Object.values(grouped);
+      // Sort leagues by pinned order
+      const leagues = Object.values(grouped).sort((a, b) => {
+        const aIndex = pinnedLeagueNames.findIndex(name => a.name.includes(name));
+        const bIndex = pinnedLeagueNames.findIndex(name => b.name.includes(name));
+        
+        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+        if (aIndex !== -1) return -1;
+        if (bIndex !== -1) return 1;
+        return a.name.localeCompare(b.name);
+      });
       
       const html = leagues.map(league => `
         <div class="league-section">
@@ -744,7 +811,7 @@
         </div>
       `).join('');
       
-      content.innerHTML = html || '<div class="no-matches"><h2>No matches found</h2></div>';
+      content.innerHTML = html;
     }
     
     // ==================== CREATE MATCH CARD ====================
@@ -819,7 +886,7 @@
         tab.classList.add('active');
         currentSport = tab.dataset.sport;
         expandedCountries = {};
-        countryLeagues = {};
+        showAllCountries = false;
         renderSidebar();
         renderMatches();
       });
