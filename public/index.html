@@ -625,7 +625,7 @@
           { name: 'UEFA Champions League', flag: '🏆' },
           { name: 'UEFA Europa League', flag: '🏆' },
           { name: 'UEFA Conference League', flag: '🏆' },
-          { name: 'Premier League', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+          { name: 'Premier League', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
           { name: 'LaLiga', flag: '<span class="flag-icon flag-icon-es"></span>' },
           { name: 'Bundesliga', flag: '<span class="flag-icon flag-icon-de"></span>' },
           { name: 'Serie A', flag: '<span class="flag-icon flag-icon-it"></span>' },
@@ -714,7 +714,18 @@
     // ==================== GET FLAG FOR LEAGUE ====================
     function getFlagForLeague(leagueName) {
       const flagMap = {
-        'Premier League': '<span class="flag-icon flag-icon-gb"></span>',
+        'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'Championship': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'EFL': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'FA Cup': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'League Cup': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
+        'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+        'Scottish': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
+        'Wales': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+        'Welsh': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+        'Cymru': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
+        'Northern Ireland': '🇬🇧',
+        'NIFL': '🇬🇧',
         'LaLiga': '<span class="flag-icon flag-icon-es"></span>',
         'La Liga': '<span class="flag-icon flag-icon-es"></span>',
         'Bundesliga': '<span class="flag-icon flag-icon-de"></span>',
@@ -728,7 +739,6 @@
         'Eredivisie': '<span class="flag-icon flag-icon-nl"></span>',
         'Primeira Liga': '<span class="flag-icon flag-icon-pt"></span>',
         'Jupiler Pro League': '<span class="flag-icon flag-icon-be"></span>',
-        'Scottish Premiership': '<span class="flag-icon flag-icon-gb"></span>',
         'Super League': '<span class="flag-icon flag-icon-gr"></span>',
         'Swiss Super League': '<span class="flag-icon flag-icon-ch"></span>',
         'Austrian Bundesliga': '<span class="flag-icon flag-icon-at"></span>',
@@ -798,7 +808,7 @@
       { id: 63, name: 'Danska', flag: '<span class="flag-icon flag-icon-dk"></span>' },
       { id: 68, name: 'Ekvador', flag: '<span class="flag-icon flag-icon-ec"></span>' },
       { id: 69, name: 'Egipat', flag: '<span class="flag-icon flag-icon-eg"></span>' },
-      { id: 198, name: 'Engleska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 198, name: 'Engleska', flag: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
       { id: 76, name: 'Finska', flag: '<span class="flag-icon flag-icon-fi"></span>' },
       { id: 77, name: 'Francuska', flag: '<span class="flag-icon flag-icon-fr"></span>' },
       { id: 80, name: 'Gruzija', flag: '<span class="flag-icon flag-icon-ge"></span>' },
@@ -824,7 +834,7 @@
       { id: 139, name: 'Nizozemska', flag: '<span class="flag-icon flag-icon-nl"></span>' },
       { id: 140, name: 'Novi Zeland', flag: '<span class="flag-icon flag-icon-nz"></span>' },
       { id: 143, name: 'Nigerija', flag: '<span class="flag-icon flag-icon-ng"></span>' },
-      { id: 144, name: 'Sjeverna Irska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 144, name: 'Sjeverna Irska', flag: '🇬🇧' },
       { id: 145, name: 'Norveška', flag: '<span class="flag-icon flag-icon-no"></span>' },
       { id: 147, name: 'Pakistan', flag: '<span class="flag-icon flag-icon-pk"></span>' },
       { id: 152, name: 'Peru', flag: '<span class="flag-icon flag-icon-pe"></span>' },
@@ -835,7 +845,7 @@
       { id: 157, name: 'Rumunjska', flag: '<span class="flag-icon flag-icon-ro"></span>' },
       { id: 158, name: 'Rusija', flag: '<span class="flag-icon flag-icon-ru"></span>' },
       { id: 165, name: 'Saudijska Arabija', flag: '<span class="flag-icon flag-icon-sa"></span>' },
-      { id: 199, name: 'Škotska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 199, name: 'Škotska', flag: '🏴󠁧󠁢󠁳󠁣󠁴󠁿' },
       { id: 166, name: 'Senegal', flag: '<span class="flag-icon flag-icon-sn"></span>' },
       { id: 167, name: 'Srbija', flag: '<span class="flag-icon flag-icon-rs"></span>' },
       { id: 170, name: 'Singapur', flag: '<span class="flag-icon flag-icon-sg"></span>' },
@@ -852,7 +862,7 @@
       { id: 196, name: 'UAE', flag: '<span class="flag-icon flag-icon-ae"></span>' },
       { id: 200, name: 'SAD', flag: '<span class="flag-icon flag-icon-us"></span>' },
       { id: 201, name: 'Urugvaj', flag: '<span class="flag-icon flag-icon-uy"></span>' },
-      { id: 207, name: 'Wales', flag: '<span class="flag-icon flag-icon-gb"></span>' }
+      { id: 207, name: 'Wales', flag: '🏴󠁧󠁢󠁷󠁬󠁳󠁿' }
     ];
     
     // ==================== LOAD MATCHES ====================
