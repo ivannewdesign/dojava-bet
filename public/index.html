@@ -1140,20 +1140,19 @@ function renderFlag(countryCode) {
         return a.name.localeCompare(b.name);
       });
       
-      const html = leagues.map(league => {
-        const flag = getFlagForLeague(league.name);
-        return `
-          <div class="league-section">
-            <div class="league-header">
-              <span class="league-flag">${flag}</span>
-              <span class="league-country">${league.country}</span>
-              ${league.name}
-            </div>
-            ${league.matches.map(match => createMatchCard(match)).join('')}
-          </div>
-        `;
-      }).join('');
-      
+const html = leagues.map(league => {
+  return `
+    <div class="league-section">
+      <div class="league-header">
+        ${renderFlag(getFlagForLeague(league.name))}
+        <span class="league-country">${league.country}</span>
+        ${league.name}
+      </div>
+      ${league.matches.map(match => createMatchCard(match)).join('')}
+    </div>
+  `;
+}).join('');
+    
       content.innerHTML = html;
     }
     
