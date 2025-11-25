@@ -714,63 +714,35 @@
 // ==================== GET FLAG FOR LEAGUE ====================
 function getFlagForLeague(leagueName) {
   const flagMap = {
-    // UK - koristimo gb-eng, gb-sct, gb-wls
     'Premier League': 'gb-eng',
     'Championship': 'gb-eng',
-    'EFL': 'gb-eng',
-    'FA Cup': 'gb-eng',
-    'League Cup': 'gb-eng',
     'Scottish Premiership': 'gb-sct',
-    'Scottish': 'gb-sct',
-    'Wales': 'gb-wls',
-    'Welsh': 'gb-wls',
-    'Cymru': 'gb-wls',
-    'Northern Ireland': 'gb-nir',
-    'NIFL': 'gb-nir',
-    
-    // Evropske top lige
     'LaLiga': 'es',
     'La Liga': 'es',
     'Bundesliga': 'de',
     'Serie A': 'it',
     'Ligue 1': 'fr',
-    
-    // Balkan - TVE LIGE!
     'Premijer Liga': 'ba',
     'Premijer Liga BiH': 'ba',
     'HNL': 'hr',
     'SuperLiga': 'rs',
     'Super Liga': 'rs',
-    
-    // Ostale evropske
     'Eredivisie': 'nl',
-    'Primeira Liga': 'pt',
-    'Jupiler Pro League': 'be',
-    'Super League': 'gr',
-    'Swiss Super League': 'ch',
-    'Austrian Bundesliga': 'at',
-    'Süper Lig': 'tr',
-    'Russian Premier League': 'ru',
-    'Ukrainian Premier League': 'ua',
-    'Polish Ekstraklasa': 'pl',
-    
-    // Južna Amerika
-    'Brasileirão': 'br',
-    'Liga Profesional': 'ar',
-    'Primera División': 'ar',
-    
-    // Međunarodna takmičenja - bez zastave
-    'UEFA Champions League': null,
-    'UEFA Europa League': null,
-    'UEFA Conference League': null,
-    'UEFA Nations League': null,
-    'World Cup': null,
-    'World Cup Qualifiers': null,
-    'European Championship': 'eu',
-    'Copa America': null,
-    'Copa Libertadores': null,
-    'Copa Sudamericana': null
+    'Primeira Liga': 'pt'
   };
+  
+  if (flagMap[leagueName]) {
+    return flagMap[leagueName];
+  }
+  
+  for (const [key, code] of Object.entries(flagMap)) {
+    if (leagueName.includes(key)) {
+      return code;
+    }
+  }
+  
+  return null;
+}
   
   // Direktno pronađi
   if (flagMap[leagueName] !== undefined) {
