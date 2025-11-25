@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dojava.bet - Uživo Sportski Rezultati</title>
+  
+  <!-- Flag Icons CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css"/>
+  
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     
@@ -167,8 +171,18 @@
     .league-flag {
       font-size: 18px;
       min-width: 22px;
+      display: inline-flex;
+      align-items: center;
+    }
+    
+    .flag-icon {
+      width: 22px;
+      height: 16px;
+      border-radius: 2px;
       display: inline-block;
-      font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", "Segoe UI Symbol", sans-serif;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
     }
     
     .pin-icon {
@@ -332,9 +346,9 @@
       margin-bottom: 20px;
     }
     
-    /* LEAGUE SECTION - KOMPAKTNIJI */
+    /* LEAGUE SECTION - MINIMALNI SPACING */
     .league-section {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
       background: #ffffff;
       border-radius: 12px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.1);
@@ -343,7 +357,7 @@
     
     .league-header {
       background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-      padding: 10px 20px;
+      padding: 8px 20px;
       font-weight: 700;
       font-size: 13px;
       color: #2d3748;
@@ -359,9 +373,9 @@
       font-weight: 600;
     }
     
-    /* MATCH CARD - KOMPAKTNIJI */
+    /* MATCH CARD - MINIMALNI PADDING */
     .match-card {
-      padding: 8px 20px;
+      padding: 6px 20px;
       border-bottom: 1px solid #f0f4f8;
       transition: all 0.2s;
       cursor: pointer;
@@ -378,7 +392,7 @@
     .match-header {
       display: flex;
       justify-content: flex-end;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     .match-time {
@@ -611,14 +625,14 @@
           { name: 'UEFA Champions League', flag: '🏆' },
           { name: 'UEFA Europa League', flag: '🏆' },
           { name: 'UEFA Conference League', flag: '🏆' },
-          { name: 'Premier League', flag: '🇬🇧' },
-          { name: 'LaLiga', flag: '🇪🇸' },
-          { name: 'Bundesliga', flag: '🇩🇪' },
-          { name: 'Serie A', flag: '🇮🇹' },
-          { name: 'Ligue 1', flag: '🇫🇷' },
-          { name: 'Premijer Liga BiH', flag: '🇧🇦' },
-          { name: 'HNL', flag: '🇭🇷' },
-          { name: 'SuperLiga', flag: '🇷🇸' },
+          { name: 'Premier League', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+          { name: 'LaLiga', flag: '<span class="flag-icon flag-icon-es"></span>' },
+          { name: 'Bundesliga', flag: '<span class="flag-icon flag-icon-de"></span>' },
+          { name: 'Serie A', flag: '<span class="flag-icon flag-icon-it"></span>' },
+          { name: 'Ligue 1', flag: '<span class="flag-icon flag-icon-fr"></span>' },
+          { name: 'Premijer Liga BiH', flag: '<span class="flag-icon flag-icon-ba"></span>' },
+          { name: 'HNL', flag: '<span class="flag-icon flag-icon-hr"></span>' },
+          { name: 'SuperLiga', flag: '<span class="flag-icon flag-icon-rs"></span>' },
           { name: 'World Cup Qualifiers', flag: '🌍' }
         ];
       } else if (sport === 'basketball') {
@@ -700,31 +714,31 @@
     // ==================== GET FLAG FOR LEAGUE ====================
     function getFlagForLeague(leagueName) {
       const flagMap = {
-        'Premier League': '🇬🇧',
-        'LaLiga': '🇪🇸',
-        'La Liga': '🇪🇸',
-        'Bundesliga': '🇩🇪',
-        'Serie A': '🇮🇹',
-        'Ligue 1': '🇫🇷',
-        'Premijer Liga': '🇧🇦',
-        'Premijer Liga BiH': '🇧🇦',
-        'HNL': '🇭🇷',
-        'SuperLiga': '🇷🇸',
-        'Super Liga': '🇷🇸',
-        'Eredivisie': '🇳🇱',
-        'Primeira Liga': '🇵🇹',
-        'Jupiler Pro League': '🇧🇪',
-        'Scottish Premiership': '🇬🇧',
-        'Super League': '🇬🇷',
-        'Swiss Super League': '🇨🇭',
-        'Austrian Bundesliga': '🇦🇹',
-        'Süper Lig': '🇹🇷',
-        'Russian Premier League': '🇷🇺',
-        'Ukrainian Premier League': '🇺🇦',
-        'Polish Ekstraklasa': '🇵🇱',
-        'Brasileirão': '🇧🇷',
-        'Liga Profesional': '🇦🇷',
-        'Primera División': '🇦🇷',
+        'Premier League': '<span class="flag-icon flag-icon-gb"></span>',
+        'LaLiga': '<span class="flag-icon flag-icon-es"></span>',
+        'La Liga': '<span class="flag-icon flag-icon-es"></span>',
+        'Bundesliga': '<span class="flag-icon flag-icon-de"></span>',
+        'Serie A': '<span class="flag-icon flag-icon-it"></span>',
+        'Ligue 1': '<span class="flag-icon flag-icon-fr"></span>',
+        'Premijer Liga': '<span class="flag-icon flag-icon-ba"></span>',
+        'Premijer Liga BiH': '<span class="flag-icon flag-icon-ba"></span>',
+        'HNL': '<span class="flag-icon flag-icon-hr"></span>',
+        'SuperLiga': '<span class="flag-icon flag-icon-rs"></span>',
+        'Super Liga': '<span class="flag-icon flag-icon-rs"></span>',
+        'Eredivisie': '<span class="flag-icon flag-icon-nl"></span>',
+        'Primeira Liga': '<span class="flag-icon flag-icon-pt"></span>',
+        'Jupiler Pro League': '<span class="flag-icon flag-icon-be"></span>',
+        'Scottish Premiership': '<span class="flag-icon flag-icon-gb"></span>',
+        'Super League': '<span class="flag-icon flag-icon-gr"></span>',
+        'Swiss Super League': '<span class="flag-icon flag-icon-ch"></span>',
+        'Austrian Bundesliga': '<span class="flag-icon flag-icon-at"></span>',
+        'Süper Lig': '<span class="flag-icon flag-icon-tr"></span>',
+        'Russian Premier League': '<span class="flag-icon flag-icon-ru"></span>',
+        'Ukrainian Premier League': '<span class="flag-icon flag-icon-ua"></span>',
+        'Polish Ekstraklasa': '<span class="flag-icon flag-icon-pl"></span>',
+        'Brasileirão': '<span class="flag-icon flag-icon-br"></span>',
+        'Liga Profesional': '<span class="flag-icon flag-icon-ar"></span>',
+        'Primera División': '<span class="flag-icon flag-icon-ar"></span>',
         'UEFA Champions League': '🏆',
         'UEFA Europa League': '🏆',
         'UEFA Conference League': '🏆',
@@ -760,85 +774,85 @@
     
     // ==================== COUNTRIES DATA ====================
     const COUNTRIES = [
-      { id: 17, name: 'Albanija', flag: '🇦🇱' },
-      { id: 18, name: 'Alžir', flag: '🇩🇿' },
-      { id: 19, name: 'Andora', flag: '🇦🇩' },
-      { id: 20, name: 'Angola', flag: '🇦🇴' },
-      { id: 22, name: 'Argentina', flag: '🇦🇷' },
-      { id: 23, name: 'Armenija', flag: '🇦🇲' },
-      { id: 24, name: 'Australija', flag: '🇦🇺' },
-      { id: 25, name: 'Austrija', flag: '🇦🇹' },
-      { id: 26, name: 'Azerbejdžan', flag: '🇦🇿' },
-      { id: 28, name: 'Bahrein', flag: '🇧🇭' },
-      { id: 29, name: 'Bangladeš', flag: '🇧🇩' },
-      { id: 31, name: 'Bjelorusija', flag: '🇧🇾' },
-      { id: 32, name: 'Belgija', flag: '🇧🇪' },
-      { id: 37, name: 'Bosna i Hercegovina', flag: '🇧🇦' },
-      { id: 39, name: 'Brazil', flag: '🇧🇷' },
-      { id: 47, name: 'Kanada', flag: '🇨🇦' },
-      { id: 51, name: 'Čile', flag: '🇨🇱' },
-      { id: 52, name: 'Kina', flag: '🇨🇳' },
-      { id: 53, name: 'Kolumbija', flag: '🇨🇴' },
-      { id: 59, name: 'Hrvatska', flag: '🇭🇷' },
-      { id: 62, name: 'Češka', flag: '🇨🇿' },
-      { id: 63, name: 'Danska', flag: '🇩🇰' },
-      { id: 68, name: 'Ekvador', flag: '🇪🇨' },
-      { id: 69, name: 'Egipat', flag: '🇪🇬' },
-      { id: 198, name: 'Engleska', flag: '🇬🇧' },
-      { id: 76, name: 'Finska', flag: '🇫🇮' },
-      { id: 77, name: 'Francuska', flag: '🇫🇷' },
-      { id: 80, name: 'Gruzija', flag: '🇬🇪' },
-      { id: 81, name: 'Njemačka', flag: '🇩🇪' },
-      { id: 82, name: 'Gana', flag: '🇬🇭' },
-      { id: 83, name: 'Grčka', flag: '🇬🇷' },
-      { id: 91, name: 'Mađarska', flag: '🇭🇺' },
-      { id: 92, name: 'Island', flag: '🇮🇸' },
-      { id: 93, name: 'Indija', flag: '🇮🇳' },
-      { id: 228, name: 'Indonezija', flag: '🇮🇩' },
-      { id: 94, name: 'Iran', flag: '🇮🇷' },
-      { id: 96, name: 'Irska', flag: '🇮🇪' },
-      { id: 97, name: 'Izrael', flag: '🇮🇱' },
-      { id: 98, name: 'Italija', flag: '🇮🇹' },
-      { id: 100, name: 'Japan', flag: '🇯🇵' },
-      { id: 101, name: 'Jordan', flag: '🇯🇴' },
-      { id: 102, name: 'Kazahstan', flag: '🇰🇿' },
-      { id: 103, name: 'Kenija', flag: '🇰🇪' },
-      { id: 106, name: 'Južna Koreja', flag: '🇰🇷' },
-      { id: 121, name: 'Malezija', flag: '🇲🇾' },
-      { id: 128, name: 'Meksiko', flag: '🇲🇽' },
-      { id: 134, name: 'Maroko', flag: '🇲🇦' },
-      { id: 139, name: 'Nizozemska', flag: '🇳🇱' },
-      { id: 140, name: 'Novi Zeland', flag: '🇳🇿' },
-      { id: 143, name: 'Nigerija', flag: '🇳🇬' },
-      { id: 144, name: 'Sjeverna Irska', flag: '🇬🇧' },
-      { id: 145, name: 'Norveška', flag: '🇳🇴' },
-      { id: 147, name: 'Pakistan', flag: '🇵🇰' },
-      { id: 152, name: 'Peru', flag: '🇵🇪' },
-      { id: 153, name: 'Filipini', flag: '🇵🇭' },
-      { id: 154, name: 'Poljska', flag: '🇵🇱' },
-      { id: 155, name: 'Portugal', flag: '🇵🇹' },
-      { id: 156, name: 'Katar', flag: '🇶🇦' },
-      { id: 157, name: 'Rumunjska', flag: '🇷🇴' },
-      { id: 158, name: 'Rusija', flag: '🇷🇺' },
-      { id: 165, name: 'Saudijska Arabija', flag: '🇸🇦' },
-      { id: 199, name: 'Škotska', flag: '🇬🇧' },
-      { id: 166, name: 'Senegal', flag: '🇸🇳' },
-      { id: 167, name: 'Srbija', flag: '🇷🇸' },
-      { id: 170, name: 'Singapur', flag: '🇸🇬' },
-      { id: 171, name: 'Slovačka', flag: '🇸🇰' },
-      { id: 172, name: 'Slovenija', flag: '🇸🇮' },
-      { id: 175, name: 'Južna Afrika', flag: '🇿🇦' },
-      { id: 176, name: 'Španjolska', flag: '🇪🇸' },
-      { id: 181, name: 'Švedska', flag: '🇸🇪' },
-      { id: 182, name: 'Švicarska', flag: '🇨🇭' },
-      { id: 186, name: 'Tajland', flag: '🇹🇭' },
-      { id: 190, name: 'Tunis', flag: '🇹🇳' },
-      { id: 191, name: 'Turska', flag: '🇹🇷' },
-      { id: 195, name: 'Ukrajina', flag: '🇺🇦' },
-      { id: 196, name: 'UAE', flag: '🇦🇪' },
-      { id: 200, name: 'SAD', flag: '🇺🇸' },
-      { id: 201, name: 'Urugvaj', flag: '🇺🇾' },
-      { id: 207, name: 'Wales', flag: '🇬🇧' }
+      { id: 17, name: 'Albanija', flag: '<span class="flag-icon flag-icon-al"></span>' },
+      { id: 18, name: 'Alžir', flag: '<span class="flag-icon flag-icon-dz"></span>' },
+      { id: 19, name: 'Andora', flag: '<span class="flag-icon flag-icon-ad"></span>' },
+      { id: 20, name: 'Angola', flag: '<span class="flag-icon flag-icon-ao"></span>' },
+      { id: 22, name: 'Argentina', flag: '<span class="flag-icon flag-icon-ar"></span>' },
+      { id: 23, name: 'Armenija', flag: '<span class="flag-icon flag-icon-am"></span>' },
+      { id: 24, name: 'Australija', flag: '<span class="flag-icon flag-icon-au"></span>' },
+      { id: 25, name: 'Austrija', flag: '<span class="flag-icon flag-icon-at"></span>' },
+      { id: 26, name: 'Azerbejdžan', flag: '<span class="flag-icon flag-icon-az"></span>' },
+      { id: 28, name: 'Bahrein', flag: '<span class="flag-icon flag-icon-bh"></span>' },
+      { id: 29, name: 'Bangladeš', flag: '<span class="flag-icon flag-icon-bd"></span>' },
+      { id: 31, name: 'Bjelorusija', flag: '<span class="flag-icon flag-icon-by"></span>' },
+      { id: 32, name: 'Belgija', flag: '<span class="flag-icon flag-icon-be"></span>' },
+      { id: 37, name: 'Bosna i Hercegovina', flag: '<span class="flag-icon flag-icon-ba"></span>' },
+      { id: 39, name: 'Brazil', flag: '<span class="flag-icon flag-icon-br"></span>' },
+      { id: 47, name: 'Kanada', flag: '<span class="flag-icon flag-icon-ca"></span>' },
+      { id: 51, name: 'Čile', flag: '<span class="flag-icon flag-icon-cl"></span>' },
+      { id: 52, name: 'Kina', flag: '<span class="flag-icon flag-icon-cn"></span>' },
+      { id: 53, name: 'Kolumbija', flag: '<span class="flag-icon flag-icon-co"></span>' },
+      { id: 59, name: 'Hrvatska', flag: '<span class="flag-icon flag-icon-hr"></span>' },
+      { id: 62, name: 'Češka', flag: '<span class="flag-icon flag-icon-cz"></span>' },
+      { id: 63, name: 'Danska', flag: '<span class="flag-icon flag-icon-dk"></span>' },
+      { id: 68, name: 'Ekvador', flag: '<span class="flag-icon flag-icon-ec"></span>' },
+      { id: 69, name: 'Egipat', flag: '<span class="flag-icon flag-icon-eg"></span>' },
+      { id: 198, name: 'Engleska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 76, name: 'Finska', flag: '<span class="flag-icon flag-icon-fi"></span>' },
+      { id: 77, name: 'Francuska', flag: '<span class="flag-icon flag-icon-fr"></span>' },
+      { id: 80, name: 'Gruzija', flag: '<span class="flag-icon flag-icon-ge"></span>' },
+      { id: 81, name: 'Njemačka', flag: '<span class="flag-icon flag-icon-de"></span>' },
+      { id: 82, name: 'Gana', flag: '<span class="flag-icon flag-icon-gh"></span>' },
+      { id: 83, name: 'Grčka', flag: '<span class="flag-icon flag-icon-gr"></span>' },
+      { id: 91, name: 'Mađarska', flag: '<span class="flag-icon flag-icon-hu"></span>' },
+      { id: 92, name: 'Island', flag: '<span class="flag-icon flag-icon-is"></span>' },
+      { id: 93, name: 'Indija', flag: '<span class="flag-icon flag-icon-in"></span>' },
+      { id: 228, name: 'Indonezija', flag: '<span class="flag-icon flag-icon-id"></span>' },
+      { id: 94, name: 'Iran', flag: '<span class="flag-icon flag-icon-ir"></span>' },
+      { id: 96, name: 'Irska', flag: '<span class="flag-icon flag-icon-ie"></span>' },
+      { id: 97, name: 'Izrael', flag: '<span class="flag-icon flag-icon-il"></span>' },
+      { id: 98, name: 'Italija', flag: '<span class="flag-icon flag-icon-it"></span>' },
+      { id: 100, name: 'Japan', flag: '<span class="flag-icon flag-icon-jp"></span>' },
+      { id: 101, name: 'Jordan', flag: '<span class="flag-icon flag-icon-jo"></span>' },
+      { id: 102, name: 'Kazahstan', flag: '<span class="flag-icon flag-icon-kz"></span>' },
+      { id: 103, name: 'Kenija', flag: '<span class="flag-icon flag-icon-ke"></span>' },
+      { id: 106, name: 'Južna Koreja', flag: '<span class="flag-icon flag-icon-kr"></span>' },
+      { id: 121, name: 'Malezija', flag: '<span class="flag-icon flag-icon-my"></span>' },
+      { id: 128, name: 'Meksiko', flag: '<span class="flag-icon flag-icon-mx"></span>' },
+      { id: 134, name: 'Maroko', flag: '<span class="flag-icon flag-icon-ma"></span>' },
+      { id: 139, name: 'Nizozemska', flag: '<span class="flag-icon flag-icon-nl"></span>' },
+      { id: 140, name: 'Novi Zeland', flag: '<span class="flag-icon flag-icon-nz"></span>' },
+      { id: 143, name: 'Nigerija', flag: '<span class="flag-icon flag-icon-ng"></span>' },
+      { id: 144, name: 'Sjeverna Irska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 145, name: 'Norveška', flag: '<span class="flag-icon flag-icon-no"></span>' },
+      { id: 147, name: 'Pakistan', flag: '<span class="flag-icon flag-icon-pk"></span>' },
+      { id: 152, name: 'Peru', flag: '<span class="flag-icon flag-icon-pe"></span>' },
+      { id: 153, name: 'Filipini', flag: '<span class="flag-icon flag-icon-ph"></span>' },
+      { id: 154, name: 'Poljska', flag: '<span class="flag-icon flag-icon-pl"></span>' },
+      { id: 155, name: 'Portugal', flag: '<span class="flag-icon flag-icon-pt"></span>' },
+      { id: 156, name: 'Katar', flag: '<span class="flag-icon flag-icon-qa"></span>' },
+      { id: 157, name: 'Rumunjska', flag: '<span class="flag-icon flag-icon-ro"></span>' },
+      { id: 158, name: 'Rusija', flag: '<span class="flag-icon flag-icon-ru"></span>' },
+      { id: 165, name: 'Saudijska Arabija', flag: '<span class="flag-icon flag-icon-sa"></span>' },
+      { id: 199, name: 'Škotska', flag: '<span class="flag-icon flag-icon-gb"></span>' },
+      { id: 166, name: 'Senegal', flag: '<span class="flag-icon flag-icon-sn"></span>' },
+      { id: 167, name: 'Srbija', flag: '<span class="flag-icon flag-icon-rs"></span>' },
+      { id: 170, name: 'Singapur', flag: '<span class="flag-icon flag-icon-sg"></span>' },
+      { id: 171, name: 'Slovačka', flag: '<span class="flag-icon flag-icon-sk"></span>' },
+      { id: 172, name: 'Slovenija', flag: '<span class="flag-icon flag-icon-si"></span>' },
+      { id: 175, name: 'Južna Afrika', flag: '<span class="flag-icon flag-icon-za"></span>' },
+      { id: 176, name: 'Španjolska', flag: '<span class="flag-icon flag-icon-es"></span>' },
+      { id: 181, name: 'Švedska', flag: '<span class="flag-icon flag-icon-se"></span>' },
+      { id: 182, name: 'Švicarska', flag: '<span class="flag-icon flag-icon-ch"></span>' },
+      { id: 186, name: 'Tajland', flag: '<span class="flag-icon flag-icon-th"></span>' },
+      { id: 190, name: 'Tunis', flag: '<span class="flag-icon flag-icon-tn"></span>' },
+      { id: 191, name: 'Turska', flag: '<span class="flag-icon flag-icon-tr"></span>' },
+      { id: 195, name: 'Ukrajina', flag: '<span class="flag-icon flag-icon-ua"></span>' },
+      { id: 196, name: 'UAE', flag: '<span class="flag-icon flag-icon-ae"></span>' },
+      { id: 200, name: 'SAD', flag: '<span class="flag-icon flag-icon-us"></span>' },
+      { id: 201, name: 'Urugvaj', flag: '<span class="flag-icon flag-icon-uy"></span>' },
+      { id: 207, name: 'Wales', flag: '<span class="flag-icon flag-icon-gb"></span>' }
     ];
     
     // ==================== LOAD MATCHES ====================
