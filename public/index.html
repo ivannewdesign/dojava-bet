@@ -723,8 +723,9 @@
     }
     
 // ==================== GET FLAG FOR LEAGUE ====================
-function getFlagForLeague(leagueName) {
-  const flagMap = {
+function getFlagForLeague(leagueName, countryName) {
+  // Prvo mapiranje po imenu lige (za specijalne slučajeve)
+  const leagueMap = {
     'Premier League': 'gb-eng',
     'Championship': 'gb-eng',
     'Scottish Premiership': 'gb-sct',
@@ -742,14 +743,34 @@ function getFlagForLeague(leagueName) {
     'Primeira Liga': 'pt'
   };
   
-  if (flagMap[leagueName]) {
-    return flagMap[leagueName];
+  // Mapiranje država koje API koristi drugačije od ISO
+  const countryExceptions = {
+    'England': 'gb-eng',
+    'Scotland': 'gb-sct',
+    'Wales': 'gb-wls',
+    'Northern-Ireland': 'gb-nir',
+    'Bosnia': 'ba',
+    'Bosnia-Herzegovina': 'ba',
+    'Korea-Republic': 'kr',
+    'Korea-DPR': 'kp',
+    'Czech-Republic': 'cz',
+    'USA': 'us',
+    'UAE': 'ae'
+  };
+  
+  // Prvo provjeri po imenu lige
+  if (leagueMap[leagueName]) {
+    return leagueMap[leagueName];
   }
   
-  for (const [key, code] of Object.entries(flagMap)) {
-    if (leagueName.includes(key)) {
-      return code;
-    }
+  // Onda provjeri country exceptions
+  if (countryName && countryExceptions[countryName]) {
+    return countryExceptions[countryName];
+  }
+  
+  // Automatski mapiranje - uzmi prva 2 slova i pretvori u mala
+  if (countryName) {
+    return countryName.toLowerCase().slice(0, 2);
   }
   
   return null;
