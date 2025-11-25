@@ -70,6 +70,49 @@
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.1);
 }
+
+     /* BETA BANNER */
+.beta-banner {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  position: relative;
+}
+
+.beta-icon {
+  font-size: 24px;
+}
+
+.beta-banner p {
+  margin: 0;
+  font-size: 14px;
+  flex: 1;
+}
+
+.beta-banner strong {
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+.beta-close {
+  background: rgba(255,255,255,0.2);
+  border: none;
+  color: white;
+  font-size: 18px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.beta-close:hover {
+  background: rgba(255,255,255,0.3);
+}
     
     /* SPORT TABS - STICKY */
     .sport-tabs {
@@ -559,6 +602,21 @@
     </div>
   </header>
 
+  </header>
+
+<!-- BETA BANNER -->
+<div class="beta-banner">
+  <span class="beta-icon">🚧</span>
+  <p>
+    <strong>Stranica u izgradnji!</strong> 
+    Greške i bugovi su očekivani. Pratite nas! Jer uskoro lansiramo alat koji kladionice neće voljeti ! 🚀
+  </p>
+  <button class="beta-close" onclick="this.parentElement.style.display='none'">✕</button>
+</div>
+
+<!-- SPORT TABS - STICKY -->
+
+  
   <!-- SPORT TABS - STICKY -->
   <div class="sport-tabs">
     <div class="sport-tab active" data-sport="football">
