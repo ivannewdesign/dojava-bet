@@ -753,21 +753,6 @@ function getFlagForLeague(leagueName) {
   
   return null;
 }
-  
-  // Direktno pronađi
-  if (flagMap[leagueName] !== undefined) {
-    return flagMap[leagueName];
-  }
-  
-  // Traži partial match
-  for (const [key, code] of Object.entries(flagMap)) {
-    if (leagueName.includes(key)) {
-      return code;
-    }
-  }
-  
-  return null; // Nema zastave
-}
 
 // ==================== RENDER FLAG ====================
 function renderFlag(countryCode) {
