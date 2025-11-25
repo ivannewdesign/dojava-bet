@@ -711,77 +711,88 @@
       return [];
     }
     
-    // ==================== GET FLAG FOR LEAGUE ====================
-    function getFlagForLeague(leagueName) {
-      const flagMap = {
-        'Premier League': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-        'Championship': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-        'EFL': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-        'FA Cup': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-        'League Cup': '🏴󠁧󠁢󠁥󠁮󠁧󠁿',
-        'Scottish Premiership': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-        'Scottish': '🏴󠁧󠁢󠁳󠁣󠁴󠁿',
-        'Wales': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-        'Welsh': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-        'Cymru': '🏴󠁧󠁢󠁷󠁬󠁳󠁿',
-        'Northern Ireland': '🇬🇧',
-        'NIFL': '🇬🇧',
-        'LaLiga': '<span class="flag-icon flag-icon-es"></span>',
-        'La Liga': '<span class="flag-icon flag-icon-es"></span>',
-        'Bundesliga': '<span class="flag-icon flag-icon-de"></span>',
-        'Serie A': '<span class="flag-icon flag-icon-it"></span>',
-        'Ligue 1': '<span class="flag-icon flag-icon-fr"></span>',
-        'Premijer Liga': '<span class="flag-icon flag-icon-ba"></span>',
-        'Premijer Liga BiH': '<span class="flag-icon flag-icon-ba"></span>',
-        'HNL': '<span class="flag-icon flag-icon-hr"></span>',
-        'SuperLiga': '<span class="flag-icon flag-icon-rs"></span>',
-        'Super Liga': '<span class="flag-icon flag-icon-rs"></span>',
-        'Eredivisie': '<span class="flag-icon flag-icon-nl"></span>',
-        'Primeira Liga': '<span class="flag-icon flag-icon-pt"></span>',
-        'Jupiler Pro League': '<span class="flag-icon flag-icon-be"></span>',
-        'Super League': '<span class="flag-icon flag-icon-gr"></span>',
-        'Swiss Super League': '<span class="flag-icon flag-icon-ch"></span>',
-        'Austrian Bundesliga': '<span class="flag-icon flag-icon-at"></span>',
-        'Süper Lig': '<span class="flag-icon flag-icon-tr"></span>',
-        'Russian Premier League': '<span class="flag-icon flag-icon-ru"></span>',
-        'Ukrainian Premier League': '<span class="flag-icon flag-icon-ua"></span>',
-        'Polish Ekstraklasa': '<span class="flag-icon flag-icon-pl"></span>',
-        'Brasileirão': '<span class="flag-icon flag-icon-br"></span>',
-        'Liga Profesional': '<span class="flag-icon flag-icon-ar"></span>',
-        'Primera División': '<span class="flag-icon flag-icon-ar"></span>',
-        'UEFA Champions League': '🏆',
-        'UEFA Europa League': '🏆',
-        'UEFA Conference League': '🏆',
-        'UEFA Nations League': '🏆',
-        'World Cup': '🌍',
-        'World Cup Qualifiers': '🌍',
-        'European Championship': '🇪🇺',
-        'Copa America': '🏆',
-        'Copa Libertadores': '🏆',
-        'Copa Sudamericana': '🏆',
-        'NBA': '🏀',
-        'EuroLeague': '🏆',
-        'EuroCup': '🏆',
-        'ABA League': '🏆',
-        'ATP Tour': '🎾',
-        'WTA Tour': '🎾',
-        'Grand Slam': '🏆',
-        'Davis Cup': '🏆'
-      };
-      
-      if (flagMap[leagueName]) {
-        return flagMap[leagueName];
-      }
-      
-      for (const [key, flag] of Object.entries(flagMap)) {
-        if (leagueName.includes(key)) {
-          return flag;
-        }
-      }
-      
-      return '🏆';
-    }
+// ==================== GET FLAG FOR LEAGUE ====================
+function getFlagForLeague(leagueName) {
+  const flagMap = {
+    // UK - koristimo gb-eng, gb-sct, gb-wls
+    'Premier League': 'gb-eng',
+    'Championship': 'gb-eng',
+    'EFL': 'gb-eng',
+    'FA Cup': 'gb-eng',
+    'League Cup': 'gb-eng',
+    'Scottish Premiership': 'gb-sct',
+    'Scottish': 'gb-sct',
+    'Wales': 'gb-wls',
+    'Welsh': 'gb-wls',
+    'Cymru': 'gb-wls',
+    'Northern Ireland': 'gb-nir',
+    'NIFL': 'gb-nir',
     
+    // Evropske top lige
+    'LaLiga': 'es',
+    'La Liga': 'es',
+    'Bundesliga': 'de',
+    'Serie A': 'it',
+    'Ligue 1': 'fr',
+    
+    // Balkan - TVE LIGE!
+    'Premijer Liga': 'ba',
+    'Premijer Liga BiH': 'ba',
+    'HNL': 'hr',
+    'SuperLiga': 'rs',
+    'Super Liga': 'rs',
+    
+    // Ostale evropske
+    'Eredivisie': 'nl',
+    'Primeira Liga': 'pt',
+    'Jupiler Pro League': 'be',
+    'Super League': 'gr',
+    'Swiss Super League': 'ch',
+    'Austrian Bundesliga': 'at',
+    'Süper Lig': 'tr',
+    'Russian Premier League': 'ru',
+    'Ukrainian Premier League': 'ua',
+    'Polish Ekstraklasa': 'pl',
+    
+    // Južna Amerika
+    'Brasileirão': 'br',
+    'Liga Profesional': 'ar',
+    'Primera División': 'ar',
+    
+    // Međunarodna takmičenja - bez zastave
+    'UEFA Champions League': null,
+    'UEFA Europa League': null,
+    'UEFA Conference League': null,
+    'UEFA Nations League': null,
+    'World Cup': null,
+    'World Cup Qualifiers': null,
+    'European Championship': 'eu',
+    'Copa America': null,
+    'Copa Libertadores': null,
+    'Copa Sudamericana': null
+  };
+  
+  // Direktno pronađi
+  if (flagMap[leagueName] !== undefined) {
+    return flagMap[leagueName];
+  }
+  
+  // Traži partial match
+  for (const [key, code] of Object.entries(flagMap)) {
+    if (leagueName.includes(key)) {
+      return code;
+    }
+  }
+  
+  return null; // Nema zastave
+}
+
+// ==================== RENDER FLAG ====================
+function renderFlag(countryCode) {
+  if (!countryCode) return '';
+  return `<span class="fi fi-${countryCode}"></span>`;
+}
+
     // ==================== COUNTRIES DATA ====================
     const COUNTRIES = [
       { id: 17, name: 'Albanija', flag: '<span class="flag-icon flag-icon-al"></span>' },
