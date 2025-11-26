@@ -1051,7 +1051,7 @@ function getFlagForCountry(countryName) {
             const isSelected = selectedLeague === league.name;
             return `
               <div class="pinned-league ${isSelected ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-                <span class="league-flag">${flag}</span>
+                <span class="league-flag"><span class="fi fi-${flag}"></span></span>
                 <span>${league.name}</span>
                 <span class="pin-icon" onclick="event.stopPropagation(); unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
               </div>
