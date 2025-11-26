@@ -1099,17 +1099,15 @@ function getFlagForCountry(countryName) {
             </div>
           `).join('')}
           
-          ${!showAllCountries ? `
-            <div class="show-more-btn" onclick="showMoreCountries()">
-             Prikaži Sve Države (${allCountriesData.length})
-            </div>
-          ` : ''}
-        </div>
-      `;
-      
-      sidebar.innerHTML = html;
-    }
-    
+     <div class="show-more-btn" onclick="showMoreCountries()">
+  ${showAllCountries ? 'Sakrij Države ▲' : `Prikaži Sve Države (${allCountriesData.length}) ▼`}
+   </div>
+
+   </div>
+   `;
+
+ sidebar.innerHTML = html;
+ }
     // ==================== SELECT LEAGUE ====================
     function selectLeague(leagueName) {
       selectedLeague = leagueName;
