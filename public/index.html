@@ -1202,7 +1202,7 @@ function getFlagForCountry(countryName) {
       if (isPinned) {
         unpinLeague(leagueName);
       } else {
-        const flag = country?.flag || getFlagForLeague(leagueName);
+        const flag = country?.flag || getFlagForLeague(leagueName, country?.name);
         
         pinnedLeagues.push({ 
           name: leagueName, 
