@@ -1089,7 +1089,7 @@ function getFlagForCountry(countryName) {
           ${visibleCountries.map(country => `
             <div class="country-item ${expandedCountries[country.id] ? 'expanded' : ''}" id="country-${country.id}">
               <div class="country-header" onclick="toggleCountry(${country.id})">
-                <span class="league-flag">${country.flag}</span>
+                <span class="league-flag"><span class="fi fi-${country.flag}"></span></span>
                 <span>${country.name}</span>
                 <span class="country-arrow">▼</span>
               </div>
