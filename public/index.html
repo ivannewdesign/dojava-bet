@@ -952,7 +952,7 @@ function renderFlag(countryCode) {
 async function loadAllCountries() {
   try {
     const response = await fetch('/api/countries');
-    if (!response.ok) throw new Error('Failed to load countries');
+   const visibleCountries = showAllCountries ? allCountriesData : allCountriesData.slice(0, 15);
     
     const data = await response.json();
     allCountriesData = data.map(country => ({
@@ -1081,7 +1081,7 @@ function getFlagForCountry(countryName) {
           
           ${!showAllCountries ? `
             <div class="show-more-btn" onclick="showMoreCountries()">
-              Prikaži Sve Države (${COUNTRIES.length})
+             Prikaži Sve Države (${allCountriesData.length})
             </div>
           ` : ''}
         </div>
@@ -1367,8 +1367,14 @@ const html = leagues.map(league => {
     });
     
     // ==================== INIT ====================
-    loadMatches();
-    setInterval(loadMatches, 180000);
+    async function init() {
+  await loadAllCountries();
+  await loadMatches();
+  renderSidebar();
+}
+
+init();
+setInterval(loadMatches, 180000);
   </script>
 
 </body>
