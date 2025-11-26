@@ -948,11 +948,11 @@ function renderFlag(countryCode) {
       }
     }
 
-// ==================== LOAD ALL COUNTRIES ====================
+// LOAD ALL COUNTRIES
 async function loadAllCountries() {
   try {
     const response = await fetch('/api/countries');
-   const visibleCountries = showAllCountries ? allCountriesData : allCountriesData.slice(0, 15);
+    if (!response.ok) throw new Error('Failed to load countries');
     
     const data = await response.json();
     allCountriesData = data.map(country => ({
@@ -960,13 +960,33 @@ async function loadAllCountries() {
       name: country.name,
       flag: getFlagForCountry(country.name)
     }));
-    
     console.log(`✅ Učitano ${allCountriesData.length} država`);
   } catch (error) {
-    console.error('❌ Greška pri učitavanju država:', error);
+    console.error('❌ Greška:', error);
     allCountriesData = [];
   }
 }
+
+// GET FLAG FOR COUNTRY
+function getFlagForCountry(countryName) {
+  const countryCodeMap = {
+    'England': 'gb-eng',
+    'Scotland': 'gb-sct',
+    'Wales': 'gb-wls',
+    'Northern Ireland': 'gb-nir',
+    'Bosnia and Herzegovina': 'ba',
+    'USA': 'us',
+    'South Korea': 'kr',
+    'Czech Republic': 'cz',
+    'DR Congo': 'cd',
+    'United Arab Emirates': 'ae'
+  };
+  if (countryCodeMap[countryName]) {
+    return countryCodeMap[countryName];
+  }
+  return countryName.toLowerCase().replace(/\s/g, '').slice(0, 2);
+}
+
 
 // GET FLAG FOR COUNTRY
 function getFlagForCountry(countryName) {
