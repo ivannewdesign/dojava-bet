@@ -1226,9 +1226,10 @@ function getFlagForCountry(countryName) {
     
     // ==================== SHOW MORE COUNTRIES ====================
     function showMoreCountries() {
-      showAllCountries = true;
-      renderSidebar();
-    }
+   showAllCountries = !showAllCountries;
+   renderSidebar();
+   }
+
     
     // ==================== RENDER MATCHES ====================
     function renderMatches() {
