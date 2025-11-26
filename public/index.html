@@ -991,31 +991,49 @@ function getFlagForCountry(countryName) {
 // GET FLAG FOR COUNTRY
 function getFlagForCountry(countryName) {
   const countryCodeMap = {
-    'England': 'gb-eng',
-    'Scotland': 'gb-sct',
-    'Wales': 'gb-wls',
-    'Northern Ireland': 'gb-nir',
-    'Bosnia and Herzegovina': 'ba',
-    'USA': 'us',
-    'South Korea': 'kr',
-    'Czech Republic': 'cz',
-    'DR Congo': 'cd',
-    'Republic of the Congo': 'cg',
-    'Ivory Coast': 'ci',
-    'United Arab Emirates': 'ae',
-    'North Macedonia': 'mk',
-    'Antigua & Barbuda': 'ag',
-    'Trinidad and Tobago': 'tt',
-    'Cape Verde': 'cv'
+    'Afghanistan': 'af', 'Albania': 'al', 'Algeria': 'dz', 'Andorra': 'ad',
+    'Angola': 'ao', 'Antigua & Barbuda': 'ag', 'Argentina': 'ar', 'Armenia': 'am',
+    'Aruba': 'aw', 'Australia': 'au', 'Austria': 'at', 'Azerbaijan': 'az',
+    'Bahamas': 'bs', 'Bahrain': 'bh', 'Bangladesh': 'bd', 'Barbados': 'bb',
+    'Belarus': 'by', 'Belgium': 'be', 'Belize': 'bz', 'Benin': 'bj',
+    'Bermuda': 'bm', 'Bolivia': 'bo', 'Bosnia and Herzegovina': 'ba',
+    'Botswana': 'bw', 'Brazil': 'br', 'Bulgaria': 'bg', 'Burkina Faso': 'bf',
+    'Cambodia': 'kh', 'Cameroon': 'cm', 'Canada': 'ca', 'Cape Verde': 'cv',
+    'Central African Republic': 'cf', 'Chad': 'td', 'Chile': 'cl', 'China': 'cn',
+    'Colombia': 'co', 'Congo': 'cg', 'Costa Rica': 'cr', 'Croatia': 'hr',
+    'Cuba': 'cu', 'Cyprus': 'cy', 'Czech Republic': 'cz', 'Denmark': 'dk',
+    'Dominican Republic': 'do', 'DR Congo': 'cd', 'Ecuador': 'ec', 'Egypt': 'eg',
+    'El Salvador': 'sv', 'England': 'gb-eng', 'Estonia': 'ee', 'Ethiopia': 'et',
+    'Faroe Islands': 'fo', 'Finland': 'fi', 'France': 'fr', 'Georgia': 'ge',
+    'Germany': 'de', 'Ghana': 'gh', 'Gibraltar': 'gi', 'Greece': 'gr',
+    'Guatemala': 'gt', 'Guinea': 'gn', 'Honduras': 'hn', 'Hong Kong': 'hk',
+    'Hungary': 'hu', 'Iceland': 'is', 'India': 'in', 'Indonesia': 'id',
+    'Iran': 'ir', 'Iraq': 'iq', 'Ireland': 'ie', 'Israel': 'il',
+    'Italy': 'it', 'Ivory Coast': 'ci', 'Jamaica': 'jm', 'Japan': 'jp',
+    'Jordan': 'jo', 'Kazakhstan': 'kz', 'Kenya': 'ke', 'Kosovo': 'xk',
+    'Kuwait': 'kw', 'Latvia': 'lv', 'Lebanon': 'lb', 'Lesotho': 'ls',
+    'Liberia': 'lr', 'Libya': 'ly', 'Liechtenstein': 'li', 'Lithuania': 'lt',
+    'Luxembourg': 'lu', 'Macao': 'mo', 'North Macedonia': 'mk', 'Malawi': 'mw',
+    'Malaysia': 'my', 'Maldives': 'mv', 'Mali': 'ml', 'Malta': 'mt',
+    'Martinique': 'mq', 'Mauritius': 'mu', 'Mexico': 'mx', 'Moldova': 'md',
+    'Montenegro': 'me', 'Morocco': 'ma', 'Mozambique': 'mz', 'Myanmar': 'mm',
+    'Namibia': 'na', 'Netherlands': 'nl', 'New Zealand': 'nz', 'Nicaragua': 'ni',
+    'Nigeria': 'ng', 'Northern Ireland': 'gb-nir', 'Norway': 'no', 'Oman': 'om',
+    'Pakistan': 'pk', 'Palestine': 'ps', 'Panama': 'pa', 'Paraguay': 'py',
+    'Peru': 'pe', 'Philippines': 'ph', 'Poland': 'pl', 'Portugal': 'pt',
+    'Qatar': 'qa', 'Republic of the Congo': 'cg', 'Romania': 'ro', 'Russia': 'ru',
+    'Saudi Arabia': 'sa', 'Scotland': 'gb-sct', 'Senegal': 'sn', 'Serbia': 'rs',
+    'Singapore': 'sg', 'Slovakia': 'sk', 'Slovenia': 'si', 'South Africa': 'za',
+    'South Korea': 'kr', 'Spain': 'es', 'Sri Lanka': 'lk', 'Sweden': 'se',
+    'Switzerland': 'ch', 'Syria': 'sy', 'Taiwan': 'tw', 'Tanzania': 'tz',
+    'Thailand': 'th', 'Trinidad and Tobago': 'tt', 'Tunisia': 'tn', 'Turkey': 'tr',
+    'Uganda': 'ug', 'Ukraine': 'ua', 'United Arab Emirates': 'ae', 'United Kingdom': 'gb',
+    'Uruguay': 'uy', 'USA': 'us', 'Uzbekistan': 'uz', 'Venezuela': 've',
+    'Vietnam': 'vn', 'Wales': 'gb-wls', 'Zambia': 'zm', 'Zimbabwe': 'zw'
   };
   
-  if (countryCodeMap[countryName]) {
-    return countryCodeMap[countryName];
-  }
-  
-  return countryName.toLowerCase().replace(/\s/g, '').slice(0, 2);
+  return countryCodeMap[countryName] || 'un';
 }
-
     
     // ==================== RENDER SIDEBAR ====================
     function renderSidebar() {
