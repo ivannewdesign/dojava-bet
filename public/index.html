@@ -1021,7 +1021,7 @@ function getFlagForCountry(countryName) {
     function renderSidebar() {
       const sidebar = document.getElementById('sidebar');
       const pinnedLeagues = getCurrentPinnedLeagues();
-      const visibleCountries = showAllCountries ? COUNTRIES : COUNTRIES.slice(0, 10);
+      const visibleCountries = showAllCountries ? allCountriesData : allCountriesData.slice(0, 15);
       const internationalLeagues = getInternationalLeagues();
       
       const html = `
