@@ -785,6 +785,10 @@
 function getFlagForLeague(leagueName, countryName) {
   // Prvo mapiranje po imenu lige (za specijalne slučajeve)
   const leagueMap = {
+    'UEFA Champions League': 'eu',
+    'UEFA Europa League': 'eu',
+    'UEFA Conference League': 'eu',
+    'UEFA Europa Conference League': 'eu',
     'Premier League': 'gb-eng',
     'Championship': 'gb-eng',
     'Scottish Premiership': 'gb-sct',
@@ -833,6 +837,12 @@ function getFlagForLeague(leagueName, countryName) {
   }
   
   return null;
+}
+
+// ==================== RENDER FLAG ====================
+function renderFlag(countryCode) {
+  if (!countryCode) return '';
+  return `<span class="fi fi-${countryCode}"></span>`;
 }
 
 // ==================== RENDER FLAG ====================
