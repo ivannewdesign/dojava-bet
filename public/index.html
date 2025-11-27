@@ -1184,8 +1184,10 @@ async function loadCountryLeagues(countryId) {
     
     const data = await response.json();
     countryLeagues[`${currentSport}-${countryId}`] = data.leagues || [];
-    
-    console.log(`✅ Učitano ${countryLeagues[`${currentSport}-${countryId}`].length liga za ${currentSport}, država ${countryId}`);
+    console.log(
+  `✅ Učitano ${countryLeagues[`${currentSport}-${countryId}`].length} liga za ${currentSport}, država ${countryId}`
+);
+
     
   } catch (error) {
     console.error(`❌ Greška pri učitavanju liga za državu ${countryId}:`, error);
