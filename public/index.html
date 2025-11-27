@@ -1047,7 +1047,7 @@ function getFlagForCountry(countryName) {
         <div class="sidebar-section">
           <div class="sidebar-title">📌 Prikovane Lige</div>
           ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => {
-            const flag = league.flag || getFlagForLeague(league.name, league.country || null);
+            const flag = getFlagForLeague(league.name, league.country || null);
             const isSelected = selectedLeague === league.name;
             return `
               <div class="pinned-league ${isSelected ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
