@@ -1324,13 +1324,21 @@ function renderMatches() {
     return;
   }
   
-  if (pinnedLeagueNames.length > 0) {
-    matches = matches.filter(match =>
-      pinnedLeagueNames.some(pinned =>
-        match.tournament_name && match.tournament_name.includes(pinned)
-      )
-    );
+ if (pinnedLeagues.length > 0) {
+  matches = matches.filter(match => {
+    if (!match.tournament_name) return false;
+
+    return pinnedLeagues.some(p => {
+      // posebna logika za englesku Premier League
+      if (p.name === 'Premier League') {
+        return match.tournament_name === 'ENGLAND: Premier League';
+      }
+      // ostale lige kao do sada
+      return match.tournament_name.includes(p.name);
+    });
+   });
   }
+
   
   if (matches.length === 0) {
     content.innerHTML = `
