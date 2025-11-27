@@ -785,26 +785,47 @@
 function getFlagForLeague(leagueName, countryName) {
   // Prvo mapiranje po imenu lige (za specijalne slučajeve)
   const leagueMap = {
-    'UEFA Champions League': 'eu',
-    'UEFA Europa League': 'eu',
-    'UEFA Conference League': 'eu',
-    'UEFA Europa Conference League': 'eu',
-    'Premier League': 'gb-eng',
-    'Championship': 'gb-eng',
-    'Scottish Premiership': 'gb-sct',
-    'LaLiga': 'es',
-    'La Liga': 'es',
-    'Bundesliga': 'de',
-    'Serie A': 'it',
-    'Ligue 1': 'fr',
-    'Premijer Liga': 'ba',
-    'Premijer Liga BiH': 'ba',
-    'HNL': 'hr',
-    'SuperLiga': 'rs',
-    'Super Liga': 'rs',
-    'Eredivisie': 'nl',
-    'Primeira Liga': 'pt'
-  };
+  // UEFA (Evropa)
+  'UEFA Champions League': 'eu',
+  'UEFA Europa League': 'eu',
+  'UEFA Conference League': 'eu',
+  'UEFA Europa Conference League': 'eu',
+  'UEFA Nations League': 'eu',
+  'UEFA European Championship': 'eu',
+  'Euro Championship': 'eu',
+  
+  // FIFA (Svijet)
+  'World Cup': 'un',
+  'FIFA World Cup': 'un',
+  'World Cup Qualification': 'un',
+  'Friendlies': 'un',
+  'International Friendlies': 'un',
+  
+  // Kontinentalni
+  'Africa Cup of Nations': 'africa',
+  'Copa America': 'south-america',
+  'Asian Cup': 'asia',
+  'CONCACAF Gold Cup': 'north-america',
+  'OFC Nations Cup': 'oceania',
+  
+  // Nacionalne lige
+  'Premier League': 'gb-eng',
+  'Championship': 'gb-eng',
+  'Scottish Premiership': 'gb-sct',
+  'LaLiga': 'es',
+  'La Liga': 'es',
+  'Bundesliga': 'de',
+  'Serie A': 'it',
+  'Ligue 1': 'fr',
+  'Premijer Liga': 'ba',
+  'Premijer Liga BiH': 'ba',
+  'HNL': 'hr',
+  'SuperLiga': 'rs',
+  'Super Liga': 'rs',
+  'Eredivisie': 'nl',
+  'Primeira Liga': 'pt'
+};
+
   
   // Mapiranje država koje API koristi drugačije od ISO
   const countryExceptions = {
