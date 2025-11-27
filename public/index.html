@@ -1038,293 +1038,347 @@ function getFlagForCountry(countryName) {
   return countryCodeMap[countryName] || 'un';
 }
     
-    // ==================== RENDER SIDEBAR ====================
-    function renderSidebar() {
-      const sidebar = document.getElementById('sidebar');
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      const visibleCountries = showAllCountries ? allCountriesData : allCountriesData.slice(0, 15);
-      const internationalLeagues = getInternationalLeagues();
-      
-      const html = `
-        <!-- PINNED LEAGUES -->
-        <div class="sidebar-section">
-          <div class="sidebar-title">📌 Prikovane Lige</div>
-          ${pinnedLeagues.length > 0 ? pinnedLeagues.map(league => {
-            const flag = getFlagForLeague(league.name, league.country || null);
-            const isSelected = selectedLeague === league.name;
+   // ==================== RENDER SIDEBAR ====================
+function renderSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const visibleCountries = showAllCountries ? allCountriesData : allCountriesData.slice(0, 15);
+  const internationalLeagues = getInternationalLeagues();
+  
+  const html = `
+    <!-- PINNED LEAGUES -->
+    <div class="sidebar-section">
+      <div class="sidebar-title">📌 Prikovane Lige</div>
+      ${
+        pinnedLeagues.length > 0
+          ? pinnedLeagues.map(league => {
+              const isSelected =
+                selectedLeague === league.name &&
+                selectedCountryId === (league.countryId ?? null);
+              return `
+                <div class="pinned-league ${isSelected ? 'active' : ''}"
+                     onclick="selectLeague('${league.name.replace(/'/g, "\\'")}', ${league.countryId ?? 'null'})">
+                  <span class="league-flag">
+                    ${league.flag ? `<span class="fi fi-${league.flag}"></span>` : ''}
+                  </span>
+                  <span>${league.name}</span>
+                  <span class="pin-icon"
+                        onclick="event.stopPropagation(); unpinLeague('${league.name.replace(/'/g, "\\'")}', ${league.countryId ?? 'null'}, ${league.leagueId ?? 'null'})">📌</span>
+                </div>
+              `;
+            }).join('')
+          : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">Nema prikovanih liga</div>'
+      }
+    </div>
+    
+    <!-- INTERNATIONAL LEAGUES - COLLAPSIBLE -->
+    <div class="sidebar-section collapsible-section ${expandedInternational ? 'expanded' : ''}">
+      <div class="collapsible-header" onclick="toggleInternational()">
+        <span>🏆 Međunarodne Lige</span>
+        <span class="collapsible-arrow">▼</span>
+      </div>
+      <div class="collapsible-content">
+        ${internationalLeagues.map(item => {
+          if (item.category) {
             return `
-              <div class="pinned-league ${isSelected ? 'active' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-                <span class="league-flag"><span class="fi fi-${flag}"></span></span>
-                <span>${league.name}</span>
-                <span class="pin-icon" onclick="event.stopPropagation(); unpinLeague('${league.name.replace(/'/g, "\\'")}')">📌</span>
-              </div>
-            `;
-          }).join('') : '<div style="padding: 10px 20px; color: #a0aec0; font-size: 13px;">Nema prikovanih liga</div>'}
-        </div>
-        
-        <!-- INTERNATIONAL LEAGUES - COLLAPSIBLE -->
-        <div class="sidebar-section collapsible-section ${expandedInternational ? 'expanded' : ''}">
-          <div class="collapsible-header" onclick="toggleInternational()">
-            <span>🏆 Međunarodne Lige</span>
-            <span class="collapsible-arrow">▼</span>
-          </div>
-          <div class="collapsible-content">
-            ${internationalLeagues.map(item => {
-              if (item.category) {
+              <div class="category-header">${item.category}</div>
+              ${item.items.map(league => {
+                const isPinned = pinnedLeagues.some(
+                  p => p.name === league.name && p.countryId == null
+                );
+                const isSelected =
+                  selectedLeague === league.name && selectedCountryId == null;
                 return `
-                  <div class="category-header">${item.category}</div>
-                  ${item.items.map(league => {
-                    const isPinned = pinnedLeagues.some(p => p.name === league.name);
-                    const isSelected = selectedLeague === league.name;
-                    return `
-                      <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 40px;" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-                        <span class="league-flag">${league.flag}</span>
-                        <span>${league.name}</span>
-                        <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag}')">
-                          ${isPinned ? '📌' : '➕'}
-                        </span>
-                      </div>
-                    `;
-                  }).join('')}
-                `;
-              } else {
-                const isPinned = pinnedLeagues.some(p => p.name === item.name);
-                const isSelected = selectedLeague === item.name;
-                return `
-                  <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" style="padding-left: 20px;" onclick="selectLeague('${item.name.replace(/'/g, "\\'")}')">
-                    <span class="league-flag">${item.flag}</span>
-                    <span>${item.name}</span>
-                    <span class="pin-icon" onclick="event.stopPropagation(); toggleInternationalLeague('${item.name.replace(/'/g, "\\'")}', '${item.flag}')">
+                  <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}"
+                       style="padding-left: 40px;"
+                       onclick="selectLeague('${league.name.replace(/'/g, "\\'")}', null)">
+                    <span class="league-flag">${league.flag || ''}</span>
+                    <span>${league.name}</span>
+                    <span class="pin-icon"
+                          onclick="event.stopPropagation(); toggleInternationalLeague('${league.name.replace(/'/g, "\\'")}', '${league.flag || ''}')">
                       ${isPinned ? '📌' : '➕'}
                     </span>
                   </div>
                 `;
-              }
-            }).join('')}
+              }).join('')}
+            `;
+          } else {
+            const isPinned = pinnedLeagues.some(
+              p => p.name === item.name && p.countryId == null
+            );
+            const isSelected =
+              selectedLeague === item.name && selectedCountryId == null;
+            return `
+              <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}"
+                   style="padding-left: 20px;"
+                   onclick="selectLeague('${item.name.replace(/'/g, "\\'")}', null)">
+                <span class="league-flag">${item.flag || ''}</span>
+                <span>${item.name}</span>
+                <span class="pin-icon"
+                      onclick="event.stopPropagation(); toggleInternationalLeague('${item.name.replace(/'/g, "\\'")}', '${item.flag || ''}')">
+                  ${isPinned ? '📌' : '➕'}
+                </span>
+              </div>
+            `;
+          }
+        }).join('')}
+      </div>
+    </div>
+    
+    <!-- COUNTRIES -->
+    <div class="sidebar-section">
+      <div class="sidebar-title">🌍 Države</div>
+      ${visibleCountries.map(country => `
+        <div class="country-item ${expandedCountries[country.id] ? 'expanded' : ''}" id="country-${country.id}">
+          <div class="country-header" onclick="toggleCountry(${country.id})">
+            <span class="league-flag"><span class="fi fi-${country.flag}"></span></span>
+            <span>${country.name}</span>
+            <span class="country-arrow">▼</span>
+          </div>
+          <div class="country-leagues" id="leagues-${country.id}">
+            ${expandedCountries[country.id] ? renderCountryLeagues(country.id) : ''}
           </div>
         </div>
-        
-        <!-- COUNTRIES -->
-        <div class="sidebar-section">
-          <div class="sidebar-title">🌍 Države</div>
-          ${visibleCountries.map(country => `
-            <div class="country-item ${expandedCountries[country.id] ? 'expanded' : ''}" id="country-${country.id}">
-              <div class="country-header" onclick="toggleCountry(${country.id})">
-                <span class="league-flag"><span class="fi fi-${country.flag}"></span></span>
-                <span>${country.name}</span>
-                <span class="country-arrow">▼</span>
-              </div>
-              <div class="country-leagues" id="leagues-${country.id}">
-                ${expandedCountries[country.id] ? renderCountryLeagues(country.id) : ''}
-              </div>
-            </div>
-          `).join('')}
-          
-     <div class="show-more-btn" onclick="showMoreCountries()">
-  ${showAllCountries ? 'Sakrij Države ▲' : `Prikaži Sve Države (${allCountriesData.length}) ▼`}
-   </div>
-
-   </div>
-   `;
-
- sidebar.innerHTML = html;
- }
-    // ==================== SELECT LEAGUE ====================
-    function selectLeague(leagueName) {
-      selectedLeague = leagueName;
-      renderSidebar();
-    }
-    
-    // ==================== TOGGLE INTERNATIONAL ====================
-    function toggleInternational() {
-      expandedInternational = !expandedInternational;
-      renderSidebar();
-    }
-    
-    // ==================== TOGGLE COUNTRY ====================
-    async function toggleCountry(countryId) {
-      expandedCountries[countryId] = !expandedCountries[countryId];
+      `).join('')}
       
-      if (expandedCountries[countryId] && !countryLeagues[`${currentSport}-${countryId}`]) {
-        await loadCountryLeagues(countryId);
-      }
-      
-      renderSidebar();
-    }
-    
-    // ==================== LOAD COUNTRY LEAGUES ====================
-    async function loadCountryLeagues(countryId) {
-      try {
-        const sportId = currentSport === 'football' ? 1 : currentSport === 'basketball' ? 3 : 2;
-        const response = await fetch(`/api/leagues?sport=${sportId}&country=${countryId}`);
-        
-        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-        
-        const data = await response.json();
-        countryLeagues[`${currentSport}-${countryId}`] = data.leagues || [];
-        
-        console.log(`✅ Učitano ${countryLeagues[`${currentSport}-${countryId}`].length} liga za ${currentSport}, država ${countryId}`);
-        
-      } catch (error) {
-        console.error(`❌ Greška pri učitavanju liga za državu ${countryId}:`, error);
-        countryLeagues[`${currentSport}-${countryId}`] = [];
-      }
-    }
-    
-    // ==================== RENDER COUNTRY LEAGUES ====================
-    function renderCountryLeagues(countryId) {
-      const leagues = countryLeagues[`${currentSport}-${countryId}`] || [];
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      const country = COUNTRIES.find(c => c.id == countryId);
-      
-      if (leagues.length === 0) {
-        return '<div class="country-league">Učitavanje...</div>';
-      }
-      
-      return leagues.map(league => {
-        const isPinned = pinnedLeagues.some(p => p.name === league.name);
-        const isSelected = selectedLeague === league.name;
-        return `
-          <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}" onclick="selectLeague('${league.name.replace(/'/g, "\\'")}')">
-            <span class="league-flag">${country?.flag || '🏆'}</span>
-            <span>${league.name}</span>
-            <span class="pin-icon" onclick="event.stopPropagation(); togglePinLeague('${league.name.replace(/'/g, "\\'")}', ${countryId})">
-              ${isPinned ? '📌' : '➕'}
-            </span>
-          </div>
-        `;
-      }).join('');
-    }
-    
-    // ==================== PIN/UNPIN LEAGUE ====================
-    function togglePinLeague(leagueName, countryId) {
-      const country = COUNTRIES.find(c => c.id == countryId);
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      const isPinned = pinnedLeagues.some(p => p.name === leagueName);
-      
-      if (isPinned) {
-        unpinLeague(leagueName);
-      } else {
-        const flag = country?.flag || getFlagForLeague(leagueName, country?.name);
-        
-        pinnedLeagues.push({ 
-          name: leagueName, 
-          flag: flag 
-        });
-        pinnedLeaguesBySport[currentSport] = pinnedLeagues;
-        localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
-        renderSidebar();
-        renderMatches();
-      }
-    }
-    
-    function unpinLeague(leagueName) {
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      pinnedLeaguesBySport[currentSport] = pinnedLeagues.filter(p => p.name !== leagueName);
-      localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
-      renderSidebar();
-      renderMatches();
-    }
-    
-    // ==================== TOGGLE INTERNATIONAL LEAGUE ====================
-    function toggleInternationalLeague(leagueName, flag) {
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      const isPinned = pinnedLeagues.some(p => p.name === leagueName);
-      
-      if (isPinned) {
-        unpinLeague(leagueName);
-      } else {
-        pinnedLeagues.push({ 
-          name: leagueName, 
-          flag: flag 
-        });
-        pinnedLeaguesBySport[currentSport] = pinnedLeagues;
-        localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
-        renderSidebar();
-        renderMatches();
-      }
-    }
-    
-    // ==================== SHOW MORE COUNTRIES ====================
-    function showMoreCountries() {
-   showAllCountries = !showAllCountries;
-   renderSidebar();
-   }
-
-    
-    // ==================== RENDER MATCHES ====================
-    function renderMatches() {
-      const content = document.getElementById('content');
-      let matches = allMatches[currentSport];
-      const pinnedLeagues = getCurrentPinnedLeagues();
-      const pinnedLeagueNames = pinnedLeagues.map(l => l.name);
-      
-      if (!matches || matches.length === 0) {
-        content.innerHTML = `
-          <div class="no-matches">
-            <h2>Nema dostupnih utakmica</h2>
-            <p>Provjerite kasnije za ${currentSport === 'football' ? 'nogometne' : currentSport === 'basketball' ? 'košarkaške' : 'teniske'} utakmice!</p>
-          </div>
-        `;
-        return;
-      }
-      
-      if (pinnedLeagueNames.length > 0) {
-        matches = matches.filter(match => 
-          pinnedLeagueNames.some(pinned => 
-            match.tournament_name && match.tournament_name.includes(pinned)
-          )
-        );
-      }
-      
-      if (matches.length === 0) {
-        content.innerHTML = `
-          <div class="no-matches">
-            <h2>Nema utakmica iz prikovanih liga</h2>
-            <p>Prikovajte neke lige iz sidebar-a da vidite utakmice!</p>
-          </div>
-        `;
-        return;
-      }
-      
-      const grouped = {};
-      matches.forEach(match => {
-        const leagueName = match.tournament_name || 'Nepoznata Liga';
-        if (!grouped[leagueName]) {
-          grouped[leagueName] = {
-            name: leagueName,
-            country: match.country_name || '',
-            matches: []
-          };
-        }
-        grouped[leagueName].matches.push(match);
-      });
-      
-      const leagues = Object.values(grouped).sort((a, b) => {
-        const aIndex = pinnedLeagueNames.findIndex(name => a.name.includes(name));
-        const bIndex = pinnedLeagueNames.findIndex(name => b.name.includes(name));
-        
-        if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
-        if (aIndex !== -1) return -1;
-        if (bIndex !== -1) return 1;
-        return a.name.localeCompare(b.name);
-      });
-      
-const html = leagues.map(league => {
-  return `
-    <div class="league-section">
-      <div class="league-header">
-        ${renderFlag(getFlagForLeague(league.name))}
-        <span class="league-country">${league.country}</span>
-        ${league.name}
+      <div class="show-more-btn" onclick="showMoreCountries()">
+        ${showAllCountries ? 'Sakrij Države ▲' : `Prikaži Sve Države (${allCountriesData.length}) ▼`}
       </div>
-      ${league.matches.map(match => createMatchCard(match)).join('')}
     </div>
   `;
-}).join('');
+
+  sidebar.innerHTML = html;
+}
+
+// ==================== SELECT LEAGUE ====================
+function selectLeague(leagueName, countryId = null) {
+  selectedLeague = leagueName;
+  selectedCountryId = countryId ?? null;
+  renderSidebar();
+}
+
+// ==================== TOGGLE INTERNATIONAL ====================
+function toggleInternational() {
+  expandedInternational = !expandedInternational;
+  renderSidebar();
+}
+
+// ==================== TOGGLE COUNTRY ====================
+async function toggleCountry(countryId) {
+  expandedCountries[countryId] = !expandedCountries[countryId];
+  
+  if (expandedCountries[countryId] && !countryLeagues[`${currentSport}-${countryId}`]) {
+    await loadCountryLeagues(countryId);
+  }
+  
+  renderSidebar();
+}
+
+// ==================== LOAD COUNTRY LEAGUES ====================
+async function loadCountryLeagues(countryId) {
+  try {
+    const sportId = currentSport === 'football' ? 1 : currentSport === 'basketball' ? 3 : 2;
+    const response = await fetch(`/api/leagues?sport=${sportId}&country=${countryId}`);
     
-      content.innerHTML = html;
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    
+    const data = await response.json();
+    countryLeagues[`${currentSport}-${countryId}`] = data.leagues || [];
+    
+    console.log(`✅ Učitano ${countryLeagues[`${currentSport}-${countryId}`].length liga za ${currentSport}, država ${countryId}`);
+    
+  } catch (error) {
+    console.error(`❌ Greška pri učitavanju liga za državu ${countryId}:`, error);
+    countryLeagues[`${currentSport}-${countryId}`] = [];
+  }
+}
+
+// ==================== RENDER COUNTRY LEAGUES ====================
+function renderCountryLeagues(countryId) {
+  const leagues = countryLeagues[`${currentSport}-${countryId}`] || [];
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const country = COUNTRIES.find(c => c.id == countryId);
+  
+  if (leagues.length === 0) {
+    return '<div class="country-league">Učitavanje...</div>';
+  }
+  
+  return leagues.map(league => {
+    const isPinned = pinnedLeagues.some(
+      p => p.name === league.name && p.countryId === countryId
+    );
+    const isSelected =
+      selectedLeague === league.name && selectedCountryId === countryId;
+
+    const flag = country?.flag || getFlagForLeague(league.name, country?.name || null);
+
+    return `
+      <div class="country-league ${isPinned ? 'pinned' : ''} ${isSelected ? 'selected' : ''}"
+           onclick="selectLeague('${league.name.replace(/'/g, "\\'")}', ${countryId})">
+        <span class="league-flag">${flag ? `<span class="fi fi-${flag}"></span>` : '🏆'}</span>
+        <span>${league.name}</span>
+        <span class="pin-icon"
+              onclick="event.stopPropagation(); togglePinLeague('${league.name.replace(/'/g, "\\'")}', ${countryId}, ${league.id || 'null'})">
+          ${isPinned ? '📌' : '➕'}
+        </span>
+      </div>
+    `;
+  }).join('');
+}
+
+// ==================== PIN/UNPIN LEAGUE ====================
+function togglePinLeague(leagueName, countryId = null, leagueId = null) {
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const key = {
+    name: leagueName,
+    countryId: countryId ?? null,
+    leagueId: leagueId ?? null
+  };
+
+  const isPinned = pinnedLeagues.some(
+    p => p.name === key.name && p.countryId === key.countryId && p.leagueId === key.leagueId
+  );
+
+  if (isPinned) {
+    unpinLeague(leagueName, countryId, leagueId);
+  } else {
+    const country = countryId ? COUNTRIES.find(c => c.id == countryId) : null;
+    const flag = country?.flag || getFlagForLeague(leagueName, country?.name || null);
+
+    pinnedLeagues.push({
+      name: key.name,
+      countryId: key.countryId,
+      leagueId: key.leagueId,
+      flag: flag || null
+    });
+
+    pinnedLeaguesBySport[currentSport] = pinnedLeagues;
+    localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+    renderSidebar();
+    renderMatches();
+  }
+}
+
+function unpinLeague(leagueName, countryId = null, leagueId = null) {
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const key = {
+    name: leagueName,
+    countryId: countryId ?? null,
+    leagueId: leagueId ?? null
+  };
+
+  pinnedLeaguesBySport[currentSport] = pinnedLeagues.filter(
+    p => !(p.name === key.name && p.countryId === key.countryId && p.leagueId === key.leagueId)
+  );
+
+  localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+  renderSidebar();
+  renderMatches();
+}
+
+// ==================== TOGGLE INTERNATIONAL LEAGUE ====================
+function toggleInternationalLeague(leagueName, flag) {
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const isPinned = pinnedLeagues.some(
+    p => p.name === leagueName && p.countryId == null
+  );
+  
+  if (isPinned) {
+    unpinLeague(leagueName, null, null);
+  } else {
+    pinnedLeagues.push({
+      name: leagueName,
+      countryId: null,
+      leagueId: null,
+      flag: flag || null
+    });
+    pinnedLeaguesBySport[currentSport] = pinnedLeagues;
+    localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+    renderSidebar();
+    renderMatches();
+  }
+}
+
+// ==================== SHOW MORE COUNTRIES ====================
+function showMoreCountries() {
+  showAllCountries = !showAllCountries;
+  renderSidebar();
+}
+
+// ==================== RENDER MATCHES ====================
+function renderMatches() {
+  const content = document.getElementById('content');
+  let matches = allMatches[currentSport];
+  const pinnedLeagues = getCurrentPinnedLeagues();
+  const pinnedLeagueNames = pinnedLeagues.map(l => l.name);
+  
+  if (!matches || matches.length === 0) {
+    content.innerHTML = `
+      <div class="no-matches">
+        <h2>Nema dostupnih utakmica</h2>
+        <p>Provjerite kasnije za ${currentSport === 'football' ? 'nogometne' : currentSport === 'basketball' ? 'košarkaške' : 'teniske'} utakmice!</p>
+      </div>
+    `;
+    return;
+  }
+  
+  if (pinnedLeagueNames.length > 0) {
+    matches = matches.filter(match =>
+      pinnedLeagueNames.some(pinned =>
+        match.tournament_name && match.tournament_name.includes(pinned)
+      )
+    );
+  }
+  
+  if (matches.length === 0) {
+    content.innerHTML = `
+      <div class="no-matches">
+        <h2>Nema utakmica iz prikovanih liga</h2>
+        <p>Prikovajte neke lige iz sidebar-а da vidite utakmice!</p>
+      </div>
+    `;
+    return;
+  }
+  
+  const grouped = {};
+  matches.forEach(match => {
+    const leagueName = match.tournament_name || 'Nepoznata Liga';
+    if (!grouped[leagueName]) {
+      grouped[leagueName] = {
+        name: leagueName,
+        country: match.country_name || '',
+        matches: []
+      };
     }
+    grouped[leagueName].matches.push(match);
+  });
+  
+  const leagues = Object.values(grouped).sort((a, b) => {
+    const aIndex = pinnedLeagueNames.findIndex(name => a.name.includes(name));
+    const bIndex = pinnedLeagueNames.findIndex(name => b.name.includes(name));
+    
+    if (aIndex !== -1 && bIndex !== -1) return aIndex - bIndex;
+    if (aIndex !== -1) return -1;
+    if (bIndex !== -1) return 1;
+    return a.name.localeCompare(b.name);
+  });
+  
+  const html = leagues.map(league => {
+    return `
+      <div class="league-section">
+        <div class="league-header">
+          ${renderFlag(getFlagForLeague(league.name, league.country || null))}
+          <span class="league-country">${league.country}</span>
+          ${league.name}
+        </div>
+        ${league.matches.map(match => createMatchCard(match)).join('')}
+      </div>
+    `;
+  }).join('');
+  
+  content.innerHTML = html;
+}
+
     
     // ==================== CREATE MATCH CARD ====================
     function createMatchCard(match) {
