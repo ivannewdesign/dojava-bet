@@ -785,7 +785,7 @@
 function getFlagForLeague(leagueName, countryName) {
   // Prvo mapiranje po imenu lige (za specijalne slučajeve)
   const leagueMap = {
-  // UEFA (Evropa)
+  // SAMO međunarodne/europske lige
   'UEFA Champions League': 'eu',
   'UEFA Europa League': 'eu',
   'UEFA Conference League': 'eu',
@@ -793,22 +793,11 @@ function getFlagForLeague(leagueName, countryName) {
   'UEFA Nations League': 'eu',
   'UEFA European Championship': 'eu',
   'Euro Championship': 'eu',
-  
-  // FIFA (Svijet)
   'World Cup': 'un',
   'FIFA World Cup': 'un',
   'World Cup Qualification': 'un',
-  'Friendlies': 'un',
-  'International Friendlies': 'un',
-  
-  // Kontinentalni
-  'Africa Cup of Nations': 'africa',
-  'Copa America': 'south-america',
-  'Asian Cup': 'asia',
-  'CONCACAF Gold Cup': 'north-america',
-  'OFC Nations Cup': 'oceania',
-  
-  };
+  'WC Qualifiers - Europe': 'eu'
+};
   
   // Mapiranje država koje API koristi drugačije od ISO
   const countryExceptions = {
