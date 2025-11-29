@@ -1494,13 +1494,88 @@ if (pinnedLeagues.length > 0) {
         renderMatches();
       });
     });
+
+    // ==================== GET USER COUNTRY ====================
+async function getUserCountry() {
+  try {
+    const response = await fetch('https://ipapi.co/json/');
+    const data = await response.json();
+    return data.country_code?.toLowerCase(); // vraća 'ba', 'hr', 'rs', itd.
+  } catch (error) {
+    console.log('Nije moguće detektovati državu:', error);
+    return null;
+  }
+}
+
+function getLeagueForCountry(countryCode) {
+  const countryLeagueMap = {
+    'ba': { name: 'Premijer Liga BiH', countryId: 37, leagueId: null, flag: 'ba' },
+    'hr': { name: 'HNL', countryId: 59, leagueId: null, flag: 'hr' },
+    'rs': { name: 'SuperLiga', countryId: 167, leagueId: null, flag: 'rs' }
+  };
+  
+  return countryLeagueMap[countryCode] || null;
+}
     
     // ==================== INIT ====================
-    async function init() {
+  async function init() {
   await loadAllCountries();
   await loadMatches();
+  
+  // Ako je prvi put (localStorage prazan), postavi default pinove
+  if (!localStorage.getItem('pinnedLeaguesBySport')) {
+    const userCountry = await getUserCountry();
+    
+    const defaultPins = {
+      football: [
+        // Europske lige
+        { name: 'UEFA Champions League', countryId: null, leagueId: null, flag: 'eu' },
+        { name: 'UEFA Europa League', countryId: null, leagueId: null, flag: 'eu' },
+        { name: 'UEFA Conference League', countryId: null, leagueId: null, flag: 'eu' },
+        // Pet premium liga
+        { name: 'Premier League', countryId: 198, leagueId: null, flag: 'gb-eng' },
+        { name: 'LaLiga', countryId: 176, leagueId: null, flag: 'es' },
+        { name: 'Bundesliga', countryId: 81, leagueId: null, flag: 'de' },
+        { name: 'Serie A', countryId: 98, leagueId: null, flag: 'it' },
+        { name: 'Ligue 1', countryId: 77, leagueId: null, flag: 'fr' },
+        // Balkan lige
+        { name: 'HNL', countryId: 59, leagueId: null, flag: 'hr' },
+        { name: 'SuperLiga', countryId: 167, leagueId: null, flag: 'rs' },
+        { name: 'Premijer Liga BiH', countryId: 37, leagueId: null, flag: 'ba' }
+      ],
+      basketball: [
+        { name: 'NBA', countryId: null, leagueId: null, flag: 'us' },
+        { name: 'EuroLeague', countryId: null, leagueId: null, flag: 'eu' },
+        { name: 'ABA League', countryId: null, leagueId: null, flag: null },
+        { name: 'ABA League 2', countryId: null, leagueId: null, flag: null }
+      ],
+      tennis: [
+        { name: 'ATP Tour', countryId: null, leagueId: null, flag: null },
+        { name: 'WTA Tour', countryId: null, leagueId: null, flag: null },
+        { name: 'Grand Slam', countryId: null, leagueId: null, flag: null },
+        { name: 'ATP Finals', countryId: null, leagueId: null, flag: null },
+        { name: 'WTA Finals', countryId: null, leagueId: null, flag: null }
+      ]
+    };
+    
+    // Dodaj ligu iz korisnikove države na prvo mjesto (samo za football)
+    if (userCountry) {
+      const countryLeague = getLeagueForCountry(userCountry);
+      if (countryLeague) {
+        // Makni je sa kraja ako već postoji (BiH/HR/RS)
+        defaultPins.football = defaultPins.football.filter(l => l.name !== countryLeague.name);
+        // Stavi na prvo mjesto
+        defaultPins.football.unshift(countryLeague);
+      }
+    }
+    
+    pinnedLeaguesBySport = defaultPins;
+    localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+  }
+  
   renderSidebar();
 }
+
 
 init();
 setInterval(loadMatches, 180000);
