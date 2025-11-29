@@ -1522,8 +1522,9 @@ function getLeagueForCountry(countryCode) {
    // ==================== INIT ====================
 async function init() {
   await loadAllCountries();
+  await loadMatches();  // ← VRATI OVO OVDJE
   
-  // Ako je prvi put (localStorage prazan), postavi default pinove PRIJE učitavanja utakmica
+  // Ako je prvi put (localStorage prazan), postavi default pinove
   if (!localStorage.getItem('pinnedLeaguesBySport')) {
     const userCountry = await getUserCountry();
     
@@ -1563,19 +1564,18 @@ async function init() {
     if (userCountry) {
       const countryLeague = getLeagueForCountry(userCountry);
       if (countryLeague) {
-        // Makni je sa kraja ako već postoji (BiH/HR/RS)
         defaultPins.football = defaultPins.football.filter(l => l.name !== countryLeague.name);
-        // Stavi na prvo mjesto
         defaultPins.football.unshift(countryLeague);
       }
     }
     
     pinnedLeaguesBySport = defaultPins;
     localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
+    
+    // DODAJ renderMatches() OVDJE nakon što pinove postaviš
+    renderMatches();
   }
   
-  // SADA učitaj utakmice (pinovi su već postavljeni)
-  await loadMatches();
   renderSidebar();
 }
 
