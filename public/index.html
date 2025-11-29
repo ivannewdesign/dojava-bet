@@ -677,10 +677,11 @@
     let selectedLeague = null;
     
     let pinnedLeaguesBySport = JSON.parse(localStorage.getItem('pinnedLeaguesBySport')) || {
-      football: getDefaultPinnedLeagues('football'),
-      basketball: getDefaultPinnedLeagues('basketball'),
-      tennis: getDefaultPinnedLeagues('tennis')
-    };
+  football: [],
+  basketball: [],
+  tennis: []
+};
+
     
     let expandedCountries = {};
     let expandedInternational = false;
