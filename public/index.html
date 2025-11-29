@@ -1519,28 +1519,20 @@ function getLeagueForCountry(countryCode) {
   return countryLeagueMap[countryCode] || null;
 }
     
-   // ==================== INIT ====================
+  // ==================== INIT ====================
 async function init() {
-  await loadAllCountries();
-  await loadMatches();  // ← VRATI OVO OVDJE
-  
-  // Ako je prvi put (localStorage prazan), postavi default pinove
+  // Postavi default pinove ODMAH ako je prvi put
   if (!localStorage.getItem('pinnedLeaguesBySport')) {
-    const userCountry = await getUserCountry();
-    
     const defaultPins = {
       football: [
-        // Europske lige
         { name: 'UEFA Champions League', countryId: null, leagueId: null, flag: 'eu' },
         { name: 'UEFA Europa League', countryId: null, leagueId: null, flag: 'eu' },
         { name: 'UEFA Conference League', countryId: null, leagueId: null, flag: 'eu' },
-        // Pet premium liga
         { name: 'Premier League', countryId: 198, leagueId: null, flag: 'gb-eng' },
         { name: 'LaLiga', countryId: 176, leagueId: null, flag: 'es' },
         { name: 'Bundesliga', countryId: 81, leagueId: null, flag: 'de' },
         { name: 'Serie A', countryId: 98, leagueId: null, flag: 'it' },
         { name: 'Ligue 1', countryId: 77, leagueId: null, flag: 'fr' },
-        // Balkan lige
         { name: 'HNL', countryId: 59, leagueId: null, flag: 'hr' },
         { name: 'SuperLiga', countryId: 167, leagueId: null, flag: 'rs' },
         { name: 'Premijer Liga BiH', countryId: 37, leagueId: null, flag: 'ba' }
@@ -1560,22 +1552,12 @@ async function init() {
       ]
     };
     
-    // Dodaj ligu iz korisnikove države na prvo mjesto (samo za football)
-    if (userCountry) {
-      const countryLeague = getLeagueForCountry(userCountry);
-      if (countryLeague) {
-        defaultPins.football = defaultPins.football.filter(l => l.name !== countryLeague.name);
-        defaultPins.football.unshift(countryLeague);
-      }
-    }
-    
     pinnedLeaguesBySport = defaultPins;
     localStorage.setItem('pinnedLeaguesBySport', JSON.stringify(pinnedLeaguesBySport));
-    
-    // DODAJ renderMatches() OVDJE nakon što pinove postaviš
-    renderMatches();
   }
   
+  await loadAllCountries();
+  await loadMatches();
   renderSidebar();
 }
 
