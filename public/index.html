@@ -1324,6 +1324,17 @@ function renderMatches() {
     `;
     return;
   }
+
+// Ako nema pinova, nemoj prikazivati ništa
+if (pinnedLeagues.length === 0) {
+  content.innerHTML = `
+    <div class="no-matches">
+      <h2>Nema prikovanih liga</h2>
+      <p>Prikovajte neke lige iz sidebara (klikni ➕ ili 📌) da vidite njihove utakmice!</p>
+    </div>
+  `;
+  return;
+}
   
 if (pinnedLeagues.length > 0) {
   matches = matches.filter(match => {
