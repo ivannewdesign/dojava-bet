@@ -1324,22 +1324,35 @@ function renderMatches() {
     return;
   }
   
- if (pinnedLeagues.length > 0) {
+if (pinnedLeagues.length > 0) {
   matches = matches.filter(match => {
     if (!match.tournament_name) return false;
 
     return pinnedLeagues.some(p => {
-      // posebna logika za englesku Premier League
-      if (p.name === 'Premier League') {
-        return match.tournament_name === 'ENGLAND: Premier League';
+      // Exact matching za često korištena imena liga
+      const exactMatches = {
+        'Premier League': 'ENGLAND: Premier League',
+        'LaLiga': 'SPAIN: LaLiga',
+        'La Liga': 'SPAIN: LaLiga',
+        'Bundesliga': 'GERMANY: Bundesliga',
+        'Serie A': 'ITALY: Serie A',
+        'Ligue 1': 'FRANCE: Ligue 1',
+        'Premijer Liga BiH': 'BOSNIA-HERZEGOVINA: Premijer Liga',
+        'HNL': 'CROATIA: HNL',
+        'SuperLiga': 'SERBIA: SuperLiga'
+      };
+
+      // Ako liga ima exact match, koristi točan naziv
+      if (exactMatches[p.name]) {
+        return match.tournament_name === exactMatches[p.name];
       }
-      // ostale lige kao do sada
+
+      // Za sve ostale (UEFA, World Cup, manje poznate lige), koristi includes
       return match.tournament_name.includes(p.name);
     });
-   });
-  }
+  });
+}
 
-  
   if (matches.length === 0) {
     content.innerHTML = `
       <div class="no-matches">
